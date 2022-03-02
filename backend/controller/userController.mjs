@@ -49,6 +49,17 @@ class UserController {
     }
   }
 
+  static async self(req, res) {
+    try {
+      const user = await User.findByPk(req.user.id);
+      let response = new Response(200, user["dataValues"], "Sukses");
+      res.status(response.status).json(response.getData())
+      return
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
 }
 
 export default UserController;
