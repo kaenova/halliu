@@ -1,16 +1,12 @@
 // Loading dotenv
 import dotenv from 'dotenv';
-import express from 'express';
+import init from './routes/init.mjs'
+import db from './db/index.mjs'
 
 // Load env variables
 dotenv.config()
 
-const app = express();
-  
-app.get('/',(req,res) => {
-    res.send('GeeksforGeeksas');
-})
-  
+const app = init()
 const PORT = process.env['PORT'] || 3001;
 
 app.listen(PORT,() => {
