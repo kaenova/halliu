@@ -53,7 +53,8 @@ class UserController {
       }
       const user = await User.findOne({
         where: { email: req.body["email"], password: req.body["password"] },
-      attributes: ["id", "name", "email", "role"]});
+        attributes: ["id", "name", "email", "role"],
+      });
 
       if (user == null) {
         let response = new Response(
@@ -69,7 +70,12 @@ class UserController {
       let userData = user["dataValues"];
       userData["token"] = token;
       let response = new Response(200, userData, "Sukses");
-      res.cookie("token", userData["token"], {expires: new Date(Date.now() + 24 * 3600000)}).status(response.status).json(response.getData());
+      res
+        .cookie("token", userData["token"], {
+          expires: new Date(Date.now() + 24 * 3600000),
+        })
+        .status(response.status)
+        .json(response.getData());
       return;
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -79,14 +85,20 @@ class UserController {
   static async renewToken(req, res) {
     try {
       const user = await User.findOne({
-        where: { id: req.user.id }, attributes: ["id", "name", "email", "role"]
+        where: { id: req.user.id },
+        attributes: ["id", "name", "email", "role"],
       });
       let token = user.createJWT();
       let userData = user["dataValues"];
       userData["token"] = token;
       let response = new Response(200, userData, "Sukses");
-      res.cookie("token", userData["token"], {expires: new Date(Date.now() + 24 * 3600000)}).status(response.status).json(response.getData());
-      return
+      res
+        .cookie("token", userData["token"], {
+          expires: new Date(Date.now() + 24 * 3600000),
+        })
+        .status(response.status)
+        .json(response.getData());
+      return;
     } catch (e) {
       res.status(500).json({ error: error.message });
     }
@@ -94,7 +106,9 @@ class UserController {
 
   static async self(req, res) {
     try {
-      const user = await User.findByPk(req.user.id, {attributes: ["id", "name", "email", "role"]});
+      const user = await User.findByPk(req.user.id, {
+        attributes: ["id", "name", "email", "role"],
+      });
       let response = new Response(200, user["dataValues"], "Sukses");
       res.status(response.status).json(response.getData());
       return;

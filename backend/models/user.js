@@ -1,5 +1,5 @@
-import {Model} from 'sequelize';
-import jwt from 'jsonwebtoken'
+import { Model } from "sequelize";
+import jwt from "jsonwebtoken";
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.SupportMessage, {
-        foreignKey: 'userId',
+        foreignKey: "userId",
       });
       User.hasMany(models.SupportMessage, {
-        foreignKey: 'csId',
+        foreignKey: "csId",
       });
     }
 
@@ -22,23 +22,25 @@ module.exports = (sequelize, DataTypes) => {
       let payload = {
         id: this.id,
         email: this.email,
-        role: this.role
-      }
+        role: this.role,
+      };
       let token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: "1d"
-      })
-      return token
+        expiresIn: "1d",
+      });
+      return token;
     }
-
   }
-  User.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  User.init(
+    {
+      name: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      role: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };

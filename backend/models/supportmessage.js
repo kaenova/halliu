@@ -1,4 +1,4 @@
-import {Model} from 'sequelize';
+import { Model } from "sequelize";
 module.exports = (sequelize, DataTypes) => {
   class SupportMessage extends Model {
     /**
@@ -8,22 +8,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      SupportMessage.belongsTo(models.User,{
-        foreignKey: 'userId',
+      SupportMessage.belongsTo(models.User, {
+        foreignKey: "userId",
       });
-      SupportMessage.hasOne(models.SupportMessage,{
-        foreignKey: 'csId',
+      SupportMessage.hasOne(models.SupportMessage, {
+        foreignKey: "csId",
       });
     }
   }
-  SupportMessage.init({
-    message: DataTypes.STRING,
-    reply: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
-    csId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'SupportMessage',
-  });
+  SupportMessage.init(
+    {
+      message: DataTypes.STRING,
+      reply: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
+      csId: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: "SupportMessage",
+    }
+  );
   return SupportMessage;
 };
