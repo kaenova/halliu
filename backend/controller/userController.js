@@ -5,7 +5,6 @@ import { Response } from "../utils/response.js";
 class UserController {
   static async register(req, res) {
     try {
-      console.log(req.body);
       if (
         !validator.isEmail(req.body["email"]) ||
         validator.isEmpty(req.body["name"]) ||
@@ -21,10 +20,9 @@ class UserController {
         res.status(response.status).json(response.getData());
         return;
       }
-
       await User.build({
         name: req.body["name"],
-        email: req.body["email"],
+        email: req.body["email"].toLowerCase(),
         password: req.body["password"],
         role: req.body["role"],
       }).save();
