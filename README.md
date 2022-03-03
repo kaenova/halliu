@@ -1,5 +1,4 @@
-# Livestreaming Prototype
-
+# Halliu
 Prerequisite: `Docker and Installed Docker Compose` and make sure port `443` and `80` are available.  
 
 ## Run it (non development)
@@ -15,3 +14,6 @@ Prerequisite: `Docker and Installed Docker Compose` and make sure port `443` and
 3. Run this command `docker-compose -f docker-compose.dev.yml up -d`. **NOTE**: If you're on windows please copy and paste this on your windows terminal `COMPOSE_CONVERT_WINDOWS_PATHS=1`
 4. Open `https://localhost` on your browser
 5. To turn off all the service run `docker-compose -f docker-compose.dev.yml down`
+
+## API Docs
+Postman: https://www.postman.com/gits-crud-auth/workspace/halliu
