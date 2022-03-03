@@ -20,7 +20,7 @@ function registerBantuanRoutes(ex) {
     SupportController.create
   );
   ex.post("/support/:supportId", jwtMiddlewareCS, SupportController.reply);
-  ex.get("/support/:supportId", jwtMiddleware, SupportController.getByID);
+  ex.get("/support/:supportId", jwtMiddleware, SupportController.getByUserID);
 }
 
 export { registerBantuanRoutes };

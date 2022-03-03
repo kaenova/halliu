@@ -114,6 +114,20 @@ class UserController {
       res.status(500).json({ error: error.message });
     }
   }
+
+  static async getUserById(req, res) {
+    try {
+      req.params.id = parseInt(req.params.id);
+      const user = await User.findByPk(req.params.id, {
+        attributes: ["name", "role"],
+      });
+      let response = new Response(200, user["dataValues"], "Sukses");
+      res.status(response.status).json(response.getData());
+      return;
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 export default UserController;

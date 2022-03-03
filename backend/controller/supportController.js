@@ -6,7 +6,16 @@ import fs from "fs";
 import path from "path";
 
 class SupportController {
+  // Get all support messages
   static async index(req, res) {
+    try {
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  }
+
+  // Get support message by request user id
+  static async getByUserID(req, res) {
     try {
     } catch (e) {
       res.status(500).json({ error: e.message });
@@ -62,6 +71,7 @@ class SupportController {
         message: req.body["message"],
         userId: req.user.id,
         reply: null,
+        csId: null,
         image: imgFile,
         video: vidFile,
       }).save();
@@ -85,13 +95,6 @@ class SupportController {
     try {
       let userID = req.user.id;
       let supportID = req.params.supportId;
-    } catch (e) {
-      res.status(500).json({ error: e.message });
-    }
-  }
-
-  static async getByID(req, res) {
-    try {
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
