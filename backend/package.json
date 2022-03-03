@@ -2,11 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --experimental-modules -L ./index.js"
+    "dev": "nodemon -L --exec babel-node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,5 +20,11 @@
     "sequelize": "^6.17.0",
     "sqlite3": "^5.0.2",
     "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11"
   }
 }

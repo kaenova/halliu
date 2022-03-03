@@ -1,5 +1,5 @@
-import UserController from "../controller/userController.mjs";
-import jwtMiddleware from "../utils/jwtMiddleware.mjs"
+import UserController from "../controller/userController.js";
+import jwtMiddleware from "../utils/jwtMiddleware.js";
 
 async function registerUserRoutes(ex) {
   ex.post("/register", UserController.register);
@@ -7,4 +7,4 @@ async function registerUserRoutes(ex) {
   ex.get("/self", jwtMiddleware, UserController.self);
 }
 
-export { registerUserRoutes }
+export { registerUserRoutes };
