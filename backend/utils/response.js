@@ -9,9 +9,9 @@ class Response {
     return {
       status: this.status,
       data: this.data,
-      message: this.message
+      message: this.message,
     };
   }
 }
 
-export default Response;
+export { Response };
