@@ -1,14 +1,20 @@
 import express from "express";
 import { registerUserRoutes } from "./userRoutes.js";
+import { registerBantuanRoutes } from "./bantuanRoutes.js";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import os from "os";
 
 export default function init(ex) {
   var app = express();
-  app.use(express.json());
+
   app.use(cookieParser());
-  app.use(express.urlencoded({ extended: true }));
   app.use(express.static("public"));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.text());
 
   registerUserRoutes(app);
+  registerBantuanRoutes(app);
   return app;
 }

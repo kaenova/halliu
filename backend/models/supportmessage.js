@@ -18,9 +18,23 @@ module.exports = (sequelize, DataTypes) => {
   }
   SupportMessage.init(
     {
-      message: DataTypes.STRING,
+      message: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       reply: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
+      image: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      video: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       csId: DataTypes.INTEGER,
     },
     {

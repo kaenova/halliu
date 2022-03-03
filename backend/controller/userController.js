@@ -3,9 +3,10 @@ import validator from "validator";
 import { Response } from "../utils/response.js";
 
 class UserController {
+
+  // Registering User by Email, Password, Name, Role
   static async register(req, res) {
     try {
-      console.log(req.body);
       if (
         !validator.isEmail(req.body["email"]) ||
         validator.isEmpty(req.body["name"]) ||
@@ -21,10 +22,9 @@ class UserController {
         res.status(response.status).json(response.getData());
         return;
       }
-
       await User.build({
         name: req.body["name"],
-        email: req.body["email"],
+        email: req.body["email"].toLowerCase(),
         password: req.body["password"],
         role: req.body["role"],
       }).save();
@@ -37,6 +37,8 @@ class UserController {
     }
   }
 
+  // Login User by Email, Password
+  // Creating JWT token
   static async login(req, res) {
     try {
       if (
@@ -82,6 +84,7 @@ class UserController {
     }
   }
 
+  // Renewing JWT token
   static async renewToken(req, res) {
     try {
       const user = await User.findOne({
@@ -104,10 +107,26 @@ class UserController {
     }
   }
 
+  // Getting Requested User
   static async self(req, res) {
     try {
       const user = await User.findByPk(req.user.id, {
         attributes: ["id", "name", "email", "role"],
+      });
+      let response = new Response(200, user["dataValues"], "Sukses");
+      res.status(response.status).json(response.getData());
+      return;
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  // Getting Requested User by ID
+  static async getUserById(req, res) {
+    try {
+      req.params.id = parseInt(req.params.id);
+      const user = await User.findByPk(req.params.id, {
+        attributes: ["name", "role"],
       });
       let response = new Response(200, user["dataValues"], "Sukses");
       res.status(response.status).json(response.getData());
