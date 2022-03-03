@@ -3,6 +3,8 @@ import validator from "validator";
 import { Response } from "../utils/response.js";
 
 class UserController {
+
+  // Registering User by Email, Password, Name, Role
   static async register(req, res) {
     try {
       if (
@@ -35,6 +37,8 @@ class UserController {
     }
   }
 
+  // Login User by Email, Password
+  // Creating JWT token
   static async login(req, res) {
     try {
       if (
@@ -80,6 +84,7 @@ class UserController {
     }
   }
 
+  // Renewing JWT token
   static async renewToken(req, res) {
     try {
       const user = await User.findOne({
@@ -102,6 +107,7 @@ class UserController {
     }
   }
 
+  // Getting Requested User
   static async self(req, res) {
     try {
       const user = await User.findByPk(req.user.id, {
@@ -115,6 +121,7 @@ class UserController {
     }
   }
 
+  // Getting Requested User by ID
   static async getUserById(req, res) {
     try {
       req.params.id = parseInt(req.params.id);

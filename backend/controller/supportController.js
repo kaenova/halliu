@@ -6,7 +6,8 @@ import fs from "fs";
 import path from "path";
 
 class SupportController {
-  // Get all support messages
+  // Get all support messages except user id
+  // Also support pagination
   static async index(req, res) {
     try {
     } catch (e) {
@@ -15,6 +16,7 @@ class SupportController {
   }
 
   // Get support message by request user id
+  // Also support pagination
   static async getByUserID(req, res) {
     try {
     } catch (e) {
@@ -22,6 +24,9 @@ class SupportController {
     }
   }
 
+  // Creating support message
+  // Mandatory to have message
+  // Optional to add images and videos
   static async create(req, res) {
     var image, video;
     try {
@@ -91,6 +96,8 @@ class SupportController {
     }
   }
 
+  // Adding replies on support message
+  // Mandatory to have reply
   static async reply(req, res) {
     try {
       let userID = req.user.id;
