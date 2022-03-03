@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+import {Model} from 'sequelize';
+import jwt from 'jsonwebtoken'
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -18,6 +17,19 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'csId',
       });
     }
+
+    createJWT() {
+      let payload = {
+        id: this.id,
+        email: this.email,
+        role: this.role
+      }
+      let token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "1d"
+      })
+      return token
+    }
+
   }
   User.init({
     name: DataTypes.STRING,
