@@ -8,9 +8,9 @@ dotenv.config();
 
 // Sync database model
 try {
-  sequelize.sync()
+  sequelize.sync();
 } catch (e) {
-  console.log(e)
+  console.log(e);
 }
 
 const app = initRoutes();

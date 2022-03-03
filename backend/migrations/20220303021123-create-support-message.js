@@ -12,6 +12,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      video: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       reply: {
         type: Sequelize.STRING,
       },
