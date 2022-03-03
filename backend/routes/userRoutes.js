@@ -1,5 +1,5 @@
 import UserController from "../controller/userController.js";
-import jwtMiddleware from "../utils/jwtMiddleware.js";
+import {jwtMiddleware} from "../utils/jwtMiddleware.js";
 
 async function registerUserRoutes(ex) {
   ex.post("/register", UserController.register);
