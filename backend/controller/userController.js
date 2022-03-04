@@ -22,6 +22,7 @@ class UserController {
         res.status(response.status).json(response.getData());
         return;
       }
+
       await User.build({
         name: req.body["name"],
         email: req.body["email"].toLowerCase(),
@@ -33,7 +34,8 @@ class UserController {
 
       return res.status(response.status).json(response.getData());
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      let response = new Response(500, null, error.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 
@@ -80,7 +82,8 @@ class UserController {
         .json(response.getData());
       return;
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      let response = new Response(500, null, error.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 
@@ -103,7 +106,8 @@ class UserController {
         .json(response.getData());
       return;
     } catch (e) {
-      res.status(500).json({ error: error.message });
+      let response = new Response(500, null, error.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 
@@ -117,7 +121,8 @@ class UserController {
       res.status(response.status).json(response.getData());
       return;
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      let response = new Response(500, null, error.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 
@@ -132,7 +137,8 @@ class UserController {
       res.status(response.status).json(response.getData());
       return;
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      let response = new Response(500, null, error.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 }
