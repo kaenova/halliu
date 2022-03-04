@@ -1,42 +1,31 @@
 export const dataHighlight = [
   {
-    "nama": "fanzru",
-    "link_photo": "https://cdn.anisearch.com/images/character/cover/full/48/48184.webp",
-    "link": "/"
+    "user_id": 1,
+    "title": "Kiseki No Sedai To Final NBA 2022",
+    "cover": "/kiseki-no-sedai.jpeg",
+    "file": "",
+    "view": "2000"
   },
   {
-    "nama": "fanzru",
-    "link_photo": "https://cdn.anisearch.com/images/character/cover/full/48/48184.webp",
-    "link": "/"
+    "user_id": 1,
+    "title": "Kiseki No Sedai To Final NBA 2022",
+    "cover": "/kiseki-no-sedai.jpeg",
+    "file": "",
+    "view": "2000"
   },
   {
-    "nama": "fanzru",
-    "link_photo": "https://cdn.anisearch.com/images/character/cover/full/48/48184.webp",
-    "link": "/"
+    "user_id": 1,
+    "title": "Kiseki No Sedai To Final NBA 2022",
+    "cover": "/kiseki-no-sedai.jpeg",
+    "file": "",
+    "view": "2000"
   },
   {
-    "nama": "fanzru",
-    "link_photo": "https://cdn.anisearch.com/images/character/cover/full/48/48184.webp",
-    "link": "/"
+    "user_id": 1,
+    "title": "Kiseki No Sedai To Final NBA 2022",
+    "cover": "/kiseki-no-sedai.jpeg",
+    "file": "",
+    "view": "2000"
   },
-  {
-    "nama": "fanzru",
-    "link_photo": "https://cdn.anisearch.com/images/character/cover/full/48/48184.webp",
-    "link": "/"
-  },
-  {
-    "nama": "fanzru",
-    "link_photo": "https://cdn.anisearch.com/images/character/cover/full/48/48184.webp",
-    "link": "/"
-  },
-  {
-    "nama": "fanzru",
-    "link_photo": "https://cdn.anisearch.com/images/character/cover/full/48/48184.webp",
-    "link": "/"
-  },
-  {
-    "nama": "fanzru",
-    "link_photo": "https://cdn.anisearch.com/images/character/cover/full/48/48184.webp",
-    "link": "/"
-  },
+
 ]

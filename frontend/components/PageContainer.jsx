@@ -3,7 +3,7 @@ import Footer from "./footer/Footer"
 const PageContainer = ({children, props}) => {
   return (
     <>
-      <div>
+      <div > 
         <Navbar/>
         {children}
         <Footer/>

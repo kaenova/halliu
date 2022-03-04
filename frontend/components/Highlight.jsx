@@ -1,38 +1,40 @@
-import {dataHighlight} from "../data/highlight"
-import { HiOutlinePlusSm } from "react-icons/hi";
-const Highlight = (props) => {
+import { dataHighlight } from "../data/highlight"
+import Image from "next/image"
+import {VscEye} from 'react-icons/vsc'
+const HighLight = (props) => {
   return (
     <>
-      <div className="z-index-0 ">
-        <div className=" h-[65px]"/>
-        <div className="border-b">
-          <div className="flex flex-row  h-[100px]  mx-4 gap-[8px] items-center overflow-x-auto scroll-smoth">
-            <button className="btn btn-circle btn-outline h-[60px] w-[60px] text-[30px] border-2 border-dashed border-gray-300 text-gray-300">
-              <HiOutlinePlusSm/>
-            </button>
-            {
-              dataHighlight.map((data,i)=> {
-                return (
-                  <div key={i} className="">
-                    <button className="h-[60px] w-[60px] border-2  rounded-full border-gray-300">
-                      {/* <Image
-                          src={data.link_photo}
-                          alt="Picture of the author"
-                          width={60}
-                          height={60}
-                      /> */}
-                      <img src={data.link_photo} className="object-cover h-[60px] w-[60px] rounded-full"/>
-                    </button>
-                  </div>
-                )
-              })
-            }
+      <div className="z-10 ">
+          <div className="flex justify-center">
+            <div className="w-full  max-w-[800px]">
+              {
+                dataHighlight.map((data, idx)=>{
+                  return (
+                    <div key={idx} className="border-b h-[400px] relative">
+                      <div className="h-[50px] flex items-center mx-2 font-normal ">
+                        <p>{data.title}</p>
+                      </div>
+                      <div className="h-[300px] relative">
+                        <Image
+                          src={data.cover}
+                          layout="fill"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="items-center flex flex-row mx-2 font-light h-[50px]">
+                        <VscEye/>
+                        <p className="px-2">{data.view}</p>
+                      </div>
+                      
+                    </div>
+                  )
+                })
+              }
+             </div>
           </div>
-
-        </div>
       </div>
     </>
-  )
+  ) 
 }
 
-export default Highlight
+export default HighLight
