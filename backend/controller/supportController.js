@@ -1,7 +1,7 @@
-import { SupportMessage, Sequelize } from "../models";
+import { SupportMessage, Sequelize, User } from "../models";
+import { Op } from "sequelize";
 import validator from "validator";
 import { Response } from "../utils/response";
-import { detectFileMimeType } from "../utils/getMIMEType";
 import fs from "fs";
 import path from "path";
 
@@ -9,18 +9,62 @@ class SupportController {
   // Get all support messages except user id
   // Also support pagination
   static async index(req, res) {
+    var pageNum = 1
     try {
+      // Try to convert page number to integer
+      if (req.query["page"] != undefined) {
+        pageNum = parseInt(req.query["page"])
+        if (isNaN(pageNum) || pageNum < 1) {
+          pageNum = 1
+        }
+      }
+      var user = await User.findByPk(req.user.id);
+      var supportMessages = await SupportMessage.findAll({
+        where: {
+          userId: {
+            [Op.ne]: user.id
+          }
+        },
+        limit: 10,
+        offset: (pageNum - 1) * 10,
+        order: [["updatedAt", "DESC"]],
+      });
+      let response = new Response(200, supportMessages, "Sukses");
+      return res.status(response.status).json(response.getData());
     } catch (e) {
-      res.status(500).json({ error: e.message });
+      let response = new Response(500, null, e.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 
   // Get support message by request user id
   // Also support pagination
   static async getByUserID(req, res) {
+    var pageNum = 1
     try {
+      // Try to convert page number to integer
+      if (req.query["page"] != undefined) {
+        pageNum = parseInt(req.query["page"])
+        if (isNaN(pageNum) || pageNum < 1) {
+          pageNum = 1
+        }
+      }
+      var user = await User.findByPk(req.user.id);
+      var supportMessages = await SupportMessage.findAll({
+        where: {
+          userId: {
+            [Op.eq]: user.id
+          }
+        },
+        limit: 10,
+        offset: (pageNum - 1) * 10,
+        order: [["updatedAt", "DESC"]],
+      });
+      let response = new Response(200, supportMessages, "Sukses");
+      return res.status(response.status).json(response.getData());
     } catch (e) {
-      res.status(500).json({ error: e.message });
+      let response = new Response(500, null, error.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 
@@ -92,7 +136,8 @@ class SupportController {
       if (video != undefined) {
         fs.rm(video["path"]);
       }
-      res.status(500).json({ error: e.message });
+      let response = new Response(500, null, error.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 
@@ -101,9 +146,34 @@ class SupportController {
   static async reply(req, res) {
     try {
       let userID = req.user.id;
-      let supportID = req.params.supportId;
+      let supportID = parseInt(req.params.supportId);
+      // Getting all models needed
+      var customerService = await User.findByPk(userID)
+      var supportMessage = await SupportMessage.findByPk(supportID)
+
+      // Validator
+      if (req.body["reply"] == undefined || req.body["reply"].trim() == "") {
+        let response = new Response(400, null, "Reply tidak boleh kosong");
+        res.status(response.status).json(response.getData());
+        return;
+      }
+
+      if (supportMessage["csId"] != null || supportMessage["reply"] != null) {
+        let response = new Response(400, null, "Reply sudah diisi");
+        res.status(response.status).json(response.getData());
+        return;
+      }
+
+      await supportMessage.update({
+        reply: req.body["reply"],
+        csId: customerService.id
+      })
+
+      let response = new Response(200, supportMessage["dataValues"], "Sukses");
+      return res.status(response.status).json(response);
     } catch (e) {
-      res.status(500).json({ error: e.message });
+      let response = new Response(500, null, error.message);
+      return res.status(response.status).json(response.getData());
     }
   }
 }
