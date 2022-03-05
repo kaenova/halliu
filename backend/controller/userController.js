@@ -1,18 +1,11 @@
 import { User, Sequelize } from "../models";
-import validator from "validator";
 import { Response } from "../utils/response.js";
 
 class UserController {
   // Registering User by Email, Password, Name, Role
   static async register(req, res) {
     try {
-      if (
-        !validator.isEmail(req.body["email"]) ||
-        validator.isEmpty(req.body["name"]) ||
-        !validator.isStrongPassword(req.body["password"]) ||
-        validator.isEmpty(req.body["role"]) ||
-        (req.body["role"] !== "reg" && req.body["role"] !== "cs")
-      ) {
+      if (req.body["role"] !== "reg" && req.body["role"] !== "cs") {
         let response = new Response(
           400,
           null,
@@ -30,7 +23,6 @@ class UserController {
       }).save();
 
       let response = new Response(200, null, "Sukses");
-
       return res.status(response.status).json(response.getData());
     } catch (error) {
       let response = new Response(500, null, error.message);
@@ -42,18 +34,7 @@ class UserController {
   // Creating JWT token
   static async login(req, res) {
     try {
-      if (
-        !validator.isEmail(req.body["email"]) ||
-        !validator.isStrongPassword(req.body["password"])
-      ) {
-        let response = new Response(
-          400,
-          null,
-          "Email atau Password tidak valid"
-        );
-        res.status(response.status).json(response.getData());
-        return;
-      }
+
       const user = await User.findOne({
         where: { email: req.body["email"], password: req.body["password"] },
         attributes: ["id", "name", "email", "role"],

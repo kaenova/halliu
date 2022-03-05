@@ -4,7 +4,7 @@ import { registerBantuanRoutes } from "./bantuanRoutes.js";
 import { registerHighlightRoutes } from "./highlightRoutes.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import os from "os";
+import errorHeader from "../utils/middleware/validator/errorHeader.js";
 
 export default function init(ex) {
   var app = express();
@@ -14,6 +14,7 @@ export default function init(ex) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.text());
+  app.use(errorHeader)
 
   registerUserRoutes(app);
   registerBantuanRoutes(app);

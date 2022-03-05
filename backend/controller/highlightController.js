@@ -1,17 +1,21 @@
-import { Highlight, User } from "../models"
-import { Op } from "sequelize"
+import { Highlight, User } from "../models";
+import { Op } from "sequelize";
 import fs from "fs";
 import multer from "multer";
 import { Response } from "../utils/response";
 import validator from "validator";
 
 class HighlightController {
-
   static async create(req, res) {
-    var image, video = undefined
+    var image,
+      video = undefined;
     try {
       // Body and files validator (mandatory)
-      if (req.body["title"] == undefined || req.files["image"] == undefined || req.files["video"] == undefined) {
+      if (
+        req.body["title"] == undefined ||
+        req.files["image"] == undefined ||
+        req.files["video"] == undefined
+      ) {
         if (image != undefined) {
           fs.unlinkSync(image["path"]);
         }
@@ -25,7 +29,7 @@ class HighlightController {
 
       image = req.files["image"][0];
       video = req.files["video"][0];
-      
+
       if (validator.isEmpty(req.body["title"].trim())) {
         if (image != undefined) {
           fs.unlinkSync(image["path"]);
@@ -38,9 +42,8 @@ class HighlightController {
         return;
       }
 
-      
       // image processing
-      console.log(image, video)
+      console.log(image, video);
       if (image["mimetype"] != "image/jpeg" || image["size"] > 9000000) {
         if (image != undefined) {
           fs.unlinkSync(image["path"]);
@@ -57,7 +60,7 @@ class HighlightController {
       fs.renameSync(beforePath, afterPath);
       image["path"] = afterPath;
       let imgFile = "/" + image["filename"] + ".jpg";
-      
+
       // video processing
       if (video["mimetype"] != "video/mp4" || video["size"] > 100000000) {
         if (image != undefined) {
@@ -100,4 +103,4 @@ class HighlightController {
   }
 }
 
-export default HighlightController
+export default HighlightController;

@@ -2,10 +2,11 @@ import {
   jwtMiddleware,
   jwtMiddlewareCS,
   jwtMiddlewareReg,
-} from "../utils/jwtMiddleware.js";
+} from "../utils/middleware/jwtMiddleware.js";
 import SupportController from "../controller/supportController.js";
 import multer from "multer";
 import formData from "express-form-data";
+import errValidatorHeader from "../utils/middleware/validatorMiddlewareCheck.js";
 
 const upload = multer({ dest: "public" });
 const supportPostUpload = upload.fields([
@@ -20,6 +21,7 @@ function registerBantuanRoutes(ex) {
     "/support",
     jwtMiddlewareReg,
     supportPostUpload,
+    errValidatorHeader,
     SupportController.create
   );
   ex.post(

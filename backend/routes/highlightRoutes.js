@@ -1,4 +1,4 @@
-import { jwtMiddlewareReg } from "../utils/jwtMiddleware";
+import { jwtMiddlewareReg } from "../utils/middleware/jwtMiddleware";
 import HighlightController from "../controller/highlightController";
 import formData from "express-form-data"
 import multer from "multer";
@@ -11,7 +11,9 @@ const highlightPostUpload = upload.fields([
 ])
 
 function registerHighlightRoutes(ex) {
-  ex.post("/highlight", jwtMiddlewareReg, highlightPostUpload, HighlightController.create);
+  ex.post("/highlight", jwtMiddlewareReg,
+  highlightPostUpload,
+  HighlightController.create);
 }
 
 export { registerHighlightRoutes }

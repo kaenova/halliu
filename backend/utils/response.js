@@ -1,3 +1,5 @@
+import { validationResult } from "express-validator";
+
 class Response {
   constructor(status, data, message) {
     this.status = status;
