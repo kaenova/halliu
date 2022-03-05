@@ -5,9 +5,11 @@ import { Response } from "../utils/response";
 import fs from "fs";
 
 class SupportController {
+  constructor() {}
+
   // Get all support messages except user id
   // Also support pagination
-  static async index(req, res) {
+  async index(req, res) {
     var pageNum = 1;
     try {
       // Try to convert page number to integer
@@ -38,7 +40,7 @@ class SupportController {
 
   // Get support message by request user id
   // Also support pagination
-  static async getByUserID(req, res) {
+  async getByUserID(req, res) {
     var pageNum = 1;
     try {
       // Try to convert page number to integer
@@ -70,7 +72,7 @@ class SupportController {
   // Creating support message
   // Mandatory to have message
   // Optional to add images and videos
-  static async create(req, res) {
+  async create(req, res) {
     var image, video;
     try {
       // Body validator (mandatory)
@@ -142,7 +144,7 @@ class SupportController {
 
   // Adding replies on support message
   // Mandatory to have reply
-  static async reply(req, res) {
+  async reply(req, res) {
     try {
       let userID = req.user.id;
       let supportID = parseInt(req.params.supportId);

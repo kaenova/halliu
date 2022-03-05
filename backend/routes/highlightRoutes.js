@@ -3,17 +3,20 @@ import HighlightController from "../controller/highlightController";
 import formData from "express-form-data"
 import multer from "multer";
 
-// Forms Upload Data
-const upload = multer({ dest: "public" });
-const highlightPostUpload = upload.fields([
-  { name: "image", maxCount: 1 },
-  { name: "video", maxCount: 1 },
-])
-
 function registerHighlightRoutes(ex) {
+  // Forms Upload Data
+  const upload = multer({ dest: "public" });
+  const highlightPostUpload = upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+  ])
+
+  // Preparing Controller and Validator
+  let controller = new HighlightController()
+
   ex.post("/highlight", jwtMiddlewareReg,
   highlightPostUpload,
-  HighlightController.create);
+  controller.create);
 }
 
 export { registerHighlightRoutes }

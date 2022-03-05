@@ -6,6 +6,10 @@ function errValidatorHeader(req, res, next) {
     
     if (req.files != {} && req.files != undefined){
       // Remove all files
+      for (let key in req.files) {
+        // NOTE: only remove one file
+        fs.unlinkSync(req.files[key][0]["path"]);
+      }
     }
 
     return res.status(400).json({

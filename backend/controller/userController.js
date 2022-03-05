@@ -2,9 +2,13 @@ import { User, Sequelize } from "../models";
 import { Response } from "../utils/response.js";
 
 class UserController {
+  constructor() {}
+
   // Registering User by Email, Password, Name, Role
-  static async register(req, res) {
+  async register(req, res) {
     try {
+
+      // Checking role
       if (req.body["role"] !== "reg" && req.body["role"] !== "cs") {
         let response = new Response(
           400,
@@ -32,7 +36,7 @@ class UserController {
 
   // Login User by Email, Password
   // Creating JWT token
-  static async login(req, res) {
+  async login(req, res) {
     try {
 
       const user = await User.findOne({
@@ -68,7 +72,7 @@ class UserController {
   }
 
   // Renewing JWT token
-  static async renewToken(req, res) {
+  async renewToken(req, res) {
     try {
       const user = await User.findOne({
         where: { id: req.user.id },
@@ -92,7 +96,7 @@ class UserController {
   }
 
   // Getting Requested User
-  static async self(req, res) {
+  async self(req, res) {
     try {
       const user = await User.findByPk(req.user.id, {
         attributes: ["id", "name", "email", "role"],
@@ -107,7 +111,7 @@ class UserController {
   }
 
   // Getting Requested User by ID
-  static async getUserById(req, res) {
+  async getUserById(req, res) {
     try {
       req.params.id = parseInt(req.params.id);
       const user = await User.findByPk(req.params.id, {

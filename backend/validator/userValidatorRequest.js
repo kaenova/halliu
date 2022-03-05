@@ -1,7 +1,12 @@
 import validator from "validator"
+import GeneralValidator from "./generalValidator"
 
-export default class UserValidatorRequest {
-  static validateUserLogin(req, res, next) {
+export default class UserValidatorRequest extends GeneralValidator {
+  constructor() {
+    super()
+  }
+
+  validateUserLogin(req, res, next) {
     let email = req.body.email
     let password = req.body.password
 
@@ -21,7 +26,7 @@ export default class UserValidatorRequest {
     next()
   }
 
-  static validateUserRegister(req, res, next) {
+  validateUserRegister(req, res, next) {
     let name = req.body.name
     let email = req.body.email
     let password = req.body.password
@@ -46,4 +51,19 @@ export default class UserValidatorRequest {
     
     next()
   }
+
+  validateUserID(req, res, next) {
+    // Check if params is valid
+    if (req.params["id"] == undefined) {
+      req["Error"] = "Id tidak boleh kosong"
+      return next()
+    }
+
+    if (!validator.isInt(req.params["id"])) {
+      req["Error"] = "Id tidak valid"
+      return next()
+    }
+    next()
+  }
+
 }

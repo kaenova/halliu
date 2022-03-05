@@ -1,22 +1,29 @@
 import UserController from "../controller/userController.js";
 import { jwtMiddleware } from "../utils/middleware/jwtMiddleware.js";
 import formData from "express-form-data";
-import errValidatorHeader from "../utils/middleware/validatorMiddlewareCheck.js";
-import UserValidatorRequest from "../utils/middleware/validator/userValidatorRequest.js";
+import errValidatorHeader from "../validator/errValidatorHeader.js";
+import UserValidatorRequest from "../validator/userValidatorRequest.js";
 
 function registerUserRoutes(ex) {
-  ex.get("/user/:id", UserController.getUserById);
-  ex.get("/self", jwtMiddleware, UserController.self);
-  ex.get("/renew", jwtMiddleware, UserController.renewToken);
+  // Preparing Controller and Validator
+  let validator = new UserValidatorRequest()
+  let controller = new UserController()
+
+  ex.get("/user/:id",
+    validator.validatePageQueryNumber,
+    controller.getUserById
+  );
+  ex.get("/self", jwtMiddleware, controller.self);
+  ex.get("/renew", jwtMiddleware, controller.renewToken);
 
   ex.post("/register", formData.parse(),
-    UserValidatorRequest.validateUserRegister,
+    validator.validateUserRegister,
     errValidatorHeader,
-    UserController.register);
+    controller.register);
   ex.post("/login", formData.parse(),
-    UserValidatorRequest.validateUserLogin,
+    validator.validateUserLogin,
     errValidatorHeader,
-    UserController.login);
+    controller.login);
 }
 
 export { registerUserRoutes };

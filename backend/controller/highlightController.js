@@ -6,7 +6,9 @@ import { Response } from "../utils/response";
 import validator from "validator";
 
 class HighlightController {
-  static async create(req, res) {
+  constructor() {}
+  
+  async create(req, res) {
     var image,
       video = undefined;
     try {

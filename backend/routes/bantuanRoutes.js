@@ -6,29 +6,43 @@ import {
 import SupportController from "../controller/supportController.js";
 import multer from "multer";
 import formData from "express-form-data";
-import errValidatorHeader from "../utils/middleware/validatorMiddlewareCheck.js";
-
-const upload = multer({ dest: "public" });
-const supportPostUpload = upload.fields([
-  { name: "image", maxCount: 1 },
-  { name: "video", maxCount: 1 },
-]);
+import errValidatorHeader from "../validator/errValidatorHeader.js";
+import SupportValidatorRequest from "../validator/supportValidatorRequest.js";
 
 function registerBantuanRoutes(ex) {
-  ex.get("/support", jwtMiddleware, SupportController.index);
-  ex.get("/support/self", jwtMiddleware, SupportController.getByUserID);
+  // Forms Upload Data
+  const upload = multer({ dest: "public" });
+  const supportPostUpload = upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+  ]);
+
+  // Preparing Controller and Validator
+  let controller = new SupportController();
+  let validator = new SupportValidatorRequest()
+
+  ex.get("/support", jwtMiddleware,
+    validator.validatePageQueryNumber,
+    controller.index);
+  ex.get("/support/self", jwtMiddleware,
+    validator.validatePageQueryNumber,
+    controller.getByUserID);
+
   ex.post(
     "/support",
     jwtMiddlewareReg,
     supportPostUpload,
+    validator.validateSupportCreate,
     errValidatorHeader,
-    SupportController.create
+    controller.create
   );
   ex.post(
     "/support/:supportId",
     jwtMiddlewareCS,
     formData.parse(),
-    SupportController.reply
+    validator.validateSupportReply,
+    errValidatorHeader,
+    controller.reply
   );
 }
 
