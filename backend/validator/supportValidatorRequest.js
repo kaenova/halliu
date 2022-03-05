@@ -45,11 +45,11 @@ export default class SupportValidatorRequest extends GeneralValidator {
     }
 
     // Check if params is valid
-    if (req.params["id"] == undefined) {
+    if (req.params["supportId"] == undefined) {
       return next(ApiError.badRequest("Id tidak boleh kosong"));
     }
 
-    if (!validator.isInt(req.params["id"])) {
+    if (!validator.isInt(req.params["supportId"])) {
       return next(ApiError.badRequest("Id tidak valid"));
     }
 
