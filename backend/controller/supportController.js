@@ -130,10 +130,10 @@ class SupportController {
     } catch (e) {
       // Cleanup
       if (image != undefined) {
-        fs.rm(image["path"]);
+        fs.unlinkSync(image["path"]);
       }
       if (video != undefined) {
-        fs.rm(video["path"]);
+        fs.unlinkSync(video["path"]);
       }
       let response = new Response(500, null, error.message);
       return res.status(response.status).json(response.getData());
