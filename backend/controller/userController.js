@@ -51,7 +51,7 @@ class UserController {
     });
 
     if (user == null) {
-      return next(ApiError.badRequest("User tidak ditemukan"));
+      return next(ApiError.unauthorized("User tidak ditemukan"));
     }
 
     let token = user.createJWT();
@@ -74,7 +74,7 @@ class UserController {
     });
 
     if (user == null) {
-      return next(ApiError.badRequest("User tidak ditemukan"));
+      return next(ApiError.unauthorized("User tidak ditemukan"));
     }
 
     let response = new Response(200, user["dataValues"], "Sukses");
@@ -90,7 +90,7 @@ class UserController {
       attributes: ["name", "role"],
     });
     if (user == null) {
-      return next(ApiError.badRequest("User tidak ditemukan"));
+      return next(ApiError.unauthorized("User tidak ditemukan"));
     }
 
     let response = new Response(200, user["dataValues"], "Sukses");

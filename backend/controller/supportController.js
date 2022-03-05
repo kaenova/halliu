@@ -15,7 +15,7 @@ class SupportController {
     var user = await User.findByPk(req.user.id);
 
     if (user == null) {
-      return next(ApiError.badRequest("User tidak ditemukan"));
+      return next(ApiError.unauthorized("User tidak ditemukan"));
     }
 
     var supportMessages = await SupportMessage.findAll({
@@ -39,7 +39,7 @@ class SupportController {
     var pageNum = req.query["page"];
     var user = await User.findByPk(req.user.id);
     if (user == null) {
-      return next(ApiError.badRequest("User tidak ditemukan"));
+      return next(ApiError.unauthorized("User tidak ditemukan"));
     }
     var supportMessages = await SupportMessage.findAll({
       where: {
@@ -63,7 +63,7 @@ class SupportController {
 
     var user = await User.findByPk(req.user.id);
     if (user == null) {
-      return next(ApiError.badRequest("User tidak ditemukan"));
+      return next(ApiError.unauthorized("User tidak ditemukan"));
     }
 
     // If there's an image file
