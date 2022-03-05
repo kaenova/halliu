@@ -1,18 +1,21 @@
 // Loading dotenv
-import dotenv from 'dotenv';
-import express from 'express';
+import dotenv from "dotenv";
+import initRoutes from "./routes/init.js";
+import { sequelize } from "./models";
 
 // Load env variables
-dotenv.config()
+dotenv.config();
 
-const app = express();
-  
-app.get('/',(req,res) => {
-    res.send('GeeksforGeeksas');
-})
-  
-const PORT = process.env['PORT'] || 3001;
+// Sync database model
+try {
+  sequelize.sync();
+} catch (e) {
+  console.log(e);
+}
 
-app.listen(PORT,() => {
-    console.log(`Running on PORT ${PORT}`);
-})
+const app = initRoutes();
+const PORT = process.env["PORT"] || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Running on PORT ${PORT}`);
+});
