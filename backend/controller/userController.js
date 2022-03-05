@@ -3,7 +3,6 @@ import validator from "validator";
 import { Response } from "../utils/response.js";
 
 class UserController {
-
   // Registering User by Email, Password, Name, Role
   static async register(req, res) {
     try {

@@ -22,7 +22,12 @@ function registerBantuanRoutes(ex) {
     supportPostUpload,
     SupportController.create
   );
-  ex.post("/support/:supportId", jwtMiddlewareCS, formData.parse(), SupportController.reply);
+  ex.post(
+    "/support/:supportId",
+    jwtMiddlewareCS,
+    formData.parse(),
+    SupportController.reply
+  );
 }
 
 export { registerBantuanRoutes };

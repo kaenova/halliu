@@ -3,27 +3,26 @@ import { Op } from "sequelize";
 import validator from "validator";
 import { Response } from "../utils/response";
 import fs from "fs";
-import path from "path";
 
 class SupportController {
   // Get all support messages except user id
   // Also support pagination
   static async index(req, res) {
-    var pageNum = 1
+    var pageNum = 1;
     try {
       // Try to convert page number to integer
       if (req.query["page"] != undefined) {
-        pageNum = parseInt(req.query["page"])
+        pageNum = parseInt(req.query["page"]);
         if (isNaN(pageNum) || pageNum < 1) {
-          pageNum = 1
+          pageNum = 1;
         }
       }
       var user = await User.findByPk(req.user.id);
       var supportMessages = await SupportMessage.findAll({
         where: {
           userId: {
-            [Op.ne]: user.id
-          }
+            [Op.ne]: user.id,
+          },
         },
         limit: 10,
         offset: (pageNum - 1) * 10,
@@ -40,21 +39,21 @@ class SupportController {
   // Get support message by request user id
   // Also support pagination
   static async getByUserID(req, res) {
-    var pageNum = 1
+    var pageNum = 1;
     try {
       // Try to convert page number to integer
       if (req.query["page"] != undefined) {
-        pageNum = parseInt(req.query["page"])
+        pageNum = parseInt(req.query["page"]);
         if (isNaN(pageNum) || pageNum < 1) {
-          pageNum = 1
+          pageNum = 1;
         }
       }
       var user = await User.findByPk(req.user.id);
       var supportMessages = await SupportMessage.findAll({
         where: {
           userId: {
-            [Op.eq]: user.id
-          }
+            [Op.eq]: user.id,
+          },
         },
         limit: 10,
         offset: (pageNum - 1) * 10,
@@ -131,10 +130,10 @@ class SupportController {
     } catch (e) {
       // Cleanup
       if (image != undefined) {
-        fs.rm(image["path"]);
+        fs.unlinkSync(image["path"]);
       }
       if (video != undefined) {
-        fs.rm(video["path"]);
+        fs.unlinkSync(video["path"]);
       }
       let response = new Response(500, null, error.message);
       return res.status(response.status).json(response.getData());
@@ -148,8 +147,8 @@ class SupportController {
       let userID = req.user.id;
       let supportID = parseInt(req.params.supportId);
       // Getting all models needed
-      var customerService = await User.findByPk(userID)
-      var supportMessage = await SupportMessage.findByPk(supportID)
+      var customerService = await User.findByPk(userID);
+      var supportMessage = await SupportMessage.findByPk(supportID);
 
       // Validator
       if (req.body["reply"] == undefined || req.body["reply"].trim() == "") {
@@ -166,8 +165,8 @@ class SupportController {
 
       await supportMessage.update({
         reply: req.body["reply"],
-        csId: customerService.id
-      })
+        csId: customerService.id,
+      });
 
       let response = new Response(200, supportMessage["dataValues"], "Sukses");
       return res.status(response.status).json(response);
