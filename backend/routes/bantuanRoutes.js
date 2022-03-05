@@ -33,7 +33,6 @@ function registerBantuanRoutes(ex) {
     jwtMiddlewareReg,
     supportPostUpload,
     validator.validateSupportCreate,
-    errValidatorHeader,
     controller.create
   );
   ex.post(
@@ -41,7 +40,6 @@ function registerBantuanRoutes(ex) {
     jwtMiddlewareCS,
     formData.parse(),
     validator.validateSupportReply,
-    errValidatorHeader,
     controller.reply
   );
 }
