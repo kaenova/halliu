@@ -16,10 +16,26 @@ module.exports = (sequelize, DataTypes) => {
   }
   Highlight.init(
     {
-      userId: DataTypes.INTEGER,
-      title: DataTypes.STRING,
-      cover: DataTypes.STRING,
-      video: DataTypes.STRING,
+       userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        alloNull: false,
+      },
+      title: {
+        type: DataTypes.STRING,
+        alloNull: false,
+      },
+      cover: {
+        type: DataTypes.STRING,
+        alloNull: false,
+      },
+      video: {
+        type: DataTypes.STRING,
+        alloNull: false,
+      },
     },
     {
       sequelize,

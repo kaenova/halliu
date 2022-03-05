@@ -25,6 +25,7 @@
     "multer": "^1.4.4",
     "nodemon": "^2.0.15",
     "sequelize": "^6.17.0",
+    "sqlite": "^4.0.23",
     "validator": "^13.7.0"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 import express from "express";
 import { registerUserRoutes } from "./userRoutes.js";
 import { registerBantuanRoutes } from "./bantuanRoutes.js";
+import { registerHighlightRoutes } from "./highlightRoutes.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import os from "os";
@@ -16,5 +17,6 @@ export default function init(ex) {
 
   registerUserRoutes(app);
   registerBantuanRoutes(app);
+  registerHighlightRoutes(app);
   return app;
 }

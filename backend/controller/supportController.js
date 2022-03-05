@@ -3,7 +3,6 @@ import { Op } from "sequelize";
 import validator from "validator";
 import { Response } from "../utils/response";
 import fs from "fs";
-import path from "path";
 
 class SupportController {
   // Get all support messages except user id
