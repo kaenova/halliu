@@ -1,4 +1,4 @@
-import ApiError from "./apiError"
+import ApiError from "./apiError";
 
 export default function apiErrorHandler(err, req, res, next) {
   // Cleanup all files
@@ -12,12 +12,12 @@ export default function apiErrorHandler(err, req, res, next) {
   if (err instanceof ApiError) {
     return res.status(err.code).json({
       code: err.code,
-      message: err.message
+      message: err.message,
     });
   }
 
   return res.status(500).json({
     code: 500,
-    message: "Internal Server Error"
+    message: "Internal Server Error",
   });
 }

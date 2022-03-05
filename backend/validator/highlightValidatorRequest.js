@@ -1,15 +1,18 @@
-import validator from "validator"
-import GeneralValidator from "./generalValidator"
+import validator from "validator";
+import GeneralValidator from "./generalValidator";
 
 export default class HighlightValidatorReqeust extends GeneralValidator {
   constructor() {
-    super()
+    super();
   }
 
   validateCraete(req, res, next) {
-
     // Check if all mandatory fields are filled
-    if (req.body["title"] == undefined || req.files["image"] == undefined || req.files["video"] == undefined) {
+    if (
+      req.body["title"] == undefined ||
+      req.files["image"] == undefined ||
+      req.files["video"] == undefined
+    ) {
       req["Error"] = "Title, Image, dan Video tidak boleh kosong";
       return next();
     }
@@ -34,7 +37,6 @@ export default class HighlightValidatorReqeust extends GeneralValidator {
       return next();
     }
 
-    next()
+    next();
   }
-
 }

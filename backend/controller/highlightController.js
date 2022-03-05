@@ -4,7 +4,7 @@ import { Response } from "../utils/response";
 import ApiError from "../utils/apiError";
 
 class HighlightController {
-  constructor() { }
+  constructor() {}
 
   async create(req, res, next) {
     var image = req.files["image"][0];

@@ -13,6 +13,6 @@ export default class GeneralValidator {
       req.query["page"] = 1;
     }
 
-    next()
+    next();
   }
 }

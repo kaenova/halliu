@@ -6,7 +6,7 @@ import fs from "fs";
 import ApiError from "../utils/apiError";
 
 class SupportController {
-  constructor() { }
+  constructor() {}
 
   // Get all support messages except user id
   // Also support pagination

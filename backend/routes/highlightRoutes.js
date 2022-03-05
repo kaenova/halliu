@@ -9,16 +9,19 @@ function registerHighlightRoutes(ex) {
   const highlightPostUpload = upload.fields([
     { name: "image", maxCount: 1 },
     { name: "video", maxCount: 1 },
-  ])
+  ]);
 
   // Preparing Controller and Validator
-  let controller = new HighlightController()
-  let validator = new HighlightValidatorReqeust()
+  let controller = new HighlightController();
+  let validator = new HighlightValidatorReqeust();
 
-  ex.post("/highlight", jwtMiddlewareReg,
-  highlightPostUpload,
-  validator.validateCraete,
-  controller.create);
+  ex.post(
+    "/highlight",
+    jwtMiddlewareReg,
+    highlightPostUpload,
+    validator.validateCraete,
+    controller.create
+  );
 }
 
-export { registerHighlightRoutes }
+export { registerHighlightRoutes };

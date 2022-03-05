@@ -9,7 +9,7 @@ export default class SupportValidatorRequest extends GeneralValidator {
 
   validateSupportCreate(req, res, next) {
     // Check if all mandatory fields are filled
-    if (req.body["message"] == undefined ) {
+    if (req.body["message"] == undefined) {
       return next(ApiError.badRequest("Message tidak boleh kosong"));
     }
     if (validator.isEmpty(req.body["message"])) {
@@ -23,14 +23,14 @@ export default class SupportValidatorRequest extends GeneralValidator {
         return next(ApiError.badRequest("Image tidak valid"));
       }
     }
-    
+
     if (req.files["video"] != undefined) {
       let video = req.files["video"][0];
       if (video["mimetype"] != "video/mp4" || video["size"] > 100000000) {
         return next(ApiError.badRequest("Video tidak valid"));
       }
     }
-    next()
+    next();
   }
 
   validateSupportReply(req, res, next) {
@@ -53,6 +53,6 @@ export default class SupportValidatorRequest extends GeneralValidator {
       return next(ApiError.badRequest("Id tidak valid"));
     }
 
-    next()
+    next();
   }
 }

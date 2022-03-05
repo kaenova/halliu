@@ -19,6 +19,6 @@ export default function init(ex) {
   registerBantuanRoutes(app);
   registerHighlightRoutes(app);
 
-  app.use(apiErrorHandler)
+  app.use(apiErrorHandler);
   return app;
 }

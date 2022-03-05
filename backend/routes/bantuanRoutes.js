@@ -6,7 +6,6 @@ import {
 import SupportController from "../controller/supportController.js";
 import multer from "multer";
 import formData from "express-form-data";
-import errValidatorHeader from "../validator/errValidatorHeader.js";
 import SupportValidatorRequest from "../validator/supportValidatorRequest.js";
 
 function registerBantuanRoutes(ex) {
@@ -19,14 +18,20 @@ function registerBantuanRoutes(ex) {
 
   // Preparing Controller and Validator
   let controller = new SupportController();
-  let validator = new SupportValidatorRequest()
+  let validator = new SupportValidatorRequest();
 
-  ex.get("/support", jwtMiddleware,
+  ex.get(
+    "/support",
+    jwtMiddleware,
     validator.validatePageQueryNumber,
-    controller.index);
-  ex.get("/support/self", jwtMiddleware,
+    controller.index
+  );
+  ex.get(
+    "/support/self",
+    jwtMiddleware,
     validator.validatePageQueryNumber,
-    controller.getByUserID);
+    controller.getByUserID
+  );
 
   ex.post(
     "/support",

@@ -3,7 +3,7 @@ import ApiError from "../utils/apiError";
 import { Response } from "../utils/response.js";
 
 class UserController {
-  constructor() { }
+  constructor() {}
 
   // Registering User by Email, Password, Name, Role
   async register(req, res, next) {
@@ -85,7 +85,7 @@ class UserController {
   // Getting Requested User by ID
   async getUserById(req, res, next) {
     req.params.id = parseInt(req.params.id);
-    
+
     const user = await User.findByPk(req.params.id, {
       attributes: ["name", "role"],
     });
