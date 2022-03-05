@@ -2,23 +2,11 @@ import { User, Sequelize } from "../models";
 import { Response } from "../utils/response.js";
 
 class UserController {
-  constructor() {}
+  constructor() { }
 
   // Registering User by Email, Password, Name, Role
   async register(req, res) {
     try {
-
-      // Checking role
-      if (req.body["role"] !== "reg" && req.body["role"] !== "cs") {
-        let response = new Response(
-          400,
-          null,
-          "Email atau Password tidak valid"
-        );
-        res.status(response.status).json(response.getData());
-        return;
-      }
-
       await User.build({
         name: req.body["name"],
         email: req.body["email"].toLowerCase(),
@@ -38,20 +26,14 @@ class UserController {
   // Creating JWT token
   async login(req, res) {
     try {
-
-      const user = await User.findOne({
+      var user = await User.findOne({
         where: { email: req.body["email"], password: req.body["password"] },
         attributes: ["id", "name", "email", "role"],
       });
 
       if (user == null) {
-        let response = new Response(
-          400,
-          null,
-          "Email atau Password tidak terdaftar"
-        );
-        res.status(response.status).json(response.getData());
-        return;
+        let response = new Response(400, null, "Email atau password salah");
+        return res.status(response.status).json(response.getData());
       }
 
       let token = user.createJWT();

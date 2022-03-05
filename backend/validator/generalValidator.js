@@ -1,6 +1,6 @@
 export default class GeneralValidator {
   validatePageQueryNumber(req, res, next) {
-    // Check if params is valid
+    // Check if page params is valid
     if (req.query["page"] == undefined) {
       req.query["page"] = 1;
     }

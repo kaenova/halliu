@@ -2,7 +2,7 @@ import {
   jwtMiddleware,
   jwtMiddlewareCS,
   jwtMiddlewareReg,
-} from "../utils/middleware/jwtMiddleware.js";
+} from "../utils/jwtMiddleware.js";
 import SupportController from "../controller/supportController.js";
 import multer from "multer";
 import formData from "express-form-data";

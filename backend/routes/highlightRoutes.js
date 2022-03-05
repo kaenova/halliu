@@ -1,6 +1,6 @@
-import { jwtMiddlewareReg } from "../utils/middleware/jwtMiddleware";
+import { jwtMiddlewareReg } from "../utils/jwtMiddleware";
 import HighlightController from "../controller/highlightController";
-import formData from "express-form-data"
+import HighlightValidatorReqeust from "../validator/highlightValidatorRequest";
 import multer from "multer";
 
 function registerHighlightRoutes(ex) {
@@ -13,9 +13,11 @@ function registerHighlightRoutes(ex) {
 
   // Preparing Controller and Validator
   let controller = new HighlightController()
+  let validator = new HighlightValidatorReqeust()
 
   ex.post("/highlight", jwtMiddlewareReg,
   highlightPostUpload,
+  validator.validateCraete,
   controller.create);
 }
 

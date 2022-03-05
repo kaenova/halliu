@@ -17,8 +17,8 @@ export default class UserValidatorRequest extends GeneralValidator {
     }
 
     // Check if mandatory fields are empty
-    if (validator.isStrongPassword(password) == false || 
-        validator.isEmpty(email) == true) {
+    if (validator.isStrongPassword(password) == false ||
+      validator.isEmpty(email) == true) {
       req["Error"] = "Kombinasi Email atau Password salah"
       return next()
     }
@@ -43,12 +43,12 @@ export default class UserValidatorRequest extends GeneralValidator {
       return next()
     }
 
-    // Check if one of mandatory fields are empty
-    if (validator.isEmpty(name) == true || validator.isEmpty(email) == true || validator.isEmpty(password) == true || validator.isEmpty(role) == true) {
-      req["Error"] = "Nama, Email, Password, atau Role tidak boleh kosong"
+    // Check if one of mandatory fields are empty or role not valid
+    if (validator.isEmpty(name) == true || validator.isEmpty(email) == true || validator.isEmpty(password) == true || validator.isEmpty(role) == true || (req.body["role"] !== "reg" && req.body["role"] !== "cs")) {
+      req["Error"] = "Nama, Email, Password, atau Role tidak valid"
       return next()
     }
-    
+
     next()
   }
 

@@ -1,5 +1,5 @@
 import UserController from "../controller/userController.js";
-import { jwtMiddleware } from "../utils/middleware/jwtMiddleware.js";
+import { jwtMiddleware } from "../utils/jwtMiddleware.js";
 import formData from "express-form-data";
 import errValidatorHeader from "../validator/errValidatorHeader.js";
 import UserValidatorRequest from "../validator/userValidatorRequest.js";
@@ -11,6 +11,7 @@ function registerUserRoutes(ex) {
 
   ex.get("/user/:id",
     validator.validatePageQueryNumber,
+    errValidatorHeader,
     controller.getUserById
   );
   ex.get("/self", jwtMiddleware, controller.self);
