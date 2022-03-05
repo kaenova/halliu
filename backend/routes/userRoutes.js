@@ -11,7 +11,6 @@ function registerUserRoutes(ex) {
 
   ex.get("/user/:id",
     validator.validatePageQueryNumber,
-    errValidatorHeader,
     controller.getUserById
   );
   ex.get("/self", jwtMiddleware, controller.self);
@@ -19,11 +18,9 @@ function registerUserRoutes(ex) {
 
   ex.post("/register", formData.parse(),
     validator.validateUserRegister,
-    errValidatorHeader,
     controller.register);
   ex.post("/login", formData.parse(),
     validator.validateUserLogin,
-    errValidatorHeader,
     controller.login);
 }
 
