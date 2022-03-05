@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.SupportMessage, {
         foreignKey: "csId",
       });
+      User.hasMany(models.Highlight, {
+        foreignKey: "userId",
+      });
     }
 
     createJWT() {
@@ -30,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       return token;
     }
   }
+
   User.init(
     {
       name: DataTypes.STRING,
