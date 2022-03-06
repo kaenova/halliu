@@ -15,7 +15,7 @@ export default function apiErrorHandler(err, req, res, next) {
       message: err.message,
     });
   }
-
+  console.log(err)
   return res.status(500).json({
     code: 500,
     message: "Internal Server Error",

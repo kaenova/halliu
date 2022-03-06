@@ -15,6 +15,12 @@ function registerHighlightRoutes(ex) {
   let controller = new HighlightController();
   let validator = new HighlightValidatorReqeust();
 
+  ex.get(
+    "/highlight",
+    validator.validatePageQueryNumber,
+    controller.getAll
+  )
+
   ex.post(
     "/highlight",
     jwtMiddlewareReg,

@@ -6,6 +6,29 @@ import ApiError from "../utils/apiError";
 class HighlightController {
   constructor() {}
 
+  // Get Highlight
+  // With pagination
+  async getAll(req, res, next) {
+    try {
+      var pageNum = req.query["page"];
+      const highlights = await Highlight.findAll({
+        order: [["updatedAt", "DESC"]],
+        attributes: ["id", "title", "cover"],
+        limit: 10,
+        offset: (pageNum - 1) * 10,
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
+      });
+      let response = new Response(200, highlights, "Sukses");
+      res.status(response.status).json(response.getData());
+      return;
+    } catch (e) {
+      next(e)
+    }
+  }
+
   async create(req, res, next) {
     try {
       var image = req.files["image"][0];
