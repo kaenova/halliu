@@ -50,10 +50,11 @@ export default class UserValidatorRequest extends GeneralValidator {
 
     // Check if one of mandatory fields are empty or role not valid
     if (
-      validator.isEmpty(name) == true ||
-      validator.isEmpty(email) == true ||
-      validator.isEmpty(password) == true ||
-      validator.isEmpty(role) == true ||
+      validator.isEmpty(name) ||
+      validator.isEmpty(email) ||
+      validator.isEmpty(password) ||
+      validator.isEmpty(role) ||
+      !UserValidatorRequest.ValidateEmail(email) ||
       (req.body["role"] !== "reg" && req.body["role"] !== "cs")
     ) {
       return next(

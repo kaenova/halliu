@@ -7,12 +7,19 @@ export default class GeneralValidator {
       req.query["page"] = 1;
       return next()
     }
-        
+
     if (req.query["page"] < 1) {
       req.query["page"] = 1;
       return next()
     }
-    
+
     next();
+  }
+
+  static ValidateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return (true)
+    }
+    return (false)
   }
 }

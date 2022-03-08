@@ -26,7 +26,6 @@ class UserController {
   // Creating JWT token
   async login(req, res, next) {
     try {
-      req.body.id.bruh()
       var user = await User.findOne({
         where: { email: req.body["email"], password: req.body["password"] },
         attributes: ["id", "name", "email", "role"],

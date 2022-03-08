@@ -16,15 +16,15 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    generateStreamKey() {
+    static generateStreamKey() {
       var result = '';
       var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       var charactersLength = characters.length;
-      for (var i = 0; i < length; i++) {
+      for (var i = 0; i < 7; i++) {
         result += characters.charAt(Math.floor(Math.random() *
           charactersLength));
       }
-      this.streamKey = result;
+      return result
     }
   }
   Stream.init({
@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     cover: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    isPublished: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
     userId: {
