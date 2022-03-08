@@ -19,7 +19,46 @@ function registerStreamRoutes(ex) {
     jwtMiddlewareReg,
     streamPostUpload,
     validator.validateCraete,
-    controller.test
+    controller.create
+  )
+
+  ex.get(
+    "/stream",
+    validator.validatePageQueryNumber,
+    controller.getAll
+  )
+
+  
+  ex.get(
+    "/stream/:id",
+    validator.validateIdParams,
+    controller.getById
+    )
+
+    ex.get(
+      "/self/stream",
+      jwtMiddlewareReg,
+      validator.validatePageQueryNumber,
+      controller.getOwned
+    )
+
+  ex.get(
+    "/self/stream/:id",
+    jwtMiddlewareReg,
+    validator.validateIdParams,
+    controller.getOwnedById
+  )
+
+  ex.post(
+    "/stream/publish",
+    validator.validatePublishDestroy,
+    controller.publish
+  )
+
+  ex.post(
+    "/stream/destroy",
+    validator.validatePublishDestroy,
+    controller.destroy
   )
 }
 

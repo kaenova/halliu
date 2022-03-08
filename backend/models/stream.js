@@ -51,6 +51,16 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Stream',
+    indexes : [
+      {
+        unique: true,
+        fields: ["id"]
+      },
+      {
+        unique: true,
+        fields: ["streamKey"]
+      }
+    ]
   });
   return Stream;
 };

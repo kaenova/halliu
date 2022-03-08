@@ -1,3 +1,4 @@
+import { body } from "express-validator";
 import validator from "validator";
 import ApiError from "../utils/apiError";
 import GeneralValidator from "./generalValidator";
@@ -18,7 +19,6 @@ export default class StreamValidatorReqeust extends GeneralValidator {
 
     // If title is empty
     if (validator.isEmpty(req.body["title"])) {
-      console.log("masukk")
       next(ApiError.badRequest("Title tidak boleh kosong"))
       return;
     }
@@ -31,4 +31,36 @@ export default class StreamValidatorReqeust extends GeneralValidator {
 
     next();
   }
+
+  validateIdParams(req, res, next) {
+    if (req.params["id"] == undefined) {
+      return next(ApiError.badRequest("Id tidak boleh kosong"));
+    }
+
+    if (!validator.isInt(req.params["id"])) {
+      return next(ApiError.badRequest("Id tidak valid"))
+    } else {
+      req.body.name = parseInt(req.body.name)
+    }
+
+    if (req.params["id"] < 1) {
+      return next(ApiError.badRequest("Id tidak valid"))
+    }
+
+    next()
+  }
+
+  validatePublishDestroy(req, res, next) {
+    if (req.body.key == undefined || req.body.name == undefined) {
+      return next(ApiError.badRequest("Id tidak valid"))
+    }
+
+    if (!validator.isInt(req.body.name)) {
+      return next(ApiError.badRequest("Id tidak valid"))
+    } else {
+      req.body.name = parseInt(req.body.name)
+    }
+    next()
+  }
+  
 }

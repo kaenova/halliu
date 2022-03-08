@@ -39,6 +39,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }, {
+      indexes: [
+        {
+          unique: true,
+          fields: ['id']
+        },
+        {
+          unique: true,
+          fields: ['streamKey']
+        }
+      ]
     });
   },
   async down(queryInterface, Sequelize) {

@@ -7,9 +7,9 @@ import ApiError from "../utils/apiError";
 class StreamController {
   constructor() { }
 
-  async test(req, res, next) {
+  // Create stream
+  async create(req, res, next) {
     try {
-
       let user = await User.findOne({
         where: { id: req.user.id },
         attributes: ["id"],
@@ -44,133 +44,161 @@ class StreamController {
     }
   }
 
-  // // Get all support messages except user id
-  // // Also support pagination
-  // async index(req, res, next) {
-  //   try {
-  //     var pageNum = req.query["page"];
-  //     var user = await User.findByPk(req.user.id);
+  // Public, Get All Active Stream, by pagination
+  async getAll(req, res, next) {
+    try { 
+      var pageNum = req.query["page"];
 
-  //     if (user == null) {
-  //       return next(ApiError.unauthorized("User tidak ditemukan"));
-  //     }
+      let stream = await Stream.findAll({
+        attributes: ["id", "title", "cover"],
+        limit: 10,
+        offset: (pageNum - 1) * 10,
+        order: [["updatedAt", "DESC"]],
+        where: {
+          isPublished: true
+        }
+      });
 
-  //     var supportMessages = await SupportMessage.findAll({
-  //       where: {
-  //         userId: {
-  //           [Op.ne]: user.id,
-  //         },
-  //       },
-  //       limit: 10,
-  //       offset: (pageNum - 1) * 10,
-  //       order: [["updatedAt", "DESC"]],
-  //     });
+      if (stream == null) {
+        return next(ApiError.badRequest("Id tidak valid"))
+      }
 
-  //     let response = new Response(200, supportMessages, "Sukses");
-  //     return res.status(response.status).json(response.getData());
-  //   } catch (e) {
-  //     next(e)
-  //   }
-  // }
+      let response = new Response(200, stream, "Sukses")
+      return res.status(response.status).json(response.getData())
+    } catch (e) {
+      next(e)
+    }
+  }
 
-  // // Get support message by request user id
-  // // Also support pagination
-  // async getByUserID(req, res, next) {
-  //   try {
-  //     var pageNum = req.query["page"];
-  //     var user = await User.findByPk(req.user.id);
-  //     if (user == null) {
-  //       return next(ApiError.unauthorized("User tidak ditemukan"));
-  //     }
-  //     var supportMessages = await SupportMessage.findAll({
-  //       where: {
-  //         userId: {
-  //           [Op.eq]: user.id,
-  //         },
-  //       },
-  //       limit: 10,
-  //       offset: (pageNum - 1) * 10,
-  //       order: [["updatedAt", "DESC"]],
-  //     });
-  //     let response = new Response(200, supportMessages, "Sukses");
-  //     return res.status(response.status).json(response.getData());
-  //   } catch (e) {
-  //     next(e)
-  //   }
-  // }
+  // Public, Get Stream by ID
+  async getById(req, res, next) {
+    try {
+      let stream = await Stream.findOne({
+        where: { 
+          id: req.params["id"],
+          isPublished: true
+        },
+        attributes: ["id", "title", "cover"],
+      });
 
-  // // Creating support message
-  // async create(req, res, next) {
-  //   try {
+      if (stream == null) {
+        return next(ApiError.badRequest("Id tidak valid"))
+      }
 
-  //     var image, video;
-  //     var vidFile = null;
-  //     var imgFile = null;
+      let response = new Response(200, stream, "Sukses")
+      return res.status(response.status).json(response.getData())
+    } catch (e) {
+      next(e)
+    }
+  }
 
-  //     var user = await User.findByPk(req.user.id);
-  //     if (user == null) {
-  //       return next(ApiError.unauthorized("User tidak ditemukan"));
-  //     }
+  // Protected (Regular), get All created stream with pagination
+  async getOwned(req, res, next) {
+    try { 
+      var pageNum = req.query["page"];
+      let user = await User.findByPk(req.user.id)
+      if (user == null) {
+        return next(ApiError.badRequest("User not valid"))
+      }
+      let stream = await Stream.findAll({
+        where: { 
+          userId: user.id
+        },
+        limit: 10,
+        offset: (pageNum - 1) * 10,
+        order: [["updatedAt", "DESC"]],
+      });
 
-  //     // If there's an image file
-  //     if (req.files["image"] != undefined) {
-  //       let beforePath = image["path"];
-  //       let afterPath = image["path"] + ".jpg";
-  //       fs.renameSync(beforePath, afterPath);
-  //       image["path"] = afterPath;
-  //       imgFile = "/" + image["filename"] + ".jpg";
-  //     }
+      if (stream == null) {
+        return next(ApiError.badRequest("Id tidak valid"))
+      }
 
-  //     // If there's a video file
-  //     if (req.files["video"] != undefined) {
-  //       let beforePath = video["path"];
-  //       let afterPath = video["path"] + ".mp4";
-  //       fs.renameSync(beforePath, afterPath);
-  //       video["path"] = afterPath;
-  //       vidFile = "/" + video["filename"] + ".mp4";
-  //     }
+      let response = new Response(200, stream, "Sukses")
+      return res.status(response.status).json(response.getData())
+    } catch (e) {
+      next(e)
+    }
+  }
 
-  //     let support = await SupportMessage.build({
-  //       message: req.body["message"],
-  //       userId: user.id,
-  //       reply: null,
-  //       csId: null,
-  //       image: imgFile,
-  //       video: vidFile,
-  //     }).save();
+  // Protected (Regular), Get Stream by ID
+  async getOwnedById(req, res, next) {
+    try {
+      let user = await User.findByPk(req.user.id)
+      if (user == null) {
+        return next(ApiError.badRequest("Id tidak valid"))
+      }
 
-  //     let response = new Response(200, support["dataValues"], "Sukses");
-  //     res.status(response.status).json(response.getData());
-  //     return;
-  //   } catch (e) {
-  //     next(e)
-  //   }
-  // }
+      let stream = await Stream.findOne({
+        where: { 
+          id: req.params["id"],
+          userId: user.id
+        },
+      });
 
-  // // Adding replies on support message
-  // async reply(req, res, next) {
-  //   try {
-  //     let userID = req.user.id;
-  //     let supportID = parseInt(req.params.supportId);
+      if (stream == null) {
+        return next(ApiError.badRequest("Id tidak valid"))
+      }
 
-  //     var customerService = await User.findByPk(userID);
-  //     var supportMessage = await SupportMessage.findByPk(supportID);
+      let response = new Response(200, stream, "Sukses")
+      return res.status(response.status).json(response.getData())
+    } catch (e) {
+      next(e)
+    }
+  }
 
-  //     if (customerService == null || supportMessage == null) {
-  //       return next(ApiError.badRequest("Data tidak ditemukan"));
-  //     }
+  // Publish function for authenticating and publishing from rtmp server request
+  async publish(req, res, next) {
+    try {
+      let streamId = req.body.name
+      let streamKey = req.body.key
 
-  //     await supportMessage.update({
-  //       reply: req.body["reply"],
-  //       csId: customerService.id,
-  //     });
+      let stream = await Stream.findByPk(streamId, {
+        where: {
+          streamKey: streamKey
+        }
+      })
+      if (stream == null) {
+        return next(ApiError.badRequest("Id tidak valid"))
+      }
 
-  //     let response = new Response(200, supportMessage["dataValues"], "Sukses");
-  //     return res.status(response.status).json(response);
-  //   } catch (e) {
-  //     next(e)
-  //   }
-  // }
+      await Stream.update(
+        {isPublished: true},
+        {where: {
+          id: streamId,
+          streamKey: streamKey
+        }}
+      )
+
+      let response = new Response(200, undefined, "Sukses")
+      return res.status(response.status).json(response.getData())
+    } catch (e) {
+      next(e)
+    }
+  }
+
+  // Publish function for destroying a stream in database from rtmp server request
+  async destroy(req, res, next) {
+    try {
+      let streamId = req.body.name
+      let streamKey = req.body.key
+
+      let stream = await Stream.findByPk(streamId, {
+        where: {
+          streamKey: streamKey
+        }
+      })
+      if (stream == null) {
+        return next(ApiError.badRequest("Id tidak valid"))
+      }
+
+      await stream.destroy()
+
+      let response = new Response(200, undefined, "Sukses")
+      return res.status(response.status).json(response.getData())
+    } catch (e) {
+      next(e)
+    }
+  }
 }
 
 export default StreamController;
