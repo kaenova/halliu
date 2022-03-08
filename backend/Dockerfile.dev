@@ -2,6 +2,10 @@ FROM node:17-alpine3.14
 
 WORKDIR /app
 
+RUN apk update && apk upgrade
+
+RUN apk add --no-cache sqlite
+
 COPY package*.json ./
 
 RUN npm install

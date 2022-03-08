@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import ApiError from "./apiError";
 
 function jwtMiddleware(req, res, next) {
   try {
@@ -6,7 +7,7 @@ function jwtMiddleware(req, res, next) {
     const token = authHeader && authHeader.split(" ")[1];
     if (token == null) return res.sendStatus(401);
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403);
+      if (err) return next(new ApiError(403, "Unauthorized"));
       req.user = user;
       next();
     });
@@ -24,7 +25,7 @@ function jwtMiddlewareCS(req, res, next) {
     if (jwtData["role"] !== "cs") return res.sendStatus(403);
     if (token == null) return res.sendStatus(401);
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403);
+      if (err) return next(new ApiError(403, "Unauthorized"));
       req.user = user;
       next();
     });
@@ -42,7 +43,7 @@ function jwtMiddlewareReg(req, res, next) {
     if (jwtData["role"] !== "reg") return res.sendStatus(403);
     if (token == null) return res.sendStatus(401);
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403);
+      if (err) return next(new ApiError(403, "Unauthorized"));
       req.user = user;
       next();
     });
