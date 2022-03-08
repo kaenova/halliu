@@ -19,8 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Highlight, {
         foreignKey: "userId",
       });
+      User.hasMany(models.Stream, {
+        foreignKey: "userId",
+      })
     }
-
     createJWT() {
       let payload = {
         id: this.id,
