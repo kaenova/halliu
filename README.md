@@ -25,5 +25,12 @@ Pre-requisite: `make` is installed
 3. Run `make dev-docker-up`
 4. To turn off all service run `make dev-docker-down`
 
+### To see logs in realtime
+If you're in development mode, you would like to see the logs in realtime in your terminal right?  
+Run this command to get realtime logs:  
+```
+docker logs --follow [containerID]
+```
+
 ## API Docs
 Postman: https://www.postman.com/gits-crud-auth/workspace/halliu

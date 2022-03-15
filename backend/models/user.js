@@ -19,11 +19,14 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Highlight, {
         foreignKey: "userId",
       });
+      User.hasMany(models.Stream, {
+        foreignKey: "userId",
+      })
     }
-
     createJWT() {
       let payload = {
         id: this.id,
+        name: this.name,
         email: this.email,
         role: this.role,
       };
@@ -36,13 +39,23 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
-      name: DataTypes.STRING,
+      name:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       email: {
         type: DataTypes.STRING,
         unique: true,
+        allowNull: false
       },
-      password: DataTypes.STRING,
-      role: DataTypes.STRING,
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     },
     {
       sequelize,

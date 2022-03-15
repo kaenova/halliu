@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Highlight.init(
     {
-       userId: {
+      userId: {
         type: DataTypes.INTEGER,
         references: {
           model: "Users",
