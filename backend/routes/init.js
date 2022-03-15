@@ -4,7 +4,8 @@ import { registerBantuanRoutes } from "./bantuanRoutes.js";
 import { registerHighlightRoutes } from "./highlightRoutes.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import os from "os";
+import apiErrorHandler from "../utils/apiErrorHandler.js";
+import { registerStreamRoutes } from "./streamRoutes.js";
 
 export default function init(ex) {
   var app = express();
@@ -18,5 +19,8 @@ export default function init(ex) {
   registerUserRoutes(app);
   registerBantuanRoutes(app);
   registerHighlightRoutes(app);
+  registerStreamRoutes(app)
+
+  app.use(apiErrorHandler);
   return app;
 }

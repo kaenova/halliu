@@ -26,9 +26,10 @@
     "nodemon": "^2.0.15",
     "sequelize": "^6.17.0",
     "sqlite": "^4.0.23",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
-    "sqlite3": "^5.0.2"
+    
   }
 }
