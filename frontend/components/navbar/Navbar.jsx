@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const Navbar = (props) => {
   const router = useRouter()
@@ -6,7 +7,9 @@ const Navbar = (props) => {
     <>
       <div className="navbar bg-base-100 border-b border z-50 fixed " >
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl" href="/">HALLIU</a>
+        <Link href="/">
+          <a className="btn btn-ghost normal-case text-xl">HALLIU</a>
+        </Link>
         </div>
         <div className="flex-none">
         <button className="btn btn-square btn-ghost w-[100px]" onClick={()=>{router.push("/")}}>
@@ -21,6 +24,7 @@ const Navbar = (props) => {
         </div>
         
       </div>
+      <div className='w-1 h-[66px]'></div>
     </>
   )
 }
