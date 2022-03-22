@@ -27,5 +27,4 @@ export const dataHighlight = [
     "file": "",
     "view": "2000"
   },
-
 ]
