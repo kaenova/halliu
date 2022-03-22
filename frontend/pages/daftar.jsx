@@ -1,4 +1,5 @@
 import PageContainer from "../components/PageContainer"
+import Link from 'next/link'
 
 const Register = () => {
   return (
@@ -17,28 +18,31 @@ const Register = () => {
                 <label className="label">
                     <span className="label-text">Nama</span>
                   </label>
-                  <input type="text" placeholder="Ananda Affan Fattahila" class="input input-bordered w-full "/>
+                  <input type="text" placeholder="Ananda Affan Fattahila" className="input input-bordered w-full "/>
                   <label className="label">
                     <span className="label-text">Email</span>
                   </label>
-                  <input type="text" placeholder="fanzru@gmail.com" class="input input-bordered w-full "/>
+                  <input type="text" placeholder="fanzru@gmail.com" className="input input-bordered w-full "/>
                   <label className="label">
                     <span className="label-text">Password</span>
                   </label>
-                  <input type="password" placeholder="affanganteng" class="input input-bordered w-full "/>
+                  <input type="password" placeholder="affanganteng" className="input input-bordered w-full "/>
                   <label className="label">
                     <span className="label-text">Re-Password</span>
                   </label>
-                  <input type="password" placeholder="affanganteng" class="input input-bordered w-full "/>
+                  <input type="password" placeholder="affanganteng" className="input input-bordered w-full "/>
                 </form>
               </div>
               
               <div className="text-center mt-10">
-                <button class="btn btn-outline">Daftar</button>
+                <button className="btn btn-outline">Daftar</button>
               </div>
               <div className="text-center mt-6 text-gray-400">
                 <p>
-                  Sudah punya akun ? <a className="text-black" href="/masuk">Masuk</a>
+                  Sudah punya akun ?
+                  <Link  href="/masuk">
+                    <a className="text-black">Masuk</a>
+                  </Link>
                 </p>
               </div>
             </div>
