@@ -29,14 +29,14 @@ export default function Bantuan() {
                   {
                     !jsCookie.get("auth") &&
                     <Link href="/daftar-admin">
-                      <a href="/daftar-admin" className="w-[180px] btn btn-outline">Daftar Admin</a>
+                      <a className="w-[180px] btn btn-outline">Daftar Admin</a>
                     </Link>
                   }
 
                   {
                     jsCookie.get("role") == "cs" &&
                     <Link href="/dashboard-cs">
-                      <a href="/dashboard-cs" className="w-[180px] btn btn-outline">Dashboard Admin</a>
+                      <a className="w-[180px] btn btn-outline">Dashboard Admin</a>
                     </Link>
                   }
                 </div>

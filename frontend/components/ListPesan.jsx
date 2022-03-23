@@ -11,8 +11,8 @@ const ListPesan = (props) => {
 
       <div className="flex flex-col justify-center mx-4">
         <div className="dropdown mb-5">
-          <label tabindex="0" className="btn m-1 min-w-[500px] justify-start">{dataDropdown[IdxDropdown]}</label>
-          <ul tabindex="0" className="dropdown-content menu p-2 shadow bg-base-100 rounded-box min-w-[500px] ">
+          <label tabIndex="0" className="btn m-1 min-w-[500px] justify-start">{dataDropdown[IdxDropdown]}</label>
+          <ul tabIndex="0" className="dropdown-content menu p-2 shadow bg-base-100 rounded-box min-w-[500px] ">
             {dataDropdown.map((data, idx) => {
               return <li key={idx} onClick={() => { setIdxDropdown(idx) }}><a>{data}</a></li>
             })}
