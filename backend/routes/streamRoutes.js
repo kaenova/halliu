@@ -15,7 +15,7 @@ function registerStreamRoutes(ex) {
   let validator = new StreamValidatorReqeust();
 
   ex.post(
-    "/stream",
+    "/api/stream",
     jwtMiddlewareReg,
     streamPostUpload,
     validator.validateCraete,
@@ -23,40 +23,40 @@ function registerStreamRoutes(ex) {
   )
 
   ex.get(
-    "/stream",
+    "/api/stream",
     validator.validatePageQueryNumber,
     controller.getAll
   )
 
-  
+
   ex.get(
-    "/stream/:id",
+    "/api/stream/:id",
     validator.validateIdParams,
     controller.getById
-    )
-
-    ex.get(
-      "/self/stream",
-      jwtMiddlewareReg,
-      validator.validatePageQueryNumber,
-      controller.getOwned
-    )
+  )
 
   ex.get(
-    "/self/stream/:id",
+    "/api/self/stream",
+    jwtMiddlewareReg,
+    validator.validatePageQueryNumber,
+    controller.getOwned
+  )
+
+  ex.get(
+    "/api/self/stream/:id",
     jwtMiddlewareReg,
     validator.validateIdParams,
     controller.getOwnedById
   )
 
   ex.post(
-    "/stream/publish",
+    "/api/stream/publish",
     validator.validatePublishDestroy,
     controller.publish
   )
 
   ex.post(
-    "/stream/destroy",
+    "/api/stream/destroy",
     validator.validatePublishDestroy,
     controller.destroy
   )

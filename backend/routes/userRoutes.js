@@ -9,21 +9,21 @@ function registerUserRoutes(ex) {
   let controller = new UserController();
 
   ex.get(
-    "/user/:id",
+    "/api/user/:id",
     validator.validatePageQueryNumber,
     controller.getUserById
   );
-  ex.get("/self", jwtMiddleware, controller.self);
-  ex.get("/renew", jwtMiddleware, controller.renewToken);
+  ex.get("/api/self", jwtMiddleware, controller.self);
+  ex.get("/api/renew", jwtMiddleware, controller.renewToken);
 
   ex.post(
-    "/register",
+    "/api/register",
     formData.parse(),
     validator.validateUserRegister,
     controller.register
   );
   ex.post(
-    "/login",
+    "/api/login",
     formData.parse(),
     validator.validateUserLogin,
     controller.login

@@ -12,4 +12,20 @@ function DashboardCSBantuan() {
   )
 }
 
+export async function getServerSideProps({ req, res }) {
+  if (req.cookies.auth && (req.cookies.role == "cs")) {
+    return {
+      props: {}
+    }
+  
+  }
+  return {
+    redirect : {
+      destination: "/masuk",
+      permanent: false
+    }
+  }
+}
+
+
 export default DashboardCSBantuan

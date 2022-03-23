@@ -15,9 +15,8 @@ class UserController {
         role: req.body["role"],
       });
 
-      // Percobaan method di model Sequelize
-      a.changePassword("test")
-
+      // // Percobaan method di model Sequelize
+      // a.changePassword("test")
       a.save()
 
       let response = new Response(200, null, "Sukses");
@@ -29,18 +28,17 @@ class UserController {
 
   // Login User by Email, Password
   // Creating JWT token
-  login(req, res, next) {
+  async login(req, res, next) {
     try {
-      var user =  User.findOne({
+      var user = await User.findOne({
         where: { email: req.body["email"], password: req.body["password"] },
         attributes: ["id", "name", "email", "role"],
       });
-
       if (user == null) {
         return next(ApiError.badRequest("Email atau Password salah"));
       }
 
-      let token = user.createJWT();
+      let token = await user.createJWT();
       let userData = user["dataValues"];
       userData["token"] = token;
       let response = new Response(200, userData, "Sukses");

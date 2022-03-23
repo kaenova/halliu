@@ -6,10 +6,11 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import apiErrorHandler from "../utils/apiErrorHandler.js";
 import { registerStreamRoutes } from "./streamRoutes.js";
+import cors from 'cors'
 
 export default function init(ex) {
   var app = express();
-
+  app.use(cors())
   app.use(cookieParser());
   app.use(express.static("public"));
   app.use(bodyParser.json());
@@ -20,7 +21,7 @@ export default function init(ex) {
   registerBantuanRoutes(app);
   registerHighlightRoutes(app);
   registerStreamRoutes(app)
-
+  app.options("*", cors())
   app.use(apiErrorHandler);
   return app;
 }

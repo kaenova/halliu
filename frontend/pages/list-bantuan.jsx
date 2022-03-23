@@ -11,3 +11,17 @@ export default function ListBantuan() {
     </>
   )
 }
+
+export async function getServerSideProps({ req, res }) {
+  if (!req.cookies.auth) {
+    return {
+      redirect : {
+        destination: "/masuk",
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {}
+  }
+}
