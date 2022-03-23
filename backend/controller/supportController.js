@@ -9,16 +9,16 @@ class SupportController {
 
   // Get all support messages except user id
   // Also support pagination
-  async index(req, res, next) {
+  index(req, res, next) {
     try {
       var pageNum = req.query["page"];
-      var user = await User.findByPk(req.user.id);
+      var user = User.findByPk(req.user.id);
 
       if (user == null) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 
-      var supportMessages = await SupportMessage.findAll({
+      var supportMessages = SupportMessage.findAll({
         where: {
           userId: {
             [Op.ne]: user.id,
@@ -38,14 +38,14 @@ class SupportController {
 
   // Get support message by request user id
   // Also support pagination
-  async getByUserID(req, res, next) {
+  getByUserID(req, res, next) {
     try {
       var pageNum = req.query["page"];
-      var user = await User.findByPk(req.user.id);
+      var user = User.findByPk(req.user.id);
       if (user == null) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
-      var supportMessages = await SupportMessage.findAll({
+      var supportMessages = SupportMessage.findAll({
         where: {
           userId: {
             [Op.eq]: user.id,
@@ -63,14 +63,14 @@ class SupportController {
   }
 
   // Creating support message
-  async create(req, res, next) {
+  create(req, res, next) {
     try {
 
       var image, video;
       var vidFile = null;
       var imgFile = null;
 
-      var user = await User.findByPk(req.user.id);
+      var user = User.findByPk(req.user.id);
       if (user == null) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
@@ -93,7 +93,7 @@ class SupportController {
         vidFile = "/" + video["filename"] + ".mp4";
       }
 
-      let support = await SupportMessage.build({
+      let support = SupportMessage.build({
         message: req.body["message"],
         userId: user.id,
         reply: null,
@@ -111,19 +111,19 @@ class SupportController {
   }
 
   // Adding replies on support message
-  async reply(req, res, next) {
+  reply(req, res, next) {
     try {
       let userID = req.user.id;
       let supportID = parseInt(req.params.supportId);
 
-      var customerService = await User.findByPk(userID);
-      var supportMessage = await SupportMessage.findByPk(supportID);
+      var customerService = User.findByPk(userID);
+      var supportMessage = SupportMessage.findByPk(supportID);
 
       if (customerService == null || supportMessage == null) {
         return next(ApiError.badRequest("Data tidak ditemukan"));
       }
 
-      await supportMessage.update({
+      supportMessage.update({
         reply: req.body["reply"],
         csId: customerService.id,
       });

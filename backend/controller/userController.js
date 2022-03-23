@@ -6,14 +6,19 @@ class UserController {
   constructor() { }
 
   // Registering User by Email, Password, Name, Role
-  async register(req, res, next) {
+  register(req, res, next) {
     try {
-      await User.build({
+      let a = User.build({
         name: req.body["name"],
         email: req.body["email"].toLowerCase(),
         password: req.body["password"],
         role: req.body["role"],
-      }).save();
+      });
+
+      // Percobaan method di model Sequelize
+      a.changePassword("test")
+
+      a.save()
 
       let response = new Response(200, null, "Sukses");
       return res.status(response.status).json(response.getData());
@@ -24,9 +29,9 @@ class UserController {
 
   // Login User by Email, Password
   // Creating JWT token
-  async login(req, res, next) {
+  login(req, res, next) {
     try {
-      var user = await User.findOne({
+      var user =  User.findOne({
         where: { email: req.body["email"], password: req.body["password"] },
         attributes: ["id", "name", "email", "role"],
       });
@@ -52,9 +57,9 @@ class UserController {
   }
 
   // Renewing JWT token
-  async renewToken(req, res, next) {
+  renewToken(req, res, next) {
     try {
-      const user = await User.findOne({
+      const user =  User.findOne({
         where: { id: req.user.id },
         attributes: ["id", "name", "email", "role"],
       });
@@ -80,9 +85,9 @@ class UserController {
   }
 
   // Getting Requested User
-  async self(req, res, next) {
+  self(req, res, next) {
     try {
-      const user = await User.findByPk(req.user.id, {
+      const user =  User.findByPk(req.user.id, {
         attributes: ["id", "name", "email", "role"],
       });
 
@@ -99,11 +104,11 @@ class UserController {
   }
 
   // Getting Requested User by ID
-  async getUserById(req, res, next) {
+  getUserById(req, res, next) {
     try {
       req.params.id = parseInt(req.params.id);
 
-      const user = await User.findByPk(req.params.id, {
+      const user =  User.findByPk(req.params.id, {
         attributes: ["name", "role"],
       });
       if (user == null) {
