@@ -7,9 +7,12 @@ const HighLight = (props) => {
   return (
     <>
       <div className="z-10 ">
-        <div className="flex flex-row justify-center">
-          <div className="w-full  max-w-[800px] flex flex-col">
-            <button onClick={() => { router.push("/highlight_form") }} className="btn btn-outline w-full mt-5">Upload Moment Terbaik Mu!</button>
+        <div className="flex flex-col justify-center items-center">
+          <div className="w-full max-w-[800px]">
+            <div className="w-full flex items-center justify-center">
+              <button onClick={() => { router.push("/highlight_form") }} className="btn btn-outline w-full mt-5 mx-auto">Upload Moment Terbaik Mu!</button>
+            </div>
+            
             {
               dataHighlight.map((data, idx) => {
                 return (
