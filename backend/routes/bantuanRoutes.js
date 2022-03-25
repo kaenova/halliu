@@ -23,20 +23,17 @@ function registerBantuanRoutes(ex) {
   ex.get(
     "/api/support",
     jwtMiddleware,
-    validator.validatePageQueryNumber,
     controller.getAll
   );
   ex.get(
     "/api/support/self",
     jwtMiddleware,
-    validator.validatePageQueryNumber,
     controller.getByUserID
   );
 
   ex.get(
     "/api/support/no-reply",
     jwtMiddlewareCS,
-    validator.validatePageQueryNumber,
     controller.getAllNoReply
   );
 

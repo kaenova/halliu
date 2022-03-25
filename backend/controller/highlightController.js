@@ -10,12 +10,9 @@ class HighlightController {
   // With pagination
   async getAll(req, res, next) {
     try {
-      var pageNum = req.query["page"];
       const highlights = await Highlight.findAll({
         order: [["updatedAt", "DESC"]],
         attributes: ["id", "title", "cover"],
-        limit: 10,
-        offset: (pageNum - 1) * 10,
         include: {
           model: User,
           attributes: ["id", "name"],

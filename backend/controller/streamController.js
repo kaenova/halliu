@@ -47,12 +47,9 @@ class StreamController {
   // Public, Get All Active Stream, by pagination
   async getAll(req, res, next) {
     try {
-      var pageNum = req.query["page"];
 
       let stream = await Stream.findAll({
         attributes: ["id", "title", "cover"],
-        limit: 10,
-        offset: (pageNum - 1) * 10,
         order: [["updatedAt", "DESC"]],
         where: {
           isPublished: true
@@ -95,7 +92,6 @@ class StreamController {
   // Protected (Regular), get All created stream with pagination
   async getOwned(req, res, next) {
     try {
-      var pageNum = req.query["page"];
       let user = await User.findByPk(req.user.id)
       if (!user instanceof User) {
         return next(ApiError.badRequest("User not valid"))
@@ -104,8 +100,6 @@ class StreamController {
         where: {
           userId: user.id
         },
-        limit: 10,
-        offset: (pageNum - 1) * 10,
         order: [["updatedAt", "DESC"]],
       });
 

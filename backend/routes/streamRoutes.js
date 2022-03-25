@@ -24,7 +24,6 @@ function registerStreamRoutes(ex) {
 
   ex.get(
     "/api/stream",
-    validator.validatePageQueryNumber,
     controller.getAll
   )
 
@@ -38,7 +37,6 @@ function registerStreamRoutes(ex) {
   ex.get(
     "/api/self/stream",
     jwtMiddlewareReg,
-    validator.validatePageQueryNumber,
     controller.getOwned
   )
 

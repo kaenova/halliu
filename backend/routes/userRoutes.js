@@ -10,7 +10,6 @@ function registerUserRoutes(ex) {
 
   ex.get(
     "/api/user/:id",
-    validator.validatePageQueryNumber,
     controller.getUserById
   );
   ex.get("/api/self", jwtMiddleware, controller.self);

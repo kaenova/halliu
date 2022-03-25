@@ -11,7 +11,6 @@ class SupportController {
   // Also support pagination
   async getAll(req, res, next) {
     try {
-      var pageNum = req.query["page"];
       var user = await User.findByPk(req.user.id);
 
       if (!user instanceof User) {
@@ -24,9 +23,8 @@ class SupportController {
             [Op.ne]: user.id,
           },
         },
-        limit: 10,
-        offset: (pageNum - 1) * 10,
         order: [["updatedAt", "DESC"]],
+        include: User
       });
 
       let response = new Response(200, supportMessages, "Sukses");
@@ -40,7 +38,6 @@ class SupportController {
   // Also support pagination
   async getByUserID(req, res, next) {
     try {
-      var pageNum = req.query["page"];
       var user = await User.findByPk(req.user.id);
       if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
@@ -51,9 +48,8 @@ class SupportController {
             [Op.eq]: user.id,
           },
         },
-        limit: 10,
-        offset: (pageNum - 1) * 10,
         order: [["updatedAt", "DESC"]],
+        include: User
       });
       let response = new Response(200, supportMessages, "Sukses");
       return res.status(response.status).json(response.getData());
@@ -139,8 +135,6 @@ class SupportController {
 
   async getAllNoReply(req, res, next) {
     try {
-      var pageNum = req.query["page"];
-
       var supportMessages = await SupportMessage.findAll({
         where: {
           reply: {
@@ -150,8 +144,6 @@ class SupportController {
             [Op.eq]: null
           }
         },
-        limit: 10,
-        offset: (pageNum - 1) * 10,
         order: [["updatedAt", "DESC"]],
         include: User
       });

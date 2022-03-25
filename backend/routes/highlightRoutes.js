@@ -17,7 +17,6 @@ function registerHighlightRoutes(ex) {
 
   ex.get(
     "/api/highlight",
-    validator.validatePageQueryNumber,
     controller.getAll
   )
 
