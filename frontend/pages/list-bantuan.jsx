@@ -1,5 +1,5 @@
 import PageContainer from "../components/PageContainer"
-import ListPesan from "../components/ListPesan"
+import ListPesan from "../components/ListBantuan/ListPesan"
 export default function ListBantuan() {
   return (
     <>
