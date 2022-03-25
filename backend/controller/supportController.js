@@ -63,14 +63,14 @@ class SupportController {
   }
 
   // Creating support message
-  create(req, res, next) {
+  async create(req, res, next) {
     try {
 
       var image, video;
       var vidFile = null;
       var imgFile = null;
 
-      var user = User.findByPk(req.user.id);
+      var user = await User.findByPk(req.user.id);
       if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
@@ -93,7 +93,7 @@ class SupportController {
         vidFile = "/" + video["filename"] + ".mp4";
       }
 
-      let support = SupportMessage.build({
+      let support = await SupportMessage.build({
         message: req.body["message"],
         userId: user.id,
         reply: null,
@@ -111,13 +111,13 @@ class SupportController {
   }
 
   // Adding replies on support message
-  reply(req, res, next) {
+  async reply(req, res, next) {
     try {
       let userID = req.user.id;
       let supportID = parseInt(req.params.supportId);
 
-      var customerService = User.findByPk(userID);
-      var supportMessage = SupportMessage.findByPk(supportID);
+      var customerService = await User.findByPk(userID);
+      var supportMessage = await SupportMessage.findByPk(supportID);
 
       if (!customerService instanceof User || !supportMessage instanceof SupportMessage) {
         return next(ApiError.badRequest("Data tidak ditemukan"));
@@ -130,6 +130,31 @@ class SupportController {
 
       let response = new Response(200, supportMessage["dataValues"], "Sukses");
       return res.status(response.status).json(response);
+    } catch (e) {
+      next(e)
+    }
+  }
+
+  async getAllNoReply(req, res, next) {
+    try {
+      var pageNum = req.query["page"];
+
+      var supportMessages = await SupportMessage.findAll({
+        where: {
+          reply: {
+            [Op.eq]: null
+          },
+          csId: {
+            [Op.eq]: null
+          }
+        },
+        limit: 10,
+        offset: (pageNum - 1) * 10,
+        order: [["updatedAt", "DESC"]],
+      });
+
+      let response = new Response(200, supportMessages, "Sukses");
+      return res.status(response.status).json(response.getData());
     } catch (e) {
       next(e)
     }

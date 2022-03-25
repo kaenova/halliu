@@ -33,6 +33,13 @@ function registerBantuanRoutes(ex) {
     controller.getByUserID
   );
 
+  ex.get(
+    "/api/support/no-reply",
+    jwtMiddlewareCS,
+    validator.validatePageQueryNumber,
+    controller.getAllNoReply
+  );
+
   ex.post(
     "/api/support",
     jwtMiddlewareReg,
