@@ -9,16 +9,16 @@ class SupportController {
 
   // Get all support messages except user id
   // Also support pagination
-  index(req, res, next) {
+  async getAll(req, res, next) {
     try {
       var pageNum = req.query["page"];
-      var user = User.findByPk(req.user.id);
+      var user = await User.findByPk(req.user.id);
 
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 
-      var supportMessages = SupportMessage.findAll({
+      var supportMessages = await SupportMessage.findAll({
         where: {
           userId: {
             [Op.ne]: user.id,
@@ -38,14 +38,14 @@ class SupportController {
 
   // Get support message by request user id
   // Also support pagination
-  getByUserID(req, res, next) {
+  async getByUserID(req, res, next) {
     try {
       var pageNum = req.query["page"];
-      var user = User.findByPk(req.user.id);
-      if (user == null) {
+      var user = await User.findByPk(req.user.id);
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
-      var supportMessages = SupportMessage.findAll({
+      var supportMessages = await SupportMessage.findAll({
         where: {
           userId: {
             [Op.eq]: user.id,
@@ -71,7 +71,7 @@ class SupportController {
       var imgFile = null;
 
       var user = User.findByPk(req.user.id);
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 
@@ -119,7 +119,7 @@ class SupportController {
       var customerService = User.findByPk(userID);
       var supportMessage = SupportMessage.findByPk(supportID);
 
-      if (customerService == null || supportMessage == null) {
+      if (!customerService instanceof User || !supportMessage instanceof SupportMessage) {
         return next(ApiError.badRequest("Data tidak ditemukan"));
       }
 

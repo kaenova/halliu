@@ -6,9 +6,9 @@ class UserController {
   constructor() { }
 
   // Registering User by Email, Password, Name, Role
-  register(req, res, next) {
+  async register(req, res, next) {
     try {
-      let a = User.build({
+      let a = await User.build({
         name: req.body["name"],
         email: req.body["email"].toLowerCase(),
         password: req.body["password"],
@@ -17,7 +17,7 @@ class UserController {
 
       // // Percobaan method di model Sequelize
       // a.changePassword("test")
-      a.save()
+      await a.save()
 
       let response = new Response(200, null, "Sukses");
       return res.status(response.status).json(response.getData());
@@ -55,18 +55,18 @@ class UserController {
   }
 
   // Renewing JWT token
-  renewToken(req, res, next) {
+  async renewToken(req, res, next) {
     try {
-      const user =  User.findOne({
+      const user = await User.findOne({
         where: { id: req.user.id },
         attributes: ["id", "name", "email", "role"],
       });
 
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 
-      let token = user.createJWT();
+      let token = await user.createJWT();
       let userData = user["dataValues"];
       userData["token"] = token;
       let response = new Response(200, userData, "Sukses");
@@ -83,13 +83,13 @@ class UserController {
   }
 
   // Getting Requested User
-  self(req, res, next) {
+  async self(req, res, next) {
     try {
-      const user =  User.findByPk(req.user.id, {
+      const user = await User.findByPk(req.user.id, {
         attributes: ["id", "name", "email", "role"],
       });
 
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 
@@ -102,14 +102,14 @@ class UserController {
   }
 
   // Getting Requested User by ID
-  getUserById(req, res, next) {
+  async getUserById(req, res, next) {
     try {
       req.params.id = parseInt(req.params.id);
 
-      const user =  User.findByPk(req.params.id, {
+      const user = await User.findByPk(req.params.id, {
         attributes: ["name", "role"],
       });
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 

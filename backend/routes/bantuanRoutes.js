@@ -24,7 +24,7 @@ function registerBantuanRoutes(ex) {
     "/api/support",
     jwtMiddleware,
     validator.validatePageQueryNumber,
-    controller.index
+    controller.getAll
   );
   ex.get(
     "/api/support/self",

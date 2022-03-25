@@ -8,10 +8,10 @@ class HighlightController {
 
   // Get Highlight
   // With pagination
-  getAll(req, res, next) {
+  async getAll(req, res, next) {
     try {
       var pageNum = req.query["page"];
-      const highlights = Highlight.findAll({
+      const highlights = await Highlight.findAll({
         order: [["updatedAt", "DESC"]],
         attributes: ["id", "title", "cover"],
         limit: 10,
@@ -29,7 +29,7 @@ class HighlightController {
     }
   }
 
-  create(req, res, next) {
+  async create(req, res, next) {
     try {
       var image = req.files["image"][0];
       var video = req.files["video"][0];
@@ -48,12 +48,12 @@ class HighlightController {
       video["path"] = afterPath;
       let vidFile = "/" + video["filename"] + ".mp4";
 
-      const user = User.findByPk(req.user.id);
-      if (user == null) {
+      const user = await User.findByPk(req.user.id);
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 
-      const highlight = Highlight.create({
+      const highlight = await Highlight.create({
         userId: user.id,
         title: req.body.title.trim(),
         cover: imgFile,

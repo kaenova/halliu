@@ -8,14 +8,14 @@ class StreamController {
   constructor() { }
 
   // Create stream
-  create(req, res, next) {
+  async create(req, res, next) {
     try {
-      let user = User.findOne({
+      let user = await User.findOne({
         where: { id: req.user.id },
         attributes: ["id"],
       });
 
-      if (user == null) {
+      if (!user instanceof User) {
         next(ApiError.badRequest("User tidak ditemukan"));
         return
       }
@@ -28,10 +28,10 @@ class StreamController {
       image["path"] = afterPath;
       let imgFile = "/" + image["filename"] + ".jpg";
 
-      let stream = Stream.build({
+      let stream = await Stream.build({
         title: req.body["title"].trim(),
         cover: imgFile,
-        streamKey: Stream.generateStreamKey(),
+        streamKey: await Stream.generateStreamKey(),
         userId: user.id,
         isPublished: false,
       }).save();
@@ -45,11 +45,11 @@ class StreamController {
   }
 
   // Public, Get All Active Stream, by pagination
-  getAll(req, res, next) {
+  async getAll(req, res, next) {
     try {
       var pageNum = req.query["page"];
 
-      let stream = Stream.findAll({
+      let stream = await Stream.findAll({
         attributes: ["id", "title", "cover"],
         limit: 10,
         offset: (pageNum - 1) * 10,
@@ -59,7 +59,7 @@ class StreamController {
         }
       });
 
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
@@ -71,9 +71,9 @@ class StreamController {
   }
 
   // Public, Get Stream by ID
-  getById(req, res, next) {
+  async getById(req, res, next) {
     try {
-      let stream = Stream.findOne({
+      let stream = await Stream.findOne({
         where: {
           id: req.params["id"],
           isPublished: true
@@ -81,7 +81,7 @@ class StreamController {
         attributes: ["id", "title", "cover"],
       });
 
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
@@ -93,14 +93,14 @@ class StreamController {
   }
 
   // Protected (Regular), get All created stream with pagination
-  getOwned(req, res, next) {
+  async getOwned(req, res, next) {
     try {
       var pageNum = req.query["page"];
-      let user = User.findByPk(req.user.id)
-      if (user == null) {
+      let user = await User.findByPk(req.user.id)
+      if (!user instanceof User) {
         return next(ApiError.badRequest("User not valid"))
       }
-      let stream = Stream.findAll({
+      let stream =  await Stream.findAll({
         where: {
           userId: user.id
         },
@@ -109,7 +109,7 @@ class StreamController {
         order: [["updatedAt", "DESC"]],
       });
 
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
@@ -121,21 +121,21 @@ class StreamController {
   }
 
   // Protected (Regular), Get Stream by ID
-  getOwnedById(req, res, next) {
+  async getOwnedById(req, res, next) {
     try {
-      let user = User.findByPk(req.user.id)
-      if (user == null) {
+      let user = await User.findByPk(req.user.id)
+      if (!user instanceof User) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
-      let stream = Stream.findOne({
+      let stream = await Stream.findOne({
         where: {
           id: req.params["id"],
           userId: user.id
         },
       });
 
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
@@ -147,21 +147,21 @@ class StreamController {
   }
 
   // Publish function for authenticating and publishing from rtmp server request
-  publish(req, res, next) {
+  async publish(req, res, next) {
     try {
       let streamId = req.body.name
       let streamKey = req.body.key
 
-      let stream = Stream.findByPk(streamId, {
+      let stream = await Stream.findByPk(streamId, {
         where: {
           streamKey: streamKey
         }
       })
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
-      Stream.update(
+      await Stream.update(
         { isPublished: true },
         {
           where: {
@@ -179,21 +179,21 @@ class StreamController {
   }
 
   // Publish function for destroying a stream in database from rtmp server request
-  destroy(req, res, next) {
+  async destroy(req, res, next) {
     try {
       let streamId = req.body.name
       let streamKey = req.body.key
 
-      let stream = Stream.findByPk(streamId, {
+      let stream = await Stream.findByPk(streamId, {
         where: {
           streamKey: streamKey
         }
       })
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
-      stream.destroy()
+      await stream.destroy()
 
       let response = new Response(200, undefined, "Sukses")
       return res.status(response.status).json(response.getData())
