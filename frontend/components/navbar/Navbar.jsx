@@ -19,9 +19,12 @@ const Navbar = (props) => {
           </Link>
         </div>
         <div className="flex-none">
-          <button className="btn btn-square btn-ghost w-[100px]" onClick={() => { router.push("/") }}>
-            <p className="">Timeline</p>
-          </button>
+          {
+            jsCookie.get("role") !== "cs" &&
+            <button className="btn btn-square btn-ghost w-[100px]" onClick={() => { router.push("/") }}>
+              <p className="">Timeline</p>
+            </button>
+          }
           <button className="btn btn-square btn-ghost w-[100px]" onClick={() => { router.push("/bantuan") }}>
             <p className="">Bantuan</p>
           </button>

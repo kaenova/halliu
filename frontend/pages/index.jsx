@@ -13,3 +13,17 @@ export default function Home() {
     </>
   )
 }
+
+export async function getServerSideProps({ req, res }) {
+  if (req.cookies.role == "cs") {
+    return {
+      redirect : {
+        destination: "/dashboard-cs",
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {}
+  }
+}

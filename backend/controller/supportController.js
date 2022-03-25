@@ -77,6 +77,7 @@ class SupportController {
 
       // If there's an image file
       if (req.files["image"] != undefined) {
+        image = req.files["image"][0]
         let beforePath = image["path"];
         let afterPath = image["path"] + ".jpg";
         fs.renameSync(beforePath, afterPath);
@@ -86,6 +87,7 @@ class SupportController {
 
       // If there's a video file
       if (req.files["video"] != undefined) {
+        video = req.files["video"][0]
         let beforePath = video["path"];
         let afterPath = video["path"] + ".mp4";
         fs.renameSync(beforePath, afterPath);
@@ -151,6 +153,7 @@ class SupportController {
         limit: 10,
         offset: (pageNum - 1) * 10,
         order: [["updatedAt", "DESC"]],
+        include: User
       });
 
       let response = new Response(200, supportMessages, "Sukses");

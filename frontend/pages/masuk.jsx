@@ -22,7 +22,7 @@ const Login = () => {
     formData.append("password", FormState.password)
     api().post("/api/login", formData)
       .then((res) => {
-        setPesanBox("Berhasil Login")
+        setPesanBox("Berhasil Login, Mengarahkan ke Laman Terkait")
         jsCookie.set('auth', res.data.data.token)
         jsCookie.set('role', res.data.data.role)
         setTimeout(() => {

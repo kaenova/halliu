@@ -1,6 +1,6 @@
 import React from 'react'
 import PageContainer from "../components/PageContainer"
-import ListPesanCS from '../components/ListPesanCS'
+import ListPesanCS from '../components/DashboardCS/ListPesanCS'
 
 function DashboardCSBantuan() {
   return (

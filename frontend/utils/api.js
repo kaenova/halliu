@@ -14,7 +14,7 @@ const authApi = () => {
     baseURL: process.env.NEXT_PUBLIC_BACKEND,
   })
   let token = jsCookie.get('auth')
-  ax.defaults.headers.common['Authorization'] = token;
+  ax.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   ax.interceptors.response.use(res => { return res }, e => {
     // Redirect to login page
     if (e.response.status == 401) {
