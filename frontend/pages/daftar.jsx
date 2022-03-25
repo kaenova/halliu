@@ -37,7 +37,7 @@ const Register = () => {
       })
       .catch((e) => {
         console.log(e)
-        setPesanBox("Gagal untuk mendaftar")
+        setPesanBox("Gagal untuk mendaftar. Periksa kembali form anda")
       })
   }
 
