@@ -21,27 +21,31 @@ function registerBantuanRoutes(ex) {
   let validator = new SupportValidatorRequest();
 
   ex.get(
-    "/support",
+    "/api/support",
     jwtMiddleware,
-    validator.validatePageQueryNumber,
-    controller.index
+    controller.getAll
   );
   ex.get(
-    "/support/self",
+    "/api/support/self",
     jwtMiddleware,
-    validator.validatePageQueryNumber,
     controller.getByUserID
   );
 
+  ex.get(
+    "/api/support/no-reply",
+    jwtMiddlewareCS,
+    controller.getAllNoReply
+  );
+
   ex.post(
-    "/support",
+    "/api/support",
     jwtMiddlewareReg,
     supportPostUpload,
     validator.validateSupportCreate,
     controller.create
   );
   ex.post(
-    "/support/:supportId",
+    "/api/support/:supportId",
     jwtMiddlewareCS,
     formData.parse(),
     validator.validateSupportReply,

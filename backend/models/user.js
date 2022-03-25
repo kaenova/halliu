@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       });
       return token;
     }
+
+    changePassword(params) {
+      this.password = params
+    }
   }
 
   User.init(

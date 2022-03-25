@@ -2,7 +2,15 @@ import PageContainer from "../components/PageContainer"
 import DragDrop from "../components/DragDrop"
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
+import React, { useState } from "react";
+import { FileUploader } from "react-drag-drop-files";
 const HighlightForm = () => {
+  const [file, setFile] = useState(null);
+  const handleChange = (file) => {
+    setFile(file);
+  };
+  const fileTypes = ["JPG"];
+  const fileTypes2 = ["MP4"];
   return (
     <>
       <PageContainer>
@@ -20,20 +28,25 @@ const HighlightForm = () => {
                     <span className="label-text">Judul</span>
                   </label>
                   <input type="text" placeholder="Masukkan Pertanyaan Anda" className="input input-bordered w-full " />
-                  <div className="flex gap-2 items-center justify-between">
-                    <div className="grow">
-                      <label className="label">
-                        <span className="label-text">Cover (JPEG)</span>
-                      </label>
-                      <DragDrop className="w-[100%]" />
-                    </div>
-                    <div className="grow">
-                      <label className="label">
-                        <span className="label-text">Video (MP4)</span>
-                      </label>
-                      <DragDrop className="w-[100%]" />
-                    </div>
-                  </div>
+                  
+                  <label className="label">
+                    <span className="label-text">Cover (JPEG)</span>
+                  </label>
+                  <FileUploader handleChange={handleChange} name="file" types={fileTypes}>
+                    <button className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
+                      Upload Disini
+                    </button>
+                  </FileUploader>
+
+                  <label className="label">
+                    <span className="label-text">Video (MP4)</span>
+                  </label>
+                  <FileUploader handleChange={handleChange} name="file" types={fileTypes2}>
+                    <button className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
+                      Upload Disini
+                    </button>
+                  </FileUploader>
+                 
                   <div className="text-center mt-10">
                     <button className="btn btn-outline w-full">Upload</button>
                   </div>
