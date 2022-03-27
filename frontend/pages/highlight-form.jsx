@@ -36,11 +36,16 @@ const HighlightForm = () => {
     formData.append("video", FormInput.video)
 
     authApi().post("/api/highlight", formData)
-      .then(() => {
-        setPesanBox("Berhasil mengunggah ")
-        setTimeout(() => {
-          window.location.replace("/");
-        }, 3000);
+      .then((res) => {
+        console.log(res)
+        if (res) {
+          setPesanBox("Berhasil mengunggah ")
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 3000);
+          return
+        }
+        throw new Error("gagal")
       })
       .catch((e) => {
         setPesanBox("Gagal dalam mengirimkan data, harap coba lagi")
@@ -50,7 +55,7 @@ const HighlightForm = () => {
       })
   }
 
-  const fileTypes = ["JPG"];
+  const fileTypes = ["JPG", "JPEG"];
   const fileTypes2 = ["MP4"];
 
   return (
@@ -76,7 +81,7 @@ const HighlightForm = () => {
                   </label>
                   <FileUploader handleChange={handleChange} name="file" types={fileTypes}>
                     <button onClick={(e) => {e.preventDefault()}} className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
-                    <p>Upload Disini</p> 
+                    <p>Upload Disini (Max. 10MB)</p> 
                       {
                         FormInput.image &&
                         <p>Cover Terunggah</p>
@@ -89,7 +94,7 @@ const HighlightForm = () => {
                   </label>
                   <FileUploader handleChange={handleChange} name="file" types={fileTypes2}>
                     <button onClick={(e) => {e.preventDefault()}} className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
-                      <p>Upload Disini</p> 
+                      <p>Upload Disini (Max. 1GB)</p> 
                       {
                         FormInput.video &&
                         <p>Video Terunggah</p>

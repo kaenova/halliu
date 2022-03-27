@@ -41,7 +41,7 @@ const Navbar = (props) => {
         </div>
 
       </div>
-      <div className='w-1 h-[66px]'></div>
+      <div className='w-1 h-[70px]'></div>
     </>
   )
 }

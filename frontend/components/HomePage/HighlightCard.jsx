@@ -3,10 +3,8 @@ import Link from 'next/link'
 import Image from "next/image"
 
 function HighlightCard(data) {
-  console.log(data.data)
-  console.log(process.env.NEXT_PUBLIC_BACKEND || "" + "/static" + data.data.cover)
   return (
-    <Link href="/highlight" passHref>
+    <Link href={"/highlight/" + data.data.id} passHref>
       <a className="relative">
         <div className="h-[50px] flex flex-col mx-2">
           <p className="font-semibold text-lg">{data.data.title}</p>

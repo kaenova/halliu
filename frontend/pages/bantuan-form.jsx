@@ -75,6 +75,8 @@ const BantuanForm = () => {
                   <FileUploader handleChange={handleChange} name="file" types={fileTypes}>
                     <button onClick={(e) => e.preventDefault()} className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
                       <p>Upload Disini</p>
+                      <p>JPEG (Max. 10MB)</p>
+                      <p>MP4 (Max. 1GB)</p>
                       {FormInput.image != null && <p>Foto Terupload</p>}
                       {FormInput.video != null && <p>Video Terupload</p>}
                     </button>

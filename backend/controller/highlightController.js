@@ -7,7 +7,6 @@ class HighlightController {
   constructor() { }
 
   // Get Highlight
-  // With pagination
   async getAll(req, res, next) {
     try {
       const highlights = await Highlight.findAll({
@@ -26,6 +25,29 @@ class HighlightController {
     }
   }
 
+  // Get Highlight by ID
+  async getByID(req, res, next) {
+    try {
+      const highlight = await Highlight.findOne({
+        where: {
+          id: req.params.id
+        },
+        include: {
+          model: User
+        }
+      });
+      if (highlight == null){
+        next(ApiError.notFound("Tidak ditemukan"))
+      }
+      let response = new Response(200, highlight, "Sukses");
+      res.status(response.status).json(response.getData());
+      return;
+    } catch (e) {
+      next(e)
+    }
+  }
+
+  // Create Highlight
   async create(req, res, next) {
     try {
       var image = req.files["image"][0];

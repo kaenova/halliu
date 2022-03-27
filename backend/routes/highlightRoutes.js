@@ -20,6 +20,12 @@ function registerHighlightRoutes(ex) {
     controller.getAll
   )
 
+  ex.get(
+    "/api/highlight/:id",
+    validator.validateId,
+    controller.getByID
+  )
+
   ex.post(
     "/api/highlight",
     jwtMiddlewareReg,
