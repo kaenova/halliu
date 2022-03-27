@@ -1,5 +1,5 @@
 import PageContainer from "../components/PageContainer"
-import ListPesan from "../components/ListPesan"
+import ListPesan from "../components/ListBantuan/ListPesan"
 export default function ListBantuan() {
   return (
     <>
@@ -10,4 +10,18 @@ export default function ListBantuan() {
       </PageContainer>
     </>
   )
+}
+
+export async function getServerSideProps({ req, res }) {
+  if (!req.cookies.auth) {
+    return {
+      redirect : {
+        destination: "/masuk?need_login",
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {}
+  }
 }

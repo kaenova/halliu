@@ -14,8 +14,8 @@ class StreamController {
         where: { id: req.user.id },
         attributes: ["id"],
       });
-      
-      if (user == null) {
+
+      if (!user instanceof User) {
         next(ApiError.badRequest("User tidak ditemukan"));
         return
       }
@@ -31,7 +31,7 @@ class StreamController {
       let stream = await Stream.build({
         title: req.body["title"].trim(),
         cover: imgFile,
-        streamKey: Stream.generateStreamKey(),
+        streamKey: await Stream.generateStreamKey(),
         userId: user.id,
         isPublished: false,
       }).save();
@@ -46,20 +46,17 @@ class StreamController {
 
   // Public, Get All Active Stream, by pagination
   async getAll(req, res, next) {
-    try { 
-      var pageNum = req.query["page"];
+    try {
 
       let stream = await Stream.findAll({
         attributes: ["id", "title", "cover"],
-        limit: 10,
-        offset: (pageNum - 1) * 10,
         order: [["updatedAt", "DESC"]],
         where: {
           isPublished: true
         }
       });
 
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
@@ -74,14 +71,14 @@ class StreamController {
   async getById(req, res, next) {
     try {
       let stream = await Stream.findOne({
-        where: { 
+        where: {
           id: req.params["id"],
           isPublished: true
         },
         attributes: ["id", "title", "cover"],
       });
 
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
@@ -94,22 +91,19 @@ class StreamController {
 
   // Protected (Regular), get All created stream with pagination
   async getOwned(req, res, next) {
-    try { 
-      var pageNum = req.query["page"];
+    try {
       let user = await User.findByPk(req.user.id)
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.badRequest("User not valid"))
       }
-      let stream = await Stream.findAll({
-        where: { 
+      let stream =  await Stream.findAll({
+        where: {
           userId: user.id
         },
-        limit: 10,
-        offset: (pageNum - 1) * 10,
         order: [["updatedAt", "DESC"]],
       });
 
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
@@ -124,18 +118,18 @@ class StreamController {
   async getOwnedById(req, res, next) {
     try {
       let user = await User.findByPk(req.user.id)
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
       let stream = await Stream.findOne({
-        where: { 
+        where: {
           id: req.params["id"],
           userId: user.id
         },
       });
 
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
@@ -157,16 +151,18 @@ class StreamController {
           streamKey: streamKey
         }
       })
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 
       await Stream.update(
-        {isPublished: true},
-        {where: {
-          id: streamId,
-          streamKey: streamKey
-        }}
+        { isPublished: true },
+        {
+          where: {
+            id: streamId,
+            streamKey: streamKey
+          }
+        }
       )
 
       let response = new Response(200, undefined, "Sukses")
@@ -187,7 +183,7 @@ class StreamController {
           streamKey: streamKey
         }
       })
-      if (stream == null) {
+      if (!stream instanceof Stream) {
         return next(ApiError.badRequest("Id tidak valid"))
       }
 

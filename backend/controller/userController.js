@@ -8,12 +8,16 @@ class UserController {
   // Registering User by Email, Password, Name, Role
   async register(req, res, next) {
     try {
-      await User.build({
+      let a = await User.build({
         name: req.body["name"],
         email: req.body["email"].toLowerCase(),
         password: req.body["password"],
         role: req.body["role"],
-      }).save();
+      });
+
+      // // Percobaan method di model Sequelize
+      // a.changePassword("test")
+      await a.save()
 
       let response = new Response(200, null, "Sukses");
       return res.status(response.status).json(response.getData());
@@ -30,12 +34,11 @@ class UserController {
         where: { email: req.body["email"], password: req.body["password"] },
         attributes: ["id", "name", "email", "role"],
       });
-
       if (user == null) {
         return next(ApiError.badRequest("Email atau Password salah"));
       }
 
-      let token = user.createJWT();
+      let token = await user.createJWT();
       let userData = user["dataValues"];
       userData["token"] = token;
       let response = new Response(200, userData, "Sukses");
@@ -59,11 +62,11 @@ class UserController {
         attributes: ["id", "name", "email", "role"],
       });
 
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 
-      let token = user.createJWT();
+      let token = await user.createJWT();
       let userData = user["dataValues"];
       userData["token"] = token;
       let response = new Response(200, userData, "Sukses");
@@ -86,7 +89,7 @@ class UserController {
         attributes: ["id", "name", "email", "role"],
       });
 
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 
@@ -106,7 +109,7 @@ class UserController {
       const user = await User.findByPk(req.params.id, {
         attributes: ["name", "role"],
       });
-      if (user == null) {
+      if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
       }
 

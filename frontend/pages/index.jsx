@@ -1,6 +1,6 @@
 import PageContainer from "../components/PageContainer"
-import LiveStream from "../components/LiveStream"
-import HighLight from "../components/HighLight"
+import LiveStream from "../components/HomePage/LiveStreamSection"
+import HighLight from "../components/HomePage/HighlightSection"
 export default function Home() {
   return (
     <>
@@ -12,4 +12,18 @@ export default function Home() {
       </PageContainer>
     </>
   )
+}
+
+export async function getServerSideProps({ req, res }) {
+  if (req.cookies.role == "cs") {
+    return {
+      redirect : {
+        destination: "/dashboard-cs",
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {}
+  }
 }

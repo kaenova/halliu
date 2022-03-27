@@ -1,5 +1,5 @@
 # Used for creating docker stack for development
-dev-docker-up: update-dep-linux
+dev-docker-up: clear-node-modules update-dep-linux 
 ifeq ($(OS), Windows_NT)
 	COMPOSE_CONVERT_WINDOWS_PATHS=1
 endif

@@ -30,10 +30,24 @@ export default class HighlightValidatorReqeust extends GeneralValidator {
 
     // Check video
     let video = req.files["video"][0];
-    if (video["mimetype"] != "video/mp4" || video["size"] > 100000000) {
+    if (video["mimetype"] != "video/mp4" || video["size"] > 1000000000) {
       return next(ApiError.badRequest("Upload video tidak valid"));
     }
 
     next();
+  }
+
+  validateId(req, res, next) {
+    if (req.params.id == undefined) {
+      return next(ApiError.badRequest("Id harus valid"))
+    }
+
+    if (!validator.isInt(req.params.id)){
+      return next(ApiError.badRequest("Id harus valid"))
+    }
+
+    req.params.id = parseInt(req.params.id)
+
+    next()
   }
 }
