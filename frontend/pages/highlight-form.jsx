@@ -37,7 +37,6 @@ const HighlightForm = () => {
 
     authApi().post("/api/highlight", formData)
       .then((res) => {
-        console.log(res)
         if (res) {
           setPesanBox("Berhasil mengunggah ")
           setTimeout(() => {

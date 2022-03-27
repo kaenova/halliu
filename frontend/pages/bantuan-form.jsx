@@ -36,11 +36,15 @@ const BantuanForm = () => {
     formData.append("video", FormInput.video)
 
     authApi().post("/api/support", formData)
-      .then(() => {
-        setPesanBox("Berhasil memasukkan data, akan segera dibalas")
-        setTimeout(() => {
-          window.location.replace("/list-bantuan");
-        }, 3000);
+      .then((res) => {
+        if (res) {
+          setPesanBox("Berhasil memasukkan data, akan segera dibalas")
+          setTimeout(() => {
+            window.location.replace("/list-bantuan");
+          }, 3000);
+          return
+        }
+        throw new Error("Error when uploading forms")
       })
       .catch((e) => {
         setPesanBox("Gagal dalam mengirimkan data, harap coba lagi")
