@@ -36,7 +36,6 @@ const Register = () => {
         }, 2000);
       })
       .catch((e) => {
-        console.log(e)
         setPesanBox("Gagal untuk mendaftar. Periksa kembali form anda")
       })
   }

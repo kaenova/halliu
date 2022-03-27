@@ -14,7 +14,6 @@ const BantuanForm = () => {
   const [PesanBox, setPesanBox] = useState("")
 
   const handleChange = (file) => {
-    console.log(file)
     if (file.type == "video/mp4") {
       setFormInput({ ...FormInput, video: file })
     }
@@ -37,11 +36,15 @@ const BantuanForm = () => {
     formData.append("video", FormInput.video)
 
     authApi().post("/api/support", formData)
-      .then(() => {
-        setPesanBox("Berhasil memasukkan data, akan segera dibalas")
-        setTimeout(() => {
-          window.location.replace("/list-bantuan");
-        }, 3000);
+      .then((res) => {
+        if (res) {
+          setPesanBox("Berhasil memasukkan data, akan segera dibalas")
+          setTimeout(() => {
+            window.location.replace("/list-bantuan");
+          }, 3000);
+          return
+        }
+        throw new Error("Error when uploading forms")
       })
       .catch((e) => {
         setPesanBox("Gagal dalam mengirimkan data, harap coba lagi")
@@ -76,6 +79,8 @@ const BantuanForm = () => {
                   <FileUploader handleChange={handleChange} name="file" types={fileTypes}>
                     <button onClick={(e) => e.preventDefault()} className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
                       <p>Upload Disini</p>
+                      <p>JPEG (Max. 10MB)</p>
+                      <p>MP4 (Max. 1GB)</p>
                       {FormInput.image != null && <p>Foto Terupload</p>}
                       {FormInput.video != null && <p>Video Terupload</p>}
                     </button>
@@ -102,13 +107,14 @@ export async function getServerSideProps({ req, res }) {
   if (!req.cookies.auth) {
     return {
       redirect: {
-        destination: "/masuk",
+        destination: "/masuk?need_login",
         permanent: false
       }
     }
   }
   return {
-    props: {}
+    props: {
+    }
   }
 }
 

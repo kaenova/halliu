@@ -1,7 +1,6 @@
 import React from 'react'
 
 function CardPertanyaan(data) {
-  console.log(data)
   return (
     <div className="card bg-base-100 shadow-sm border-2 border-dashed">
       <div className="card-body">

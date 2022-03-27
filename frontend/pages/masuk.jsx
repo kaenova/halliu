@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { api } from "../utils/api"
 import jsCookie from 'js-cookie';
 
-const Login = () => {
+const Login = ({needLogin}) => {
 
   const [FormState, setFormState] = useState({
     email: "",
@@ -34,7 +34,6 @@ const Login = () => {
         }, 2000);
       })
       .catch((e) => {
-        console.log(e)
         setPesanBox("Gagal untuk Login")
       })
   }
@@ -52,15 +51,18 @@ const Login = () => {
                 </p>
               </div>
               <div className="md:w-1/2 mx-auto">
+                { needLogin &&
+                  <p className="text-center">Harap Login Terlebih Dahulu</p>
+                }
                 <form action="">
                   <label className="label">
                     <span className="label-text">Email</span>
                   </label>
-                  <input onChange={(e) => { setFormState({ ...FormState, email: e.target.value }) }} type="text" placeholder="fanzru@gmail.com" className="input input-bordered w-full "/>
+                  <input onChange={(e) => { setFormState({ ...FormState, email: e.target.value }) }} type="text" placeholder="fanzru@gmail.com" className="input input-bordered w-full " />
                   <label className="label">
                     <span className="label-text">Password</span>
                   </label>
-                  <input onChange={(e) => { setFormState({ ...FormState, password: e.target.value }) }} type="password" placeholder="Minimal 1 simbol, 1 angka, 1 Kapital, dan 1 Non Kapital" className="input input-bordered w-full "/>
+                  <input onChange={(e) => { setFormState({ ...FormState, password: e.target.value }) }} type="password" placeholder="Minimal 1 simbol, 1 angka, 1 Kapital, dan 1 Non Kapital" className="input input-bordered w-full " />
                   {PesanBox !== "" &&
                     <div className="border-2 border- w-full h-[50px] mt-4 rounded-md border-red-300 flex justify-center items-center">
                       {PesanBox}
@@ -68,14 +70,14 @@ const Login = () => {
                   }
                 </form>
               </div>
-              
+
               <div className="text-center mt-10">
                 <button onClick={handleLoginButton} className="btn btn-outline">Masuk</button>
               </div>
               <div className="text-center mt-6 text-gray-400">
                 <p>
                   Belum punya akun ?
-                  <Link  href="/daftar">
+                  <Link href="/daftar">
                     <a className="text-black">Daftar</a>
                   </Link>
                 </p>
@@ -88,17 +90,19 @@ const Login = () => {
   )
 }
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, query }) {
   if (req.cookies.auth) {
     return {
-      redirect : {
+      redirect: {
         destination: "/",
         permanent: false
       }
     }
   }
   return {
-    props: {}
+    props: {
+      needLogin: query.hasOwnProperty('need_login')
+    }
   }
 }
 
