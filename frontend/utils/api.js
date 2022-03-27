@@ -18,11 +18,9 @@ const authApi = () => {
   ax.interceptors.response.use(res => { return res }, e => {
     // Redirect to login page
     if (e.response.status == 401) {
-      window.location.replace("/masuk");
+      window.location.replace("/masuk?need_login");
       jsCookie.remove('auth')
     }
-    console.log(e)
-    console.log(e.response)
   })
 
   return ax

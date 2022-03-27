@@ -12,7 +12,7 @@ const Navbar = (props) => {
   }
   return (
     <>
-      <div className="navbar bg-base-100 border-b border z-50 fixed " >
+      <div className="navbar bg-base-100 border-b border z-50 fixed mb-3" >
         <div className="flex-1">
           <Link href="/">
             <a className="btn btn-ghost normal-case text-xl">HALLIU</a>

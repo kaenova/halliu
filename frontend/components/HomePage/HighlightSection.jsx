@@ -1,8 +1,10 @@
-import { dataHighlight } from "../data/highlight"
+import { dataHighlight } from "../../data/highlight"
 import Image from "next/image"
 import { VscEye } from 'react-icons/vsc'
 import { useRouter } from 'next/router'
-import NextLink from 'next/link'
+import Link from 'next/link'
+
+
 const HighLight = (props) => {
   const router = useRouter()
   return (
@@ -11,16 +13,19 @@ const HighLight = (props) => {
         <div className="flex flex-col justify-center items-center">
           <div className="w-full max-w-[800px]">
             <div className="w-full flex items-center justify-center">
-              <button onClick={() => { router.push("/highlight-form") }} className="btn btn-outline w-full mt-5 mx-auto">Upload Moment Terbaik Mu!</button>
+              <Link href="/highlight-form">
+              <button className="btn btn-outline w-full mt-5 mx-auto">Upload Moment Terbaik Mu!</button>
+              </Link>
             </div>
             <div className="gap-4">
               {
                 dataHighlight.map((data, idx) => {
                   return (
-                    <NextLink href="/highlight" key={idx} passHref>
+                    <Link href="/highlight" key={idx} passHref>
                       <a className="h-[405px] relative ">
                         <div className="h-[50px] flex items-center mx-2 font-semibold  ">
-                          <p>{data.title}</p>
+                          {/* Should be persons name */}
+                          <p>{data.title}</p> 
                         </div>
                         <div className="h-[300px] relative">
                           <Image
@@ -31,7 +36,7 @@ const HighLight = (props) => {
                         </div>
                         <div className="border border-dashed w-full mt-4"></div>
                       </a>
-                    </NextLink>
+                    </Link>
                   )
                 })
               }

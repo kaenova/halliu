@@ -16,7 +16,7 @@ export async function getServerSideProps({ req, res }) {
   if (!req.cookies.auth) {
     return {
       redirect : {
-        destination: "/masuk",
+        destination: "/masuk?need_login",
         permanent: false
       }
     }

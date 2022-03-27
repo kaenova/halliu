@@ -21,7 +21,7 @@ export async function getServerSideProps({ req, res }) {
   }
   return {
     redirect : {
-      destination: "/masuk",
+      destination: "/masuk?need_login",
       permanent: false
     }
   }

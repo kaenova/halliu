@@ -30,7 +30,6 @@ const ListPesanCS = () => {
     return <DataKosong />
   }
 
-  console.log("kok masuk sini")
   return (
     <>
       <div className="h-[30px]"></div>

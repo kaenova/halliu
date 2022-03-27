@@ -1,4 +1,4 @@
-import {dataLiveStream} from "../data/livestream"
+import {dataLiveStream} from "../../data/livestream"
 import { HiOutlinePlusSm } from "react-icons/hi";
 import {useRouter} from 'next/router'
 const LiveStream = (props) => {
