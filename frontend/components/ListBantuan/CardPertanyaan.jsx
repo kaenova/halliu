@@ -1,6 +1,8 @@
 import React from 'react'
 
 function CardPertanyaan(data) {
+  let backend = process.env.NEXT_PUBLIC_BACKEND || ""
+  
   return (
     <div className="card bg-base-100 shadow-sm border-2 border-dashed">
       <div className="card-body">
@@ -9,10 +11,10 @@ function CardPertanyaan(data) {
         <p>Jawaban : {data.data.reply? data.data.reply : "Masih belum dibalas"}</p>
         <div className='flex flex-row gap-3'>
           {data.data.image &&
-            <img width={300} src={process.env.NEXT_PUBLIC_BACKEND || "" + "/static" + data.data.image} alt="" />
+            <img width={300} src={backend+ "/static" + data.data.image} alt="" />
           }
           {data.data.video &&
-            <video width={300} src={process.env.NEXT_PUBLIC_BACKEND || "" + "/static" + data.data.video} controls alt="" />
+            <video width={300} src={backend + "/static" + data.data.video} controls alt="" />
           }
         </div>
       </div>

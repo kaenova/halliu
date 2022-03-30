@@ -24,7 +24,10 @@ class SupportController {
           },
         },
         order: [["updatedAt", "DESC"]],
-        include: User
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
       });
 
       let response = new Response(200, supportMessages, "Sukses");
@@ -49,7 +52,10 @@ class SupportController {
           },
         },
         order: [["updatedAt", "DESC"]],
-        include: User
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
       });
       let response = new Response(200, supportMessages, "Sukses");
       return res.status(response.status).json(response.getData());
@@ -145,7 +151,10 @@ class SupportController {
           }
         },
         order: [["updatedAt", "DESC"]],
-        include: User
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
       });
 
       let response = new Response(200, supportMessages, "Sukses");

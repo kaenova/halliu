@@ -53,6 +53,10 @@ class StreamController {
         order: [["updatedAt", "DESC"]],
         where: {
           isPublished: true
+        },
+        include: {
+          model: User,
+          attributes: ["id", "name"],
         }
       });
 
@@ -76,6 +80,10 @@ class StreamController {
           isPublished: true
         },
         attributes: ["id", "title", "cover"],
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
       });
 
       if (!stream instanceof Stream) {
