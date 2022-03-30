@@ -33,7 +33,8 @@ class HighlightController {
           id: req.params.id
         },
         include: {
-          model: User
+          model: User,
+          attributes: ["id", "name"],
         }
       });
       if (highlight == null){
