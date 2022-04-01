@@ -28,10 +28,12 @@ function HighlightID() {
   }, [id])
 
   useEffect(() => {
+    if (id == undefined) {
+      return
+    }
     let interval = setInterval(() => {
       api().get("/live/" + id + ".m3u8")
         .then((res) => {
-          setDataPesan(res.data.data)
         })
         .catch((e) => {
           setDataPesan("err")
@@ -40,7 +42,7 @@ function HighlightID() {
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [id])
 
   return (
     <PageContainer>

@@ -28,3 +28,6 @@ endif
 clear-node-modules:
 	cd backend && rm -rf node_modules
 	cd frontend && rm -rf node_modules
+
+clear-rtmp:
+	cd temp_data && cd rtmp && rm -rf *.m3u8 && rm -rf *.ts
