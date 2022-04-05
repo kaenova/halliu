@@ -2,7 +2,7 @@ import { Highlight, User } from "../models";
 import fs from "fs";
 import { Response } from "../utils/response";
 import ApiError from "../utils/apiError";
-
+import { predictTextIsSpam } from "../utils/aiEndpoint";
 class HighlightController {
   constructor() { }
 

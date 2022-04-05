@@ -3,7 +3,7 @@ import { Op } from "sequelize";
 import { Response } from "../utils/response";
 import fs from "fs";
 import ApiError from "../utils/apiError";
-
+import { predictTextIsSpam } from "../utils/aiEndpoint";
 class StreamController {
   constructor() { }
 
