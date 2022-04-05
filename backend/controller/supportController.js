@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import { Response } from "../utils/response";
 import fs from "fs";
 import ApiError from "../utils/apiError";
+import { predictTextIsSpam } from "../utils/aiEndpoint";
 
 class SupportController {
   constructor() { }
@@ -72,6 +73,10 @@ class SupportController {
       var vidFile = null;
       var imgFile = null;
 
+      if (predictTextIsSpam(req.body["message"])) {
+        return next(ApiError.badRequest("Terdeteksi spam"));
+      }
+      
       var user = await User.findByPk(req.user.id);
       if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));

@@ -20,7 +20,9 @@ const authApi = () => {
     if (e.response.status == 401) {
       window.location.replace("/masuk?need_login");
       jsCookie.remove('auth')
+      return
     }
+    return Promise.reject(e);
   })
 
   return ax

@@ -3,7 +3,7 @@ import { Op } from "sequelize";
 import { Response } from "../utils/response";
 import fs from "fs";
 import ApiError from "../utils/apiError";
-
+import { predictTextIsSpam } from "../utils/aiEndpoint";
 class StreamController {
   constructor() { }
 
@@ -18,6 +18,10 @@ class StreamController {
       if (!user instanceof User) {
         next(ApiError.badRequest("User tidak ditemukan"));
         return
+      }
+
+      if (predictTextIsSpam(req.body["title"])) {
+        return next(ApiError.badRequest("Terdeteksi spam"));
       }
 
       // image processing
