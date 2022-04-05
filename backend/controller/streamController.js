@@ -20,6 +20,10 @@ class StreamController {
         return
       }
 
+      if (predictTextIsSpam(req.body["title"])) {
+        return next(ApiError.badRequest("Terdeteksi spam"));
+      }
+
       // image processing
       var image = req.files["cover"][0];
       let beforePath = image["path"];
