@@ -19,8 +19,8 @@ class StreamController {
         next(ApiError.badRequest("User tidak ditemukan"));
         return
       }
-
-      if (predictTextIsSpam(req.body["title"])) {
+      console.log(req.body["title"])
+      if (predictTextIsSpam(req.body["title"]) == true) {
         return next(ApiError.badRequest("Terdeteksi spam"));
       }
 
