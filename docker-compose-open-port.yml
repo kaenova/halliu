@@ -3,7 +3,7 @@ version: "3"
 services:
   # backend (Development)
   backend:
-    image: halliu-backend-test
+    image: kaenova/halliu-backend:eac3b449f93a46009e2e72c4f037445c986c48f0
     expose: 
       - "3001"
     ports:
@@ -14,10 +14,14 @@ services:
     volumes: 
       - db-backend:/app/db/
       - static-backend:/app/public
+    environment:
+      - JWT_SECRET=alksjdklajsdklalskdlajks
+      - AI_ENDPOINT=103.55.38.98:2002
+      - NODE_ENV=production
 
   # frontend (Development)
   frontend:
-    image: halliu-frontend-test
+    image: kaenova/halliu-frontend:eac3b449f93a46009e2e72c4f037445c986c48f0
     expose: 
       - "3000"
     ports:
@@ -29,8 +33,7 @@ services:
 
   # rtmp (Development)
   rtmp:
-    build: 
-      context: rtmp/
+    image: kaenova/halliu-rtmp:eac3b449f93a46009e2e72c4f037445c986c48f0
     expose: 
       - "8080"
       - "1935"
