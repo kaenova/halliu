@@ -1,20 +1,22 @@
 version: "3"
 
 services:
-  # backend
+  # backend (Development)
   backend:
     build: 
       context: backend/
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     expose: 
       - "3001"
     restart: unless-stopped
+    depends_on:
+      - rtmp
 
-  # frontend
+  # frontend (Development)
   frontend:
     build: 
       context: frontend/
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     expose: 
       - "3000"
     restart: "unless-stopped"
@@ -22,7 +24,7 @@ services:
       - backend
       - rtmp
 
-  # rtmp
+  # rtmp (Development)
   rtmp:
     build: 
       context: rtmp/
@@ -32,8 +34,6 @@ services:
     ports:
       - "1935:1935"
     restart: unless-stopped
-    volumes: 
-      - "./rtmp/nginx.conf:/etc/nginx/nginx.conf"
 
   # Proxy gateaway
   gateway: 
@@ -43,7 +43,6 @@ services:
       - "80:80"
       - "443:443"
     restart: "unless-stopped"
-    volumes: 
-      - "./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf"
-      - "./reverse_proxy/localhost.crt:/etc/nginx/certs/localhost.crt"
-      - "./reverse_proxy/localhost.key:/etc/nginx/certs/localhost.key"
+    depends_on:
+      - backend
+      - frontend

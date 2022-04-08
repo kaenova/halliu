@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  # backend (Development)
+  backend:
+    image: halliu-backend-test
+    expose: 
+      - "3001"
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+    depends_on:
+      - rtmp
+    volumes: 
+      - db-backend:/app/db/
+      - static-backend:/app/public
+
+  # frontend (Development)
+  frontend:
+    image: halliu-frontend-test
+    expose: 
+      - "3000"
+    ports:
+      - "3000:3000"
+    restart: "unless-stopped"
+    depends_on: 
+      - backend
+      - rtmp
+
+  # rtmp (Development)
+  rtmp:
+    build: 
+      context: rtmp/
+    expose: 
+      - "8080"
+      - "1935"
+    ports:
+      - "3002:8080"
+      - "1935:1935"
+    restart: unless-stopped
+    volumes: 
+      - hls-rtmp:/tmp/hls
+
+volumes:
+  db-backend:
+  static-backend:
+  hls-rtmp:

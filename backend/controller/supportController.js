@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import { Response } from "../utils/response";
 import fs from "fs";
 import ApiError from "../utils/apiError";
+import { predictTextIsSpam } from "../utils/aiEndpoint";
 
 class SupportController {
   constructor() { }
@@ -24,7 +25,10 @@ class SupportController {
           },
         },
         order: [["updatedAt", "DESC"]],
-        include: User
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
       });
 
       let response = new Response(200, supportMessages, "Sukses");
@@ -49,7 +53,10 @@ class SupportController {
           },
         },
         order: [["updatedAt", "DESC"]],
-        include: User
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
       });
       let response = new Response(200, supportMessages, "Sukses");
       return res.status(response.status).json(response.getData());
@@ -66,6 +73,10 @@ class SupportController {
       var vidFile = null;
       var imgFile = null;
 
+      if (predictTextIsSpam(req.body["message"])) {
+        return next(ApiError.badRequest("Terdeteksi spam"));
+      }
+      
       var user = await User.findByPk(req.user.id);
       if (!user instanceof User) {
         return next(ApiError.unauthorized("User tidak ditemukan"));
@@ -145,7 +156,10 @@ class SupportController {
           }
         },
         order: [["updatedAt", "DESC"]],
-        include: User
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
       });
 
       let response = new Response(200, supportMessages, "Sukses");

@@ -5,6 +5,7 @@ import { authApi } from '../../utils/api'
 function CardPertanyaan(data) {
   const [PesanBalasasn, setPesanBalasasn] = useState("")
   const [Terbalas, setTerbalas] = useState(false)
+  let backend = process.env.NEXT_PUBLIC_BACKEND || ""
 
   const handleBalasButton = () => {
     if (PesanBalasasn == "") {
@@ -25,10 +26,10 @@ function CardPertanyaan(data) {
         <p>{`Pertanyaan : ${data.data.message}`}</p>
         <div className='flex flex-row gap-3'>
           {data.data.image &&
-            <img width={300} src={process.env.NEXT_PUBLIC_BACKEND || "" + "/static" + data.data.image} alt="" />
+            <img width={300} src={ backend + "/static" + data.data.image} alt="" />
           }
           {data.data.video &&
-            <video width={300} src={process.env.NEXT_PUBLIC_BACKEND || "" + "/static" + data.data.video} controls alt="" />
+            <video width={300} src={backend + "/static" + data.data.video} controls alt="" />
           }
         </div>
         <div className="flex flex-row gap-2">

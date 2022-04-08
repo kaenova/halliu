@@ -2,19 +2,52 @@ import PageContainer from "../components/PageContainer"
 import DragDrop from "../components/DragDrop"
 import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
+import { authApi } from "../utils/api";
 
 const HighlightForm = () => {
-  const [file, setFile] = useState(null);
-  const handleChange = (file) => {
-    setFile(file);
-  };
-  const fileTypes = ["JPG"];
+  const [Form, setForm] = useState({
+    title: "",
+    cover: null
+  })
+  const [StreamKey, setStreamKey] = useState("")
+  const [PesanBox, setPesanBox] = useState("")
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (Form.title == "" || Form.cover == null) {
+      setPesanBox("Judul dan Cover harus diisi")
+      return
+    }
+
+    let form = new FormData()
+    form.append("title", Form.title)
+    form.append("cover", Form.cover)
+    authApi().post("/api/stream", form)
+      .then((res) => {
+        setPesanBox("Jangan tutup laman ini!\nGunakan Stream Key untuk melakukan Stream, Baca petunjuk Cara Melakukan Stream")
+        let streamKey = `${res.data.data.id}?key=${res.data.data.streamKey}`
+        setStreamKey(streamKey)
+      })
+      .catch((e) => {
+        setPesanBox("Gagal dalam membuat stream, kembali ke laman awal")
+        if (e.response) {
+          if (e.response.status == 400) {
+            setPesanBox(e.response.data.message)
+          }
+        }
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 3000);
+      })
+  }
+
+  const fileTypes = ["JPG", "JPEG"];
   return (
     <>
       <PageContainer>
         <div className="min-h-screen">
-          <div className="flex justify-center items-center min-h-screen max-w-[1444px] mx-8">
-            <div className=" w-full ">
+          <div className="flex justify-center items-center min-h-screen  mx-8">
+            <div className=" w-full max-w-[1444px]">
               <div>
                 <p className="text-5xl font-bold w-full text-center mb-10">
                   Stream Penampilan Terbaikmu
@@ -25,23 +58,30 @@ const HighlightForm = () => {
                   <label className="label">
                     <span className="label-text">Judul</span>
                   </label>
-                  <input type="text" placeholder="Masukkan judul paling menarik mu!" className="input input-bordered w-full " />
+                  <input onChange={(e) => { setForm({ ...Form, title: e.target.value }) }} type="text" placeholder="Masukkan judul paling menarik mu!" className="input input-bordered w-full " />
                   <label className="label">
                     <span className="label-text">Bukti (JPEG/MP4)</span>
                   </label>
-                  <FileUploader handleChange={handleChange} name="file" types={fileTypes}>
-                    <button className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
-                      Upload Disini
+                  <FileUploader handleChange={(file) => { setForm({ ...Form, cover: file }) }} name="file" types={fileTypes}>
+                    <button onClick={(e) => (e.preventDefault())} className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
+                      <p>Upload Disini</p>
+                      <p>Max. 10 MB</p>
+                      {Form.cover && <p>File Terunggah</p>}
                     </button>
                   </FileUploader>
-                  <div className="text-center mt-10 ">
-                    <button className="btn btn-outline w-full">Start Stream!</button>
+                  {PesanBox !== "" &&
+                    <div className="border-2 border- w-full mt-4 rounded-md border-red-300 flex justify-center items-center text-center p-3">
+                      {PesanBox}
+                    </div>
+                  }
+                  <div className="text-center mt-5 ">
+                    <button onClick={handleSubmit} className="btn btn-outline w-full">Start Stream!</button>
                   </div>
                 </form>
                 <label className="label">
                   <span className="label-text">Stream Key</span>
                 </label>
-                <input type="text" placeholder="Stream key akan ditampilkan di sini" className="input input-bordered w-full " readOnly />
+                <input value={StreamKey} type="text" placeholder="Stream key akan ditampilkan di sini" className="input input-bordered w-full " readOnly />
 
                 <div className="mt-10">
                   <h2 className="text-center font-bold">Cara Melakukan Stream</h2>
@@ -69,10 +109,10 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {}
     }
-  
+
   }
   return {
-    redirect : {
+    redirect: {
       destination: "/masuk?need_login",
       permanent: false
     }

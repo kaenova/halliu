@@ -2,7 +2,7 @@ import { Highlight, User } from "../models";
 import fs from "fs";
 import { Response } from "../utils/response";
 import ApiError from "../utils/apiError";
-
+import { predictTextIsSpam } from "../utils/aiEndpoint";
 class HighlightController {
   constructor() { }
 
@@ -33,7 +33,8 @@ class HighlightController {
           id: req.params.id
         },
         include: {
-          model: User
+          model: User,
+          attributes: ["id", "name"],
         }
       });
       if (highlight == null){
@@ -50,6 +51,11 @@ class HighlightController {
   // Create Highlight
   async create(req, res, next) {
     try {
+
+      if (predictTextIsSpam(req.body["title"])) {
+        return next(ApiError.badRequest("Terdeteksi spam"));
+      }
+
       var image = req.files["image"][0];
       var video = req.files["video"][0];
 

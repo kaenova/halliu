@@ -1,8 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
-import Image from "next/image"
 
 function HighlightCard(data) {
+  let backend = process.env.NEXT_PUBLIC_BACKEND || ""
+
+
   return (
     <Link href={"/highlight/" + data.data.id} passHref>
       <a className="relative">
@@ -13,7 +15,7 @@ function HighlightCard(data) {
         </div>
         <div className="h-[300px] w-full relative object-cover">
           <img
-            src={process.env.NEXT_PUBLIC_BACKEND || "" + "/static" + data.data.cover}
+            src={backend + "/static" + data.data.cover}
             className='object-cover h-[300px] w-full rounded-md'
           />
         </div>

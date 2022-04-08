@@ -37,6 +37,9 @@ const Register = () => {
       })
       .catch((e) => {
         setPesanBox("Gagal untuk mendaftar. Periksa kembali form anda")
+        setTimeout(() => {
+          setPesanBox("")
+        }, 2000);
       })
   }
 

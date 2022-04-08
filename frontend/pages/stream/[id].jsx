@@ -18,14 +18,30 @@ function HighlightID() {
     if (id == undefined) {
       return
     }
-    api().get("/api/highlight/" + id)
+    api().get("/api/stream/" + id)
       .then((res) => {
         setDataPesan(res.data.data)
       })
       .catch((e) => {
-        console.log(e)
         setDataPesan("err")
       })
+  }, [id])
+
+  useEffect(() => {
+    if (id == undefined) {
+      return
+    }
+    let interval = setInterval(() => {
+      api().get("/live/" + id + ".m3u8")
+        .then((res) => {
+        })
+        .catch((e) => {
+          setDataPesan("err")
+        })
+    }, 3000);
+    return () => {
+      clearInterval(interval)
+    }
   }, [id])
 
   return (
@@ -43,10 +59,10 @@ function HighlightID() {
                 <h2 className="text-center text-xl">{dataPesan["User"].name}</h2>
                 <div className="w-full h-[90%]">
                   <ReactPlayer autoplay={true} controls playing
-                  url={backend + "/static" + dataPesan.video}
-                  light={backend + "/static" + dataPesan.cover}
-                  width="100%"
-                  height="90%"
+                    url={backend + "/live/" + dataPesan.id + ".m3u8"}
+                    light={backend + "/static/" + dataPesan.cover}
+                    width="100%"
+                    height="90%"
                   />
                 </div>
               </div>

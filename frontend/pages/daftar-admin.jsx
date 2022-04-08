@@ -37,6 +37,9 @@ const RegisterAdmin = () => {
       })
       .catch((e) => {
         setPesanBox("Gagal untuk mendaftar. Periksa kembali form anda")
+        setTimeout(() => {
+          setPesanBox("")
+        }, 2000);
       })
   }
 
@@ -44,8 +47,8 @@ const RegisterAdmin = () => {
     <>
       <PageContainer>
         <div className="min-h-screen">
-          <div className="flex justify-center items-center min-h-screen max-w-[1444px] mx-8">
-            <div className=" w-full ">
+          <div className="flex justify-center items-center min-h-screen  mx-8">
+            <div className=" w-full max-w-[1444px]">
               <div>
                 <p className="text-5xl font-bold w-full text-center mb-10">
                   Daftarkan Dirimu sebagai Admin
