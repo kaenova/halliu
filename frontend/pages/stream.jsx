@@ -104,19 +104,19 @@ const HighlightForm = () => {
   )
 }
 
-// export async function getServerSideProps({ req, res }) {
-//   if (req.cookies.auth && (req.cookies.role == "reg")) {
-//     return {
-//       props: {}
-//     }
+export async function getServerSideProps({ req, res }) {
+  if (req.cookies.auth && (req.cookies.role == "reg")) {
+    return {
+      props: {}
+    }
 
-//   }
-//   return {
-//     redirect: {
-//       destination: "/masuk?need_login",
-//       permanent: false
-//     }
-//   }
-// }
+  }
+  return {
+    redirect: {
+      destination: "/masuk?need_login",
+      permanent: false
+    }
+  }
+}
 
 export default HighlightForm
