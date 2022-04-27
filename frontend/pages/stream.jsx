@@ -11,7 +11,7 @@ const HighlightForm = () => {
   })
   const [StreamKey, setStreamKey] = useState("")
   const [PesanBox, setPesanBox] = useState("")
-
+  const [StreamKeySuccess, setStreamKeySuccess] = useState(false)
   const handleSubmit = (e) => {
     e.preventDefault()
     if (Form.title == "" || Form.cover == null) {
@@ -33,6 +33,7 @@ const HighlightForm = () => {
         if (e.response) {
           if (e.response.status == 400) {
             setPesanBox(e.response.data.message)
+            setStreamKeySuccess(true)
           }
         }
         setTimeout(() => {
@@ -75,7 +76,13 @@ const HighlightForm = () => {
                     </div>
                   }
                   <div className="text-center mt-5 ">
-                    <button onClick={handleSubmit} className={StreamKey.length != 0 ? "btn btn-disabled w-full " : "btn btn-outline w-full "}>Start Stream!</button>
+                    {
+                      !StreamKeySuccess ?
+                      <button onClick={handleSubmit} className={"btn btn-outline w-full "}>Start Stream!</button>
+                      :
+                      <button className={ "btn btn-disabled w-full "}>Create Stream Success!</button>
+                    }
+                    
                   </div>
                 </form>
                 <label className="label">
@@ -104,19 +111,19 @@ const HighlightForm = () => {
   )
 }
 
-export async function getServerSideProps({ req, res }) {
-  if (req.cookies.auth && (req.cookies.role == "reg")) {
-    return {
-      props: {}
-    }
+// export async function getServerSideProps({ req, res }) {
+//   if (req.cookies.auth && (req.cookies.role == "reg")) {
+//     return {
+//       props: {}
+//     }
 
-  }
-  return {
-    redirect: {
-      destination: "/masuk?need_login",
-      permanent: false
-    }
-  }
-}
+//   }
+//   return {
+//     redirect: {
+//       destination: "/masuk?need_login",
+//       permanent: false
+//     }
+//   }
+// }
 
 export default HighlightForm
