@@ -75,7 +75,7 @@ const HighlightForm = () => {
                     </div>
                   }
                   <div className="text-center mt-5 ">
-                    <button onClick={handleSubmit} className="btn btn-outline w-full">Start Stream!</button>
+                    <button onClick={handleSubmit} className={StreamKey.length != 0 ? "btn btn-disabled w-full " : "btn btn-outline w-full "}>Start Stream!</button>
                   </div>
                 </form>
                 <label className="label">
@@ -104,19 +104,19 @@ const HighlightForm = () => {
   )
 }
 
-export async function getServerSideProps({ req, res }) {
-  if (req.cookies.auth && (req.cookies.role == "reg")) {
-    return {
-      props: {}
-    }
+// export async function getServerSideProps({ req, res }) {
+//   if (req.cookies.auth && (req.cookies.role == "reg")) {
+//     return {
+//       props: {}
+//     }
 
-  }
-  return {
-    redirect: {
-      destination: "/masuk?need_login",
-      permanent: false
-    }
-  }
-}
+//   }
+//   return {
+//     redirect: {
+//       destination: "/masuk?need_login",
+//       permanent: false
+//     }
+//   }
+// }
 
 export default HighlightForm
