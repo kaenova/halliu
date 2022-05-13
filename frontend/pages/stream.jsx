@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { authApi } from "../utils/api";
 
-const HighlightForm = () => {
+const StreamForm = () => {
   const [Form, setForm] = useState({
     title: "",
     cover: null
@@ -111,19 +111,19 @@ const HighlightForm = () => {
   )
 }
 
-// export async function getServerSideProps({ req, res }) {
-//   if (req.cookies.auth && (req.cookies.role == "reg")) {
-//     return {
-//       props: {}
-//     }
+export async function getServerSideProps({ req, res }) {
+  if (req.cookies.auth && (req.cookies.role == "reg")) {
+    return {
+      props: {}
+    }
 
-//   }
-//   return {
-//     redirect: {
-//       destination: "/masuk?need_login",
-//       permanent: false
-//     }
-//   }
-// }
+  }
+  return {
+    redirect: {
+      destination: "/masuk?need_login",
+      permanent: false
+    }
+  }
+}
 
-export default HighlightForm
+export default StreamForm
