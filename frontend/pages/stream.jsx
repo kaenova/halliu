@@ -27,13 +27,13 @@ const HighlightForm = () => {
         setPesanBox("Jangan tutup laman ini!\nGunakan Stream Key untuk melakukan Stream, Baca petunjuk Cara Melakukan Stream")
         let streamKey = `${res.data.data.id}?key=${res.data.data.streamKey}`
         setStreamKey(streamKey)
+        setStreamKeySuccess(true)
       })
       .catch((e) => {
         setPesanBox("Gagal dalam membuat stream, kembali ke laman awal")
         if (e.response) {
           if (e.response.status == 400) {
             setPesanBox(e.response.data.message)
-            setStreamKeySuccess(true)
           }
         }
         setTimeout(() => {
