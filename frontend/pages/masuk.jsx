@@ -34,7 +34,10 @@ const Login = ({needLogin}) => {
         }, 2000);
       })
       .catch((e) => {
-        setPesanBox("Gagal untuk Login")
+        setPesanBox("Gagal untuk Login, harap periksa kembali")
+        setTimeout(() => {
+          setPesanBox("")
+        }, 2000);
       })
   }
 

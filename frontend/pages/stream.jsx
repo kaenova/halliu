@@ -4,14 +4,14 @@ import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { authApi } from "../utils/api";
 
-const HighlightForm = () => {
+const StreamForm = () => {
   const [Form, setForm] = useState({
     title: "",
     cover: null
   })
   const [StreamKey, setStreamKey] = useState("")
   const [PesanBox, setPesanBox] = useState("")
-
+  const [StreamKeySuccess, setStreamKeySuccess] = useState(false)
   const handleSubmit = (e) => {
     e.preventDefault()
     if (Form.title == "" || Form.cover == null) {
@@ -23,17 +23,23 @@ const HighlightForm = () => {
     form.append("title", Form.title)
     form.append("cover", Form.cover)
     authApi().post("/api/stream", form)
-    .then((res) => {
-      setPesanBox("Jangan tutup laman ini!\nGunakan Stream Key untuk melakukan Stream, Baca petunjuk Cara Melakukan Stream")
-      let streamKey = `${res.data.data.id}?key=${res.data.data.streamKey}`
-      setStreamKey(streamKey)
-    })
-    .catch((e) => {
-      setPesanBox("Gagal dalam membuat stream, kembali ke laman awal")
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 3000);
-    })
+      .then((res) => {
+        setPesanBox("Jangan tutup laman ini!\nGunakan Stream Key untuk melakukan Stream, Baca petunjuk Cara Melakukan Stream")
+        let streamKey = `${res.data.data.id}?key=${res.data.data.streamKey}`
+        setStreamKey(streamKey)
+        setStreamKeySuccess(true)
+      })
+      .catch((e) => {
+        setPesanBox("Gagal dalam membuat stream, kembali ke laman awal")
+        if (e.response) {
+          if (e.response.status == 400) {
+            setPesanBox(e.response.data.message)
+          }
+        }
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 3000);
+      })
   }
 
   const fileTypes = ["JPG", "JPEG"];
@@ -53,11 +59,11 @@ const HighlightForm = () => {
                   <label className="label">
                     <span className="label-text">Judul</span>
                   </label>
-                  <input onChange={(e) => {setForm({...Form, title: e.target.value})}} type="text" placeholder="Masukkan judul paling menarik mu!" className="input input-bordered w-full " />
+                  <input onChange={(e) => { setForm({ ...Form, title: e.target.value }) }} type="text" placeholder="Masukkan judul paling menarik mu!" className="input input-bordered w-full " />
                   <label className="label">
                     <span className="label-text">Bukti (JPEG/MP4)</span>
                   </label>
-                  <FileUploader handleChange={(file) => {setForm({...Form, cover: file})}} name="file" types={fileTypes}>
+                  <FileUploader handleChange={(file) => { setForm({ ...Form, cover: file }) }} name="file" types={fileTypes}>
                     <button onClick={(e) => (e.preventDefault())} className="h-[200px] border-2 w-[100%] rounded-md border-dashed opacity-60">
                       <p>Upload Disini</p>
                       <p>Max. 10 MB</p>
@@ -70,7 +76,13 @@ const HighlightForm = () => {
                     </div>
                   }
                   <div className="text-center mt-5 ">
-                    <button onClick={handleSubmit} className="btn btn-outline w-full">Start Stream!</button>
+                    {
+                      !StreamKeySuccess ?
+                      <button onClick={handleSubmit} className={"btn btn-outline w-full "}>Start Stream!</button>
+                      :
+                      <button className={ "btn btn-disabled w-full "}>Create Stream Success!</button>
+                    }
+                    
                   </div>
                 </form>
                 <label className="label">
@@ -104,14 +116,14 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {}
     }
-  
+
   }
   return {
-    redirect : {
+    redirect: {
       destination: "/masuk?need_login",
       permanent: false
     }
   }
 }
 
-export default HighlightForm
+export default StreamForm

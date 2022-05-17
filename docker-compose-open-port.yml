@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  # backend (Development)
+  backend:
+    image: kaenova/halliu-backend:eac3b449f93a46009e2e72c4f037445c986c48f0
+    expose: 
+      - "3001"
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+    depends_on:
+      - rtmp
+    volumes: 
+      - db-backend:/app/db/
+      - static-backend:/app/public
+    environment:
+      - JWT_SECRET=alksjdklajsdklalskdlajks
+      - AI_ENDPOINT=103.55.38.98:2002
+      - NODE_ENV=production
+
+  # frontend (Development)
+  frontend:
+    image: kaenova/halliu-frontend:eac3b449f93a46009e2e72c4f037445c986c48f0
+    expose: 
+      - "3000"
+    ports:
+      - "3000:3000"
+    restart: "unless-stopped"
+    depends_on: 
+      - backend
+      - rtmp
+
+  # rtmp (Development)
+  rtmp:
+    image: kaenova/halliu-rtmp:eac3b449f93a46009e2e72c4f037445c986c48f0
+    expose: 
+      - "8080"
+      - "1935"
+    ports:
+      - "3002:8080"
+      - "1935:1935"
+    restart: unless-stopped
+    volumes: 
+      - hls-rtmp:/tmp/hls
+
+volumes:
+  db-backend:
+  static-backend:
+  hls-rtmp:

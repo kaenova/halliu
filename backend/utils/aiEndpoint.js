@@ -16,7 +16,8 @@ async function predictTextIsSpam(text) {
     throw new Error("Tipe data untuk prediksi spam haruslah string")
   }
   try {
-    let res = await axios.post(process.env.AI_ENDPOINT + "/", {
+    // Need to add "http://" if you want to call external address
+    let res = await axios.post(`http://${process.env.AI_ENDPOINT}/`, {
       "text": text
     })
     if (res.status != 200) {
@@ -24,6 +25,7 @@ async function predictTextIsSpam(text) {
     }
     return res.data.is_spam
   } catch (e) {
+    console.log(e)
     throw new Error("Gagal dalam fetch api")
   }
 }
