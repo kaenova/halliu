@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: UserValidatorRequest</title>
+    <title>JSDoc: Class: SupportController</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: UserValidatorRequest</h1>
+    <h1 class="page-title">Class: SupportController</h1>
 
     
 
@@ -29,9 +29,10 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="module-RequestValidator.html">RequestValidator</a>~</span>UserValidatorRequest<span class="signature">()</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="module-SupportController.html">SupportController</a>~</span>SupportController<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>Kelas validator yang digunakan untuk melakukan validasi pada suatu entitas user</p></div>
+            <div class="class-description"><p>Support Controller digunakan untuk menghandle message/pesan bantuan yang diberikan user,
+digunakan untuk mendapatkan dan membalas pesan bantuan dari user</p></div>
         
     
 </header>
@@ -46,7 +47,7 @@
     
 
     
-    <h4 class="name" id="UserValidatorRequest"><span class="type-signature"></span>new UserValidatorRequest<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SupportController"><span class="type-signature"></span>new SupportController<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -94,7 +95,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="validator_userValidatorRequest.js.html">validator/userValidatorRequest.js</a>, <a href="validator_userValidatorRequest.js.html#line13">line 13</a>
+        <a href="controller_supportController.js.html">controller/supportController.js</a>, <a href="controller_supportController.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -128,17 +129,6 @@
     </div>
 
     
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>GeneralValidator</li>
-    </ul>
-
-
-    
 
     
 
@@ -161,17 +151,17 @@
     
 
     
-    <h4 class="name" id="validateUserID"><span class="type-signature"></span>validateUserID<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create"><span class="type-signature">(async) </span>create<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
-    <p class="summary"><p>Middleware yang digunakan untuk melakukan validasi id user</p>.</p>
+    <p class="summary"><p>Controller digunakan untuk membuat pesan bantuan</p>.</p>
     
 
 
 
 <div class="description">
-    <p>Middleware yang digunakan untuk melakukan validasi id user</p>
+    <p>Controller digunakan untuk membuat pesan bantuan</p>
 </div>
 
 
@@ -310,7 +300,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="validator_userValidatorRequest.js.html">validator/userValidatorRequest.js</a>, <a href="validator_userValidatorRequest.js.html#line96">line 96</a>
+        <a href="controller_supportController.js.html">controller/supportController.js</a>, <a href="controller_supportController.js.html#line90">line 90</a>
     </li></ul></dd>
     
 
@@ -346,17 +336,17 @@
     
 
     
-    <h4 class="name" id="validateUserLogin"><span class="type-signature"></span>validateUserLogin<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getAll"><span class="type-signature">(async) </span>getAll<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
-    <p class="summary"><p>Middleware yang digunakan untuk melakukan validasi request login</p>.</p>
+    <p class="summary"><p>Controller digunakan untuk mendapatkan semua pesan bantuan</p>.</p>
     
 
 
 
 <div class="description">
-    <p>Middleware yang digunakan untuk melakukan validasi request login</p>
+    <p>Controller digunakan untuk mendapatkan semua pesan bantuan</p>
 </div>
 
 
@@ -495,7 +485,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="validator_userValidatorRequest.js.html">validator/userValidatorRequest.js</a>, <a href="validator_userValidatorRequest.js.html#line24">line 24</a>
+        <a href="controller_supportController.js.html">controller/supportController.js</a>, <a href="controller_supportController.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -531,17 +521,17 @@
     
 
     
-    <h4 class="name" id="validateUserRegister"><span class="type-signature"></span>validateUserRegister<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getAllNoReply"><span class="type-signature">(async) </span>getAllNoReply<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
-    <p class="summary"><p>Middleware yang digunakan untuk melakukan validasi request register</p>.</p>
+    <p class="summary"><p>Controller digunakan untuk mendapatkan pesan bantuan yang belum dibalas atau direply</p>.</p>
     
 
 
 
 <div class="description">
-    <p>Middleware yang digunakan untuk melakukan validasi request register</p>
+    <p>Controller digunakan untuk mendapatkan pesan bantuan yang belum dibalas atau direply</p>
 </div>
 
 
@@ -680,7 +670,377 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="validator_userValidatorRequest.js.html">validator/userValidatorRequest.js</a>, <a href="validator_userValidatorRequest.js.html#line47">line 47</a>
+        <a href="controller_supportController.js.html">controller/supportController.js</a>, <a href="controller_supportController.js.html#line180">line 180</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getByUserID"><span class="type-signature">(async) </span>getByUserID<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary"><p>Controller digunakan untuk mendapatkan semua pesan bantuan berdasarkan user id</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Controller digunakan untuk mendapatkan semua pesan bantuan berdasarkan user id</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller_supportController.js.html">controller/supportController.js</a>, <a href="controller_supportController.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="reply"><span class="type-signature">(async) </span>reply<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary"><p>Controller digunakan untuk menambahkan sebuah reply atau balasan di pesan bantuan</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Controller digunakan untuk menambahkan sebuah reply atau balasan di pesan bantuan</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller_supportController.js.html">controller/supportController.js</a>, <a href="controller_supportController.js.html#line149">line 149</a>
     </li></ul></dd>
     
 

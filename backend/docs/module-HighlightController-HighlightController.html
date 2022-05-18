@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: HighlightValidatorReqeust</title>
+    <title>JSDoc: Class: HighlightController</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: HighlightValidatorReqeust</h1>
+    <h1 class="page-title">Class: HighlightController</h1>
 
     
 
@@ -29,9 +29,10 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="module-RequestValidator.html">RequestValidator</a>~</span>HighlightValidatorReqeust<span class="signature">()</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="module-HighlightController.html">HighlightController</a>~</span>HighlightController<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>Kelas validator yang digunakan untuk melakukan validasi pada suatu entitas highlight</p></div>
+            <div class="class-description"><p>highlight controller digunakan untuk mengatur kebutuhan user untuk membuat, mendapatkan semua data<br>
+highlight serta untuk melihat highlight berdasarkan id tertentu</p></div>
         
     
 </header>
@@ -46,7 +47,7 @@
     
 
     
-    <h4 class="name" id="HighlightValidatorReqeust"><span class="type-signature"></span>new HighlightValidatorReqeust<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="HighlightController"><span class="type-signature"></span>new HighlightController<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -94,7 +95,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="validator_highlightValidatorRequest.js.html">validator/highlightValidatorRequest.js</a>, <a href="validator_highlightValidatorRequest.js.html#line13">line 13</a>
+        <a href="controller_highlightController.js.html">controller/highlightController.js</a>, <a href="controller_highlightController.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -128,17 +129,6 @@
     </div>
 
     
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>GeneralValidator</li>
-    </ul>
-
-
-    
 
     
 
@@ -161,17 +151,17 @@
     
 
     
-    <h4 class="name" id="validateCraete"><span class="type-signature"></span>validateCraete<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create"><span class="type-signature">(async) </span>create<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
-    <p class="summary"><p>Middleware yang digunakan untuk melakukan validasi request pembuatan Highlight</p>.</p>
+    <p class="summary"><p>Digunakan untuk membuat suatu highlight</p>.</p>
     
 
 
 
 <div class="description">
-    <p>Middleware yang digunakan untuk melakukan validasi request pembuatan Highlight</p>
+    <p>Digunakan untuk membuat suatu highlight</p>
 </div>
 
 
@@ -310,7 +300,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="validator_highlightValidatorRequest.js.html">validator/highlightValidatorRequest.js</a>, <a href="validator_highlightValidatorRequest.js.html#line24">line 24</a>
+        <a href="controller_highlightController.js.html">controller/highlightController.js</a>, <a href="controller_highlightController.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -346,17 +336,17 @@
     
 
     
-    <h4 class="name" id="validateId"><span class="type-signature"></span>validateId<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getAll"><span class="type-signature">(async) </span>getAll<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
-    <p class="summary"><p>Middleware yang digunakan untuk melakukan validasi Id suatu highlight</p>.</p>
+    <p class="summary"><p>Digunakan untuk memndapatkan semua highlight yang dapat diakses oleh semua user</p>.</p>
     
 
 
 
 <div class="description">
-    <p>Middleware yang digunakan untuk melakukan validasi Id suatu highlight</p>
+    <p>Digunakan untuk memndapatkan semua highlight yang dapat diakses oleh semua user</p>
 </div>
 
 
@@ -495,7 +485,192 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="validator_highlightValidatorRequest.js.html">validator/highlightValidatorRequest.js</a>, <a href="validator_highlightValidatorRequest.js.html#line60">line 60</a>
+        <a href="controller_highlightController.js.html">controller/highlightController.js</a>, <a href="controller_highlightController.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getByID"><span class="type-signature">(async) </span>getByID<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary"><p>Digunakan untuk mendapatkan data highlight berdasarkan id</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Digunakan untuk mendapatkan data highlight berdasarkan id</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller_highlightController.js.html">controller/highlightController.js</a>, <a href="controller_highlightController.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -547,7 +722,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed May 18 2022 15:25:57 GMT+0800 (Central Indonesia Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed May 18 2022 15:25:56 GMT+0800 (Central Indonesia Time)
 </footer>
 
 <script> prettyPrint(); </script>
