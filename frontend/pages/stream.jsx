@@ -4,14 +4,14 @@ import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { authApi } from "../utils/api";
 
-const HighlightForm = () => {
+const StreamForm = () => {
   const [Form, setForm] = useState({
     title: "",
     cover: null
   })
   const [StreamKey, setStreamKey] = useState("")
   const [PesanBox, setPesanBox] = useState("")
-
+  const [StreamKeySuccess, setStreamKeySuccess] = useState(false)
   const handleSubmit = (e) => {
     e.preventDefault()
     if (Form.title == "" || Form.cover == null) {
@@ -27,6 +27,7 @@ const HighlightForm = () => {
         setPesanBox("Jangan tutup laman ini!\nGunakan Stream Key untuk melakukan Stream, Baca petunjuk Cara Melakukan Stream")
         let streamKey = `${res.data.data.id}?key=${res.data.data.streamKey}`
         setStreamKey(streamKey)
+        setStreamKeySuccess(true)
       })
       .catch((e) => {
         setPesanBox("Gagal dalam membuat stream, kembali ke laman awal")
@@ -75,7 +76,13 @@ const HighlightForm = () => {
                     </div>
                   }
                   <div className="text-center mt-5 ">
-                    <button onClick={handleSubmit} className="btn btn-outline w-full">Start Stream!</button>
+                    {
+                      !StreamKeySuccess ?
+                      <button onClick={handleSubmit} className={"btn btn-outline w-full "}>Start Stream!</button>
+                      :
+                      <button className={ "btn btn-disabled w-full "}>Create Stream Success!</button>
+                    }
+                    
                   </div>
                 </form>
                 <label className="label">
@@ -119,4 +126,4 @@ export async function getServerSideProps({ req, res }) {
   }
 }
 
-export default HighlightForm
+export default StreamForm
