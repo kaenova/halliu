@@ -31,7 +31,7 @@ class UserValidatorRequest extends GeneralValidator {
     // Check if mandatory fields are empty
     if (
       validator.isStrongPassword(password) == false ||
-      validator.isEmpty(email) == true
+      validator.isEmail(email) == false
     ) {
       return next(ApiError.badRequest("Email dan Password tidak valid"));
     }
