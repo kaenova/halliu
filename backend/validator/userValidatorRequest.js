@@ -1,12 +1,26 @@
+/**
+ * @module RequestValidator
+ */
+
 import validator from "validator";
 import ApiError from "../utils/apiError";
 import GeneralValidator from "./generalValidator";
 
-export default class UserValidatorRequest extends GeneralValidator {
+/**
+ * Kelas validator yang digunakan untuk melakukan validasi pada suatu entitas user
+ * @extends GeneralValidator
+ */
+class UserValidatorRequest extends GeneralValidator {
   constructor() {
     super();
   }
 
+  /**
+   * Middleware yang digunakan untuk melakukan validasi request login
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   validateUserLogin(req, res, next) {
     let email = req.body.email;
     let password = req.body.password;
@@ -17,13 +31,19 @@ export default class UserValidatorRequest extends GeneralValidator {
     // Check if mandatory fields are empty
     if (
       validator.isStrongPassword(password) == false ||
-      validator.isEmpty(email) == true
+      validator.isEmail(email) == false
     ) {
       return next(ApiError.badRequest("Email dan Password tidak valid"));
     }
     next();
   }
 
+  /**
+   * Middleware yang digunakan untuk melakukan validasi request register
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   validateUserRegister(req, res, next) {
     let name = req.body.name;
     let email = req.body.email;
@@ -67,6 +87,12 @@ export default class UserValidatorRequest extends GeneralValidator {
     next();
   }
 
+  /**
+   * Middleware yang digunakan untuk melakukan validasi id user
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   validateUserID(req, res, next) {
     // Check if params is valid
     if (req.params["id"] == undefined) {
@@ -79,3 +105,5 @@ export default class UserValidatorRequest extends GeneralValidator {
     next();
   }
 }
+
+export default UserValidatorRequest

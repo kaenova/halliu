@@ -1,6 +1,22 @@
+/**
+ * @module RequestValidator
+ */
+
 import validator from "validator";
 
-export default class GeneralValidator {
+/**
+ * Kelas validator yang digunakan untuk melakukan validasi yang general
+ */
+class GeneralValidator {
+
+  /**
+   * Validasi query page number dan memeriksa dan memperbaiki validitas 
+   * dari query tersebut.
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
   validatePageQueryNumber(req, res, next) {
     // Check if page params is valid
     if (typeof req.query["page"] != "number") {
@@ -16,6 +32,11 @@ export default class GeneralValidator {
     next();
   }
 
+  /**
+   * Digunakan untuk melakukan validasi email
+   * @param {string} mail 
+   * @returns {boolean}
+   */
   static ValidateEmail(mail) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
       return (true)
@@ -23,3 +44,5 @@ export default class GeneralValidator {
     return (false)
   }
 }
+
+export default GeneralValidator

@@ -1,12 +1,26 @@
+/**
+ * @module HighlightController
+ */
+
 import { Highlight, User } from "../models";
 import fs from "fs";
 import { Response } from "../utils/response";
 import ApiError from "../utils/apiError";
 import { predictTextIsSpam } from "../utils/aiEndpoint";
+
+/**
+ * highlight controller digunakan untuk mengatur kebutuhan user untuk membuat, mendapatkan semua data  
+ * highlight serta untuk melihat highlight berdasarkan id tertentu
+ */
 class HighlightController {
   constructor() { }
-
-  // Get Highlight
+  /**
+   * Digunakan untuk memndapatkan semua highlight yang dapat diakses oleh semua user
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
   async getAll(req, res, next) {
     try {
       const highlights = await Highlight.findAll({
@@ -25,7 +39,13 @@ class HighlightController {
     }
   }
 
-  // Get Highlight by ID
+    /**
+   * Digunakan untuk mendapatkan data highlight berdasarkan id 
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
   async getByID(req, res, next) {
     try {
       const highlight = await Highlight.findOne({
@@ -48,7 +68,13 @@ class HighlightController {
     }
   }
 
-  // Create Highlight
+    /**
+   * Digunakan untuk membuat suatu highlight
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
   async create(req, res, next) {
     try {
 

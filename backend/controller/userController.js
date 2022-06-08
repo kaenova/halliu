@@ -1,13 +1,33 @@
+/**
+ * @module UserController
+ */
+
 import { User, Sequelize } from "../models";
 import ApiError from "../utils/apiError";
 import { Response } from "../utils/response.js";
 
+/**
+ * UserController berfungsi untuk mengelola register, login, token, dan pencarian User.
+ */
 class UserController {
   constructor() { }
 
-  // Registering User by Email, Password, Name, Role
+  /**
+   * Register akun user baru
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
   async register(req, res, next) {
     try {
+      var user = await User.findOne({
+        where: { email: req.body["email"]}})
+
+      if (user != null) {
+        return next(ApiError.badRequest("Email sudah pernah didaftarkan"))
+      }
+
       let a = await User.build({
         name: req.body["name"],
         email: req.body["email"].toLowerCase(),
@@ -26,8 +46,13 @@ class UserController {
     }
   }
 
-  // Login User by Email, Password
-  // Creating JWT token
+  /**
+    * Login user ke akunnya dengan Email dan Password; serta membuat token JWT
+    * @param {Request} req 
+    * @param {Response} res 
+    * @param {*} next 
+    * 
+    */
   async login(req, res, next) {
     try {
       var user = await User.findOne({
@@ -54,7 +79,13 @@ class UserController {
     }
   }
 
-  // Renewing JWT token
+  /**
+    * Memperbarui token JWT
+    * @param {Request} req 
+    * @param {Response} res 
+    * @param {*} next 
+    * 
+    */
   async renewToken(req, res, next) {
     try {
       const user = await User.findOne({
@@ -82,7 +113,13 @@ class UserController {
     }
   }
 
-  // Getting Requested User
+  /**
+    * Mendapatkan user menggunakan ID User yang terotentikasi
+    * @param {Request} req 
+    * @param {Response} res 
+    * @param {*} next 
+    * 
+    */
   async self(req, res, next) {
     try {
       const user = await User.findByPk(req.user.id, {
@@ -101,7 +138,13 @@ class UserController {
     }
   }
 
-  // Getting Requested User by ID
+  /**
+    * Mendapatkan user menggunakan ID User
+    * @param {Request} req 
+    * @param {Response} res 
+    * @param {*} next 
+    * 
+    */
   async getUserById(req, res, next) {
     try {
       req.params.id = parseInt(req.params.id);

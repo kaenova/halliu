@@ -1,13 +1,27 @@
+/**
+ * @module StreamController
+ */
+
 import { Stream, Sequelize, User } from "../models";
 import { Op } from "sequelize";
 import { Response } from "../utils/response";
 import fs from "fs";
 import ApiError from "../utils/apiError";
 import { predictTextIsSpam } from "../utils/aiEndpoint";
+
+/**
+ * Controller yang digunakan untuk menghandle entitas stream
+ */
 class StreamController {
   constructor() { }
 
-  // Create stream
+    /**
+   * Controller yang digunakan untuk membuat entitas stream yang belum diaktifkan
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
   async create(req, res, next) {
     try {
       let user = await User.findOne({
@@ -47,7 +61,13 @@ class StreamController {
     }
   }
 
-  // Public, Get All Active Stream, by pagination
+  /**
+   * Controller untuk mendapatkan semua entitas stream yang aktif atau beratribut
+   * isPublish yang di set dengan True
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async getAll(req, res, next) {
     try {
 
@@ -74,7 +94,12 @@ class StreamController {
     }
   }
 
-  // Public, Get Stream by ID
+  /**
+   * Mendapatkan detail stream yang sedang aktif dengan id yang sudah dispesifikasikan
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async getById(req, res, next) {
     try {
       let stream = await Stream.findOne({
@@ -100,7 +125,12 @@ class StreamController {
     }
   }
 
-  // Protected (Regular), get All created stream with pagination
+  /**
+   * Mendapatkan semua stream yang dimiliki oleh user tertentu
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async getOwned(req, res, next) {
     try {
       let user = await User.findByPk(req.user.id)
@@ -125,7 +155,12 @@ class StreamController {
     }
   }
 
-  // Protected (Regular), Get Stream by ID
+  /**
+   * Mendapatkan detail stream yang dimiliki oleh user tertentu
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async getOwnedById(req, res, next) {
     try {
       let user = await User.findByPk(req.user.id)
@@ -151,7 +186,13 @@ class StreamController {
     }
   }
 
-  // Publish function for authenticating and publishing from rtmp server request
+  /**
+   * Merubah atribut dari suatu stream isPublished menjadi true yang berasal dari
+   * RTMP server request
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async publish(req, res, next) {
     try {
       let streamId = req.body.name
@@ -183,7 +224,12 @@ class StreamController {
     }
   }
 
-  // Publish function for destroying a stream in database from rtmp server request
+  /**
+   * Menghapus stream ketika stream sudah selesai yang berasal dari RTMP server.
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async destroy(req, res, next) {
     try {
       let streamId = req.body.name

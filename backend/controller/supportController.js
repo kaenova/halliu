@@ -1,3 +1,7 @@
+/**
+ * @module SupportController
+ */
+
 import { SupportMessage, Sequelize, User } from "../models";
 import { Op } from "sequelize";
 import { Response } from "../utils/response";
@@ -5,11 +9,19 @@ import fs from "fs";
 import ApiError from "../utils/apiError";
 import { predictTextIsSpam } from "../utils/aiEndpoint";
 
+/**
+ * Support Controller digunakan untuk menghandle message/pesan bantuan yang diberikan user,
+ * digunakan untuk mendapatkan dan membalas pesan bantuan dari user
+ */
 class SupportController {
   constructor() { }
 
-  // Get all support messages except user id
-  // Also support pagination
+  /**
+   * Controller digunakan untuk mendapatkan semua pesan bantuan
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async getAll(req, res, next) {
     try {
       var user = await User.findByPk(req.user.id);
@@ -27,6 +39,7 @@ class SupportController {
         order: [["updatedAt", "DESC"]],
         include: {
           model: User,
+          as: "reqUser",
           attributes: ["id", "name"],
         }
       });
@@ -38,8 +51,12 @@ class SupportController {
     }
   }
 
-  // Get support message by request user id
-  // Also support pagination
+  /**
+   * Controller digunakan untuk mendapatkan semua pesan bantuan berdasarkan user id
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async getByUserID(req, res, next) {
     try {
       var user = await User.findByPk(req.user.id);
@@ -55,6 +72,7 @@ class SupportController {
         order: [["updatedAt", "DESC"]],
         include: {
           model: User,
+          as: "reqUser",
           attributes: ["id", "name"],
         }
       });
@@ -65,7 +83,12 @@ class SupportController {
     }
   }
 
-  // Creating support message
+   /**
+   * Controller digunakan untuk membuat pesan bantuan
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async create(req, res, next) {
     try {
 
@@ -119,7 +142,12 @@ class SupportController {
     }
   }
 
-  // Adding replies on support message
+  /**
+   * Controller digunakan untuk menambahkan sebuah reply atau balasan di pesan bantuan
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async reply(req, res, next) {
     try {
       let userID = req.user.id;
@@ -128,11 +156,11 @@ class SupportController {
       var customerService = await User.findByPk(userID);
       var supportMessage = await SupportMessage.findByPk(supportID);
 
-      if (!customerService instanceof User || !supportMessage instanceof SupportMessage) {
+      if (customerService == null || supportMessage == null) {
         return next(ApiError.badRequest("Data tidak ditemukan"));
       }
-
-      supportMessage.update({
+      
+      await supportMessage.update({
         reply: req.body["reply"],
         csId: customerService.id,
       });
@@ -144,6 +172,13 @@ class SupportController {
     }
   }
 
+
+  /**
+   * Controller digunakan untuk mendapatkan pesan bantuan yang belum dibalas atau direply
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   async getAllNoReply(req, res, next) {
     try {
       var supportMessages = await SupportMessage.findAll({
@@ -158,6 +193,7 @@ class SupportController {
         order: [["updatedAt", "DESC"]],
         include: {
           model: User,
+          as: "reqUser",
           attributes: ["id", "name"],
         }
       });

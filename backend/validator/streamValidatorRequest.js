@@ -1,13 +1,26 @@
-import { body } from "express-validator";
+/**
+ * @module RequestValidator
+ */
+
 import validator from "validator";
 import ApiError from "../utils/apiError";
 import GeneralValidator from "./generalValidator";
 
-export default class StreamValidatorReqeust extends GeneralValidator {
+/**
+ * Kelas validator yang digunakan untuk melakukan validasi pada suatu entitas stream
+ * @extends GeneralValidator
+ */
+class StreamValidatorReqeust extends GeneralValidator {
   constructor() {
     super();
   }
 
+  /**
+ * Middleware yang digunakan untuk melakukan validasi request pembuatan Stream
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {*} next 
+ */
   validateCraete(req, res, next) {
     // Check if all mandatory fields are filled
     if (
@@ -32,6 +45,12 @@ export default class StreamValidatorReqeust extends GeneralValidator {
     next();
   }
 
+  /**
+  * Middleware yang digunakan untuk melakukan validasi ID Stream
+  * @param {Request} req 
+  * @param {Response} res 
+  * @param {*} next 
+  */
   validateIdParams(req, res, next) {
     if (req.params["id"] == undefined) {
       return next(ApiError.badRequest("Id tidak boleh kosong"));
@@ -50,6 +69,12 @@ export default class StreamValidatorReqeust extends GeneralValidator {
     next()
   }
 
+  /**
+  * Middleware yang digunakan untuk melakukan validasi Key dan Name dari suatu Stream
+  * @param {Request} req 
+  * @param {Response} res 
+  * @param {*} next 
+  */
   validatePublishDestroy(req, res, next) {
     if (req.body.key == undefined || req.body.name == undefined) {
       return next(ApiError.badRequest("Id tidak valid"))
@@ -62,5 +87,7 @@ export default class StreamValidatorReqeust extends GeneralValidator {
     }
     next()
   }
-  
+
 }
+
+export default StreamValidatorReqeust

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controller/highlightController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controller/highlightController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module HighlightController
+ */
+
+import { Highlight, User } from "../models";
+import fs from "fs";
+import { Response } from "../utils/response";
+import ApiError from "../utils/apiError";
+import { predictTextIsSpam } from "../utils/aiEndpoint";
+
+/**
+ * highlight controller digunakan untuk mengatur kebutuhan user untuk membuat, mendapatkan semua data  
+ * highlight serta untuk melihat highlight berdasarkan id tertentu
+ */
+class HighlightController {
+  constructor() { }
+  /**
+   * Digunakan untuk memndapatkan semua highlight yang dapat diakses oleh semua user
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
+  async getAll(req, res, next) {
+    try {
+      const highlights = await Highlight.findAll({
+        order: [["updatedAt", "DESC"]],
+        attributes: ["id", "title", "cover"],
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
+      });
+      let response = new Response(200, highlights, "Sukses");
+      res.status(response.status).json(response.getData());
+      return;
+    } catch (e) {
+      next(e)
+    }
+  }
+
+    /**
+   * Digunakan untuk mendapatkan data highlight berdasarkan id 
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
+  async getByID(req, res, next) {
+    try {
+      const highlight = await Highlight.findOne({
+        where: {
+          id: req.params.id
+        },
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
+      });
+      if (highlight == null){
+        next(ApiError.notFound("Tidak ditemukan"))
+      }
+      let response = new Response(200, highlight, "Sukses");
+      res.status(response.status).json(response.getData());
+      return;
+    } catch (e) {
+      next(e)
+    }
+  }
+
+    /**
+   * Digunakan untuk membuat suatu highlight
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   * 
+   */
+  async create(req, res, next) {
+    try {
+
+      if (predictTextIsSpam(req.body["title"]) == true) {
+        return next(ApiError.badRequest("Terdeteksi spam"));
+      }
+
+      var image = req.files["image"][0];
+      var video = req.files["video"][0];
+
+      // image processing
+      let beforePath = image["path"];
+      let afterPath = image["path"] + ".jpg";
+      fs.renameSync(beforePath, afterPath);
+      image["path"] = afterPath;
+      let imgFile = "/" + image["filename"] + ".jpg";
+
+      // video processing
+      beforePath = video["path"];
+      afterPath = video["path"] + ".mp4";
+      fs.renameSync(beforePath, afterPath);
+      video["path"] = afterPath;
+      let vidFile = "/" + video["filename"] + ".mp4";
+
+      const user = await User.findByPk(req.user.id);
+      if (!user instanceof User) {
+        return next(ApiError.unauthorized("User tidak ditemukan"));
+      }
+
+      const highlight = await Highlight.create({
+        userId: user.id,
+        title: req.body.title.trim(),
+        cover: imgFile,
+        video: vidFile,
+      });
+
+      let response = new Response(200, highlight, "Sukses");
+      res.status(response.status).json(response.getData());
+      return;
+    } catch (e) {
+      next(e)
+    }
+  }
+}
+
+export default HighlightController;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AiEndpointFunction.html">AiEndpointFunction</a></li><li><a href="module-HighlightController.html">HighlightController</a></li><li><a href="module-JWTMiddleware.html">JWTMiddleware</a></li><li><a href="module-RequestValidator.html">RequestValidator</a></li><li><a href="module-StreamController.html">StreamController</a></li><li><a href="module-SupportController.html">SupportController</a></li><li><a href="module-UserController.html">UserController</a></li></ul><h3>Classes</h3><ul><li><a href="module-HighlightController-HighlightController.html">HighlightController</a></li><li><a href="module-RequestValidator-GeneralValidator.html">GeneralValidator</a></li><li><a href="module-RequestValidator-HighlightValidatorReqeust.html">HighlightValidatorReqeust</a></li><li><a href="module-RequestValidator-StreamValidatorReqeust.html">StreamValidatorReqeust</a></li><li><a href="module-RequestValidator-SupportValidatorRequest.html">SupportValidatorRequest</a></li><li><a href="module-RequestValidator-UserValidatorRequest.html">UserValidatorRequest</a></li><li><a href="module-StreamController-StreamController.html">StreamController</a></li><li><a href="module-SupportController-SupportController.html">SupportController</a></li><li><a href="module-UserController-UserController.html">UserController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed May 18 2022 15:25:56 GMT+0800 (Central Indonesia Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

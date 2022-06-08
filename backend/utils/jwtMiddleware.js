@@ -1,6 +1,19 @@
+/**
+ * JWT Middleware Modules
+ * @module JWTMiddleware
+ */
+
 import jwt from "jsonwebtoken";
 import ApiError from "./apiError";
+import { RequestHandler, Response } from "express";
 
+/**
+ * Middleware yang digunakan untuk memeriksa adanya JWT dan menentukan
+ * memeriksa JWT valid untuk seluruh roles.
+ * @param {RequestHandler} req
+ * @param {Response} res
+ * @param {*} next
+ */
 function jwtMiddleware(req, res, next) {
   try {
     const authHeader = req.headers["authorization"];
@@ -16,6 +29,13 @@ function jwtMiddleware(req, res, next) {
   }
 }
 
+/**
+ * Middleware yang digunakan untuk memeriksa adanya JWT dan menentukan
+ * memeriksa JWT valid untuk roles Customer Service.
+ * @param {RequestHandler} req
+ * @param {Response} res
+ * @param {*} next
+ */
 function jwtMiddlewareCS(req, res, next) {
   try {
     const authHeader = req.headers["authorization"];
@@ -34,6 +54,13 @@ function jwtMiddlewareCS(req, res, next) {
   }
 }
 
+/**
+ * Middleware yang digunakan untuk memeriksa adanya JWT dan menentukan
+ * memeriksa JWT valid untuk roles Regular.
+ * @param {RequestHandler} req
+ * @param {Response} res
+ * @param {*} next
+ */
 function jwtMiddlewareReg(req, res, next) {
   try {
     const authHeader = req.headers["authorization"];

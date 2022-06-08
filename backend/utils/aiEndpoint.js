@@ -1,3 +1,8 @@
+/**
+ * JWT Middleware Modules
+ * @module AiEndpointFunction
+ */
+
 import axios from 'axios'
 
 /**

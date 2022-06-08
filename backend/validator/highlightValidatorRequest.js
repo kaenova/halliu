@@ -1,12 +1,26 @@
+/**
+ * @module RequestValidator
+ */
+
 import validator from "validator";
 import ApiError from "../utils/apiError";
 import GeneralValidator from "./generalValidator";
 
-export default class HighlightValidatorReqeust extends GeneralValidator {
+/**
+ * Kelas validator yang digunakan untuk melakukan validasi pada suatu entitas highlight
+ * @extends GeneralValidator
+ */
+class HighlightValidatorReqeust extends GeneralValidator {
   constructor() {
     super();
   }
 
+  /**
+   * Middleware yang digunakan untuk melakukan validasi request pembuatan Highlight
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   validateCraete(req, res, next) {
     // Check if all mandatory fields are filled
     if (
@@ -37,6 +51,12 @@ export default class HighlightValidatorReqeust extends GeneralValidator {
     next();
   }
 
+/**
+ * Middleware yang digunakan untuk melakukan validasi Id suatu highlight
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {*} next 
+ */
   validateId(req, res, next) {
     if (req.params.id == undefined) {
       return next(ApiError.badRequest("Id harus valid"))
@@ -51,3 +71,5 @@ export default class HighlightValidatorReqeust extends GeneralValidator {
     next()
   }
 }
+
+export default HighlightValidatorReqeust

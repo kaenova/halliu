@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controller/supportController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controller/supportController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module SupportController
+ */
+
+import { SupportMessage, Sequelize, User } from "../models";
+import { Op } from "sequelize";
+import { Response } from "../utils/response";
+import fs from "fs";
+import ApiError from "../utils/apiError";
+import { predictTextIsSpam } from "../utils/aiEndpoint";
+
+/**
+ * Support Controller digunakan untuk menghandle message/pesan bantuan yang diberikan user,
+ * digunakan untuk mendapatkan dan membalas pesan bantuan dari user
+ */
+class SupportController {
+  constructor() { }
+
+  /**
+   * Controller digunakan untuk mendapatkan semua pesan bantuan
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
+  async getAll(req, res, next) {
+    try {
+      var user = await User.findByPk(req.user.id);
+
+      if (!user instanceof User) {
+        return next(ApiError.unauthorized("User tidak ditemukan"));
+      }
+
+      var supportMessages = await SupportMessage.findAll({
+        where: {
+          userId: {
+            [Op.ne]: user.id,
+          },
+        },
+        order: [["updatedAt", "DESC"]],
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
+      });
+
+      let response = new Response(200, supportMessages, "Sukses");
+      return res.status(response.status).json(response.getData());
+    } catch (e) {
+      next(e)
+    }
+  }
+
+  /**
+   * Controller digunakan untuk mendapatkan semua pesan bantuan berdasarkan user id
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
+  async getByUserID(req, res, next) {
+    try {
+      var user = await User.findByPk(req.user.id);
+      if (!user instanceof User) {
+        return next(ApiError.unauthorized("User tidak ditemukan"));
+      }
+      var supportMessages = await SupportMessage.findAll({
+        where: {
+          userId: {
+            [Op.eq]: user.id,
+          },
+        },
+        order: [["updatedAt", "DESC"]],
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
+      });
+      let response = new Response(200, supportMessages, "Sukses");
+      return res.status(response.status).json(response.getData());
+    } catch (e) {
+      next(e)
+    }
+  }
+
+   /**
+   * Controller digunakan untuk membuat pesan bantuan
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
+  async create(req, res, next) {
+    try {
+
+      var image, video;
+      var vidFile = null;
+      var imgFile = null;
+
+      if (predictTextIsSpam(req.body["message"]) == true) {
+        return next(ApiError.badRequest("Terdeteksi spam"));
+      }
+      
+      var user = await User.findByPk(req.user.id);
+      if (!user instanceof User) {
+        return next(ApiError.unauthorized("User tidak ditemukan"));
+      }
+
+      // If there's an image file
+      if (req.files["image"] != undefined) {
+        image = req.files["image"][0]
+        let beforePath = image["path"];
+        let afterPath = image["path"] + ".jpg";
+        fs.renameSync(beforePath, afterPath);
+        image["path"] = afterPath;
+        imgFile = "/" + image["filename"] + ".jpg";
+      }
+
+      // If there's a video file
+      if (req.files["video"] != undefined) {
+        video = req.files["video"][0]
+        let beforePath = video["path"];
+        let afterPath = video["path"] + ".mp4";
+        fs.renameSync(beforePath, afterPath);
+        video["path"] = afterPath;
+        vidFile = "/" + video["filename"] + ".mp4";
+      }
+
+      let support = await SupportMessage.build({
+        message: req.body["message"],
+        userId: user.id,
+        reply: null,
+        csId: null,
+        image: imgFile,
+        video: vidFile,
+      }).save();
+
+      let response = new Response(200, support["dataValues"], "Sukses");
+      res.status(response.status).json(response.getData());
+      return;
+    } catch (e) {
+      next(e)
+    }
+  }
+
+  /**
+   * Controller digunakan untuk menambahkan sebuah reply atau balasan di pesan bantuan
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
+  async reply(req, res, next) {
+    try {
+      let userID = req.user.id;
+      let supportID = parseInt(req.params.supportId);
+
+      var customerService = await User.findByPk(userID);
+      var supportMessage = await SupportMessage.findByPk(supportID);
+
+      if (!customerService instanceof User || !supportMessage instanceof SupportMessage) {
+        return next(ApiError.badRequest("Data tidak ditemukan"));
+      }
+
+      supportMessage.update({
+        reply: req.body["reply"],
+        csId: customerService.id,
+      });
+
+      let response = new Response(200, supportMessage["dataValues"], "Sukses");
+      return res.status(response.status).json(response);
+    } catch (e) {
+      next(e)
+    }
+  }
+
+
+  /**
+   * Controller digunakan untuk mendapatkan pesan bantuan yang belum dibalas atau direply
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
+  async getAllNoReply(req, res, next) {
+    try {
+      var supportMessages = await SupportMessage.findAll({
+        where: {
+          reply: {
+            [Op.eq]: null
+          },
+          csId: {
+            [Op.eq]: null
+          }
+        },
+        order: [["updatedAt", "DESC"]],
+        include: {
+          model: User,
+          attributes: ["id", "name"],
+        }
+      });
+
+      let response = new Response(200, supportMessages, "Sukses");
+      return res.status(response.status).json(response.getData());
+    } catch (e) {
+      next(e)
+    }
+  }
+}
+
+export default SupportController;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AiEndpointFunction.html">AiEndpointFunction</a></li><li><a href="module-HighlightController.html">HighlightController</a></li><li><a href="module-JWTMiddleware.html">JWTMiddleware</a></li><li><a href="module-RequestValidator.html">RequestValidator</a></li><li><a href="module-StreamController.html">StreamController</a></li><li><a href="module-SupportController.html">SupportController</a></li><li><a href="module-UserController.html">UserController</a></li></ul><h3>Classes</h3><ul><li><a href="module-HighlightController-HighlightController.html">HighlightController</a></li><li><a href="module-RequestValidator-GeneralValidator.html">GeneralValidator</a></li><li><a href="module-RequestValidator-HighlightValidatorReqeust.html">HighlightValidatorReqeust</a></li><li><a href="module-RequestValidator-StreamValidatorReqeust.html">StreamValidatorReqeust</a></li><li><a href="module-RequestValidator-SupportValidatorRequest.html">SupportValidatorRequest</a></li><li><a href="module-RequestValidator-UserValidatorRequest.html">UserValidatorRequest</a></li><li><a href="module-StreamController-StreamController.html">StreamController</a></li><li><a href="module-SupportController-SupportController.html">SupportController</a></li><li><a href="module-UserController-UserController.html">UserController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed May 18 2022 15:25:56 GMT+0800 (Central Indonesia Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

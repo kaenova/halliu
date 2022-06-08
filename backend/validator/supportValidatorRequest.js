@@ -1,12 +1,26 @@
+/**
+ * @module RequestValidator
+ */
+
 import validator from "validator";
 import ApiError from "../utils/apiError";
 import GeneralValidator from "./generalValidator";
 
-export default class SupportValidatorRequest extends GeneralValidator {
+/**
+ * Kelas validator yang digunakan untuk melakukan validasi pada suatu entitas SupportMessage
+ * @extends GeneralValidator
+ */
+class SupportValidatorRequest extends GeneralValidator {
   constructor() {
     super();
   }
 
+  /**
+   * Middleware yang digunakan untuk melakukan validasi request pembuatan SupportMessage
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   validateSupportCreate(req, res, next) {
     // Check if all mandatory fields are filled
     if (req.body["message"] == undefined) {
@@ -33,6 +47,13 @@ export default class SupportValidatorRequest extends GeneralValidator {
     next();
   }
 
+  /**
+   * Middleware yang digunakan untuk melakukan validasi request untuk mereply 
+   * suatu SupportMessage
+   * @param {Request} req 
+   * @param {Response} res 
+   * @param {*} next 
+   */
   validateSupportReply(req, res, next) {
     // Check if all mandatory fields are filled
     if (req.body["reply"] == undefined) {
@@ -56,3 +77,5 @@ export default class SupportValidatorRequest extends GeneralValidator {
     next();
   }
 }
+
+export default SupportValidatorRequest

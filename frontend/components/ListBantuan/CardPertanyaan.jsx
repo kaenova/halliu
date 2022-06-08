@@ -6,7 +6,7 @@ function CardPertanyaan(data) {
   return (
     <div className="card bg-base-100 shadow-sm border-2 border-dashed">
       <div className="card-body">
-        <h2 className="card-title">{data.data["User"].name}</h2>
+        <h2 className="card-title">{data.data["reqUser"].name}</h2>
         <p>{`Pertanyaan : ${data.data.message}`}</p>
         <p>Jawaban : {data.data.reply? data.data.reply : "Masih belum dibalas"}</p>
         <div className='flex flex-row gap-3'>
