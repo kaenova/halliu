@@ -9,20 +9,20 @@ function CardPertanyaan(data) {
 
   const handleBalasButton = () => {
     if (PesanBalasasn == "") {
-      alert(`Balasan tidak valid pada pesan ${data.data["User"].name}`)
+      alert(`Balasan tidak valid pada pesan ${data.data["reqUser"].name}`)
       return
     }
     let formData = new FormData()
     formData.append("reply", PesanBalasasn)
     authApi().post(`/api/support/${data.data.id}`, formData)
       .then(setTerbalas(true))
-      .catch((e) => alert(`Gagal dalam membalas pada pesan ${data.data["User"].name}. Mohon coba lagi nanti`))
+      .catch((e) => alert(`Gagal dalam membalas pada pesan ${data.data["reqUser"].name}. Mohon coba lagi nanti`))
   }
 
   return (
     <div className="card bg-base-100 shadow-sm border-2 border-dashed">
       <div className="card-body">
-        <h2 className="card-title">{data.data["User"].name}</h2>
+        <h2 className="card-title">{data.data["reqUser"].name}</h2>
         <p>{`Pertanyaan : ${data.data.message}`}</p>
         <div className='flex flex-row gap-3'>
           {data.data.image &&

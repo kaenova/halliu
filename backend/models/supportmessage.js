@@ -10,8 +10,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       SupportMessage.belongsTo(models.User, {
         foreignKey: "userId",
+        as : "reqUser"
       });
-      SupportMessage.hasOne(models.SupportMessage, {
+      SupportMessage.belongsTo(models.User, {
         foreignKey: "csId",
       });
     }

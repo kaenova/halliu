@@ -39,6 +39,7 @@ class SupportController {
         order: [["updatedAt", "DESC"]],
         include: {
           model: User,
+          as: "reqUser",
           attributes: ["id", "name"],
         }
       });
@@ -71,6 +72,7 @@ class SupportController {
         order: [["updatedAt", "DESC"]],
         include: {
           model: User,
+          as: "reqUser",
           attributes: ["id", "name"],
         }
       });
@@ -154,11 +156,11 @@ class SupportController {
       var customerService = await User.findByPk(userID);
       var supportMessage = await SupportMessage.findByPk(supportID);
 
-      if (!customerService instanceof User || !supportMessage instanceof SupportMessage) {
+      if (customerService == null || supportMessage == null) {
         return next(ApiError.badRequest("Data tidak ditemukan"));
       }
-
-      supportMessage.update({
+      
+      await supportMessage.update({
         reply: req.body["reply"],
         csId: customerService.id,
       });
@@ -191,6 +193,7 @@ class SupportController {
         order: [["updatedAt", "DESC"]],
         include: {
           model: User,
+          as: "reqUser",
           attributes: ["id", "name"],
         }
       });

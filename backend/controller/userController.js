@@ -21,6 +21,13 @@ class UserController {
    */
   async register(req, res, next) {
     try {
+      var user = await User.findOne({
+        where: { email: req.body["email"]}})
+
+      if (user != null) {
+        return next(ApiError.badRequest("Email sudah pernah didaftarkan"))
+      }
+
       let a = await User.build({
         name: req.body["name"],
         email: req.body["email"].toLowerCase(),
