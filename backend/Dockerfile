@@ -12,6 +12,8 @@ RUN npm install
 
 COPY . .
 
+RUN mkdir ./db
+
 RUN touch ./db/database.sqlite
 
 EXPOSE 3001
