@@ -48,6 +48,11 @@ const HighlightForm = () => {
       })
       .catch((e) => {
         setPesanBox("Gagal dalam mengirimkan data, harap coba lagi")
+        if (e.response) {
+          if (e.response.status == 400) {
+            setPesanBox(e.response.data.message)
+          }
+        }
         setTimeout(() => {
           window.location.replace("/");
         }, 3000);

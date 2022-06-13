@@ -15,6 +15,9 @@ services:
       - rtmp
     volumes: 
       - ./backend:/app
+    environment:
+      - JWT_SECRET=alksjdklajsdklalskdlajks
+      - AI_ENDPOINT=103.55.38.98:2002
 
   # frontend (Development)
   frontend:

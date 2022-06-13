@@ -33,7 +33,7 @@ class StreamController {
         next(ApiError.badRequest("User tidak ditemukan"));
         return
       }
-      if (predictTextIsSpam(req.body["title"]) == true) {
+      if (await predictTextIsSpam(req.body["title"]) == true) {
         return next(ApiError.badRequest("Terdeteksi spam"));
       }
 

@@ -96,7 +96,7 @@ class SupportController {
       var vidFile = null;
       var imgFile = null;
 
-      if (predictTextIsSpam(req.body["message"]) == true) {
+      if (await predictTextIsSpam(req.body["message"]) == true) {
         return next(ApiError.badRequest("Terdeteksi spam"));
       }
       

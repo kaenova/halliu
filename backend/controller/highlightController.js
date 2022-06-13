@@ -78,7 +78,7 @@ class HighlightController {
   async create(req, res, next) {
     try {
 
-      if (predictTextIsSpam(req.body["title"]) == true) {
+      if (await predictTextIsSpam(req.body["title"]) == true) {
         return next(ApiError.badRequest("Terdeteksi spam"));
       }
 
