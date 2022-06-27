@@ -1,8 +1,8 @@
 # Halliu
 **Prerequisite**: `Docker and Installed Docker Compose` and make sure port `443` and `80` are available.  
-**Notes**: This certificate using a self-signed certificate. So if your browser gives you a nottification, you can just continue it without
+**Notes**: This certificate using a self-signed certificate. So if your browser gives you a nottification, you can just continue it.
   
-This platforms are build with microservice architecture, thus we're using a Docker to help us run each nodes using container. The first time you spin this platform up will going to take a long time for it to build, so be patience because there's 2 big container and 2 small container with 1 AI nodes. That being said, the AI nodes are not in this repository because it will create a big container, therefore we move it to production server first and then hit the backend to that production server.
+This platforms are build with microservice architecture, thus we're using a Docker to help us run each nodes using container. The first time you spin this platform up will going to take a long time for it to build, so be patience because there's 2 big container and 2 small container with 1 AI nodes. That being said, the [AI nodes](https://github.com/kaenova/simple-spam-detector) are not in this repository because it will create a big container, therefore we move it to production server first and then hit the backend to that production server.
 
 ## Run it (Production)
 1. Clone this repository
@@ -36,4 +36,4 @@ docker logs --follow [containerID]
 ```
 
 ## API Docs
-Postman: https://www.postman.com/gits-crud-auth/workspace/halliu
+Postman: https://documenter.getpostman.com/view/20088411/UzBsHjao
