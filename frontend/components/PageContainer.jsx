@@ -6,7 +6,7 @@ const PageContainer = ({children, props}) => {
       <div > 
         <Navbar/>
         {children}
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     </>
   )

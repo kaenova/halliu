@@ -1,5 +1,4 @@
-# Development
-FROM node:14.16.1-alpine3.10
+FROM node:17-alpine3.14
 
 WORKDIR /app
 COPY package.json package.json
