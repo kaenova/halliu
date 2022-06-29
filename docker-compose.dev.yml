@@ -1,0 +1,69 @@
+version: "3"
+
+services:
+  # backend (Development)
+  backend:
+    build: 
+      context: backend/
+      dockerfile: Dockerfile.dev
+    expose: 
+      - "3001"
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+    depends_on:
+      - rtmp
+    volumes: 
+      - ./backend:/app
+    environment:
+      - JWT_SECRET=alksjdklajsdklalskdlajks
+      - AI_ENDPOINT=103.55.38.98:2002
+      - PORT=3001
+
+  # frontend (Development)
+  frontend:
+    build: 
+      context: frontend/
+      dockerfile: Dockerfile
+    expose: 
+      - "3000"
+    ports:
+      - "3000:3000"
+      - "49153:49153"
+    volumes: 
+      - ./frontend:/app
+    restart: "unless-stopped"
+    depends_on: 
+      - backend
+      - rtmp
+
+  # rtmp (Development)
+  rtmp:
+    build: 
+      context: rtmp/
+    expose: 
+      - "8000"
+      - "1935"
+    ports:
+      - "1935:1935"
+    restart: unless-stopped
+    volumes: 
+      - "./rtmp/nginx.conf:/etc/nginx/nginx.conf"
+      - "./temp_data/rtmp:/tmp/hls"
+
+
+  # Proxy gateaway
+  gateway: 
+    build:
+      context: reverse_proxy/
+    ports: 
+      - "80:80"
+      - "443:443"
+    restart: "unless-stopped"
+    depends_on:
+      - backend
+      - frontend
+    volumes: 
+      - "./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf"
+      - "./reverse_proxy/localhost.crt:/etc/nginx/certs/localhost.crt"
+      - "./reverse_proxy/localhost.key:/etc/nginx/certs/localhost.key"
