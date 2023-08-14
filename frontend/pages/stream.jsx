@@ -9,6 +9,9 @@ const StreamForm = () => {
     title: "",
     cover: null
   })
+
+  let rtmpBackend = process.env.NEXT_PUBLIC_RTMP || ""
+
   const [StreamKey, setStreamKey] = useState("")
   const [PesanBox, setPesanBox] = useState("")
   const [StreamKeySuccess, setStreamKeySuccess] = useState(false)
@@ -96,7 +99,7 @@ const StreamForm = () => {
                     <li>Masukkan judul dan pilihlah cover yang sesuai untuk stream anda. Disarankan untuk mengupload file berukuran HD</li>
                     <li>Ketika judul dan cover sudah terupload. Tekan tombol START STREAM!</li>
                     <li>Tunggu Hingga Stream key Keluar. Ketika sudah keluar, copy seluruh text tersebut dan persiapkan software streaming mu. Disarankan OBS (Open Broadcaster Software).</li>
-                    <li>Setting stream mu dengan <span className="font-bold">server</span> <div className="bg-black p-2 rounded-md"><p className="text-white">rtmp://[IP]:1935/live</p></div> dengan Stream Key yang didapatkan pada langkah 3 </li>
+                    <li>Setting stream mu dengan <span className="font-bold">server</span> <div className="bg-black p-2 rounded-md"><p className="text-white">{rtmpBackend}/live</p></div> dengan Stream Key yang didapatkan pada langkah 3 </li>
                     <li>Lalu Tekan Start Stream dan Streaming mu akan otomatis terdaftar pada daftar stream di beranda.</li>
                     <li>Stream akan otomatis mati ketika anda matikan pada aplikasi streaming anda</li>
                   </ol>
